@@ -1,0 +1,563 @@
+PRODUCT REQUIREMENTS DOCUMENT (PRD)
+
+Project Name
+
+AI Career Intelligence Platform
+
+Version
+
+1.0
+
+Vision
+
+Create an AI-powered platform that helps engineering students become placement-ready by providing personalized career guidance, resume analysis, skill-gap detection, mock interviews, and intelligent job matching while enabling placement officers and recruiters to automate recruitment workflows.
+
+Product Goals
+Business Goals
+Increase student placement success.
+Reduce manual work for placement cells.
+Improve recruiter efficiency.
+Demonstrate enterprise AI capabilities using IBM watsonx.ai.
+User Goals
+
+Students should be able to:
+
+Know where they stand.
+Know what to learn.
+Improve resumes.
+Prepare interviews.
+Apply confidently.
+Target Audience
+Primary
+Engineering Students
+Secondary
+Placement Officers
+Recruiters
+Tertiary
+Faculty
+College Management
+User Personas
+Persona 1
+Ramya
+
+Third-year CSE Student
+
+Goals
+
+Get placed in product-based company
+
+Pain Points
+
+Doesn't know missing skills
+Resume is average
+No personalized roadmap
+
+Needs
+
+AI mentor
+Resume review
+Mock interviews
+Persona 2
+
+Placement Officer
+
+Goals
+
+Manage 800 students
+
+Pain Points
+
+Manual eligibility checking
+Resume collection
+Analytics
+
+Needs
+
+Automation
+Dashboard
+Reports
+Persona 3
+
+Recruiter
+
+Goals
+
+Hire best candidates quickly
+
+Pain Points
+
+Hundreds of resumes
+
+Needs
+
+AI ranking
+Resume search
+Skill matching
+User Journey
+Student
+Landing Page
+
+↓
+
+Register
+
+↓
+
+Email Verification
+
+↓
+
+Complete Profile
+
+↓
+
+Upload Resume
+
+↓
+
+AI Resume Analysis
+
+↓
+
+Skill Gap Detection
+
+↓
+
+Learning Roadmap
+
+↓
+
+Placement Readiness
+
+↓
+
+Mock Interview
+
+↓
+
+Job Recommendation
+
+↓
+
+Apply Job
+Recruiter
+Login
+
+↓
+
+Company Registration
+
+↓
+
+Create Job
+
+↓
+
+AI Candidate Ranking
+
+↓
+
+Shortlist
+
+↓
+
+Interview
+
+↓
+
+Offer
+Placement Officer
+Login
+
+↓
+
+Student Dashboard
+
+↓
+
+Create Drive
+
+↓
+
+Eligibility
+
+↓
+
+Notify Students
+
+↓
+
+Reports
+Product Modules
+Module 1
+
+Authentication
+
+Features
+
+Login
+Register
+Google Login
+Email Verification
+Forgot Password
+Reset Password
+
+Priority
+
+⭐⭐⭐⭐⭐
+
+Module 2
+
+Student Profile
+
+Features
+
+Personal Details
+Academic Details
+Skills
+Projects
+Experience
+Resume
+Certificates
+
+Priority
+
+⭐⭐⭐⭐⭐
+
+Module 3
+
+Resume Management
+
+Features
+
+Upload PDF
+Preview
+Version History
+Download
+
+Priority
+
+⭐⭐⭐⭐⭐
+
+Module 4
+
+AI Resume Analyzer
+
+Features
+
+ATS Score
+Missing Keywords
+Grammar
+Formatting
+Suggestions
+
+Priority
+
+⭐⭐⭐⭐⭐
+
+Module 5
+
+Skill Gap Analysis
+
+Features
+
+Compare
+
+Resume
+
+↓
+
+Job Description
+
+↓
+
+Skill Gap
+
+↓
+
+Learning Suggestions
+
+Priority
+
+⭐⭐⭐⭐⭐
+
+Module 6
+
+Career Roadmap
+
+Example
+
+Backend Developer
+
+↓
+
+Java
+
+↓
+
+Spring Boot
+
+↓
+
+Docker
+
+↓
+
+AWS
+
+↓
+
+Projects
+
+↓
+
+Interview
+
+Priority
+
+⭐⭐⭐⭐⭐
+
+Module 7
+
+Mock Interview
+
+Features
+
+Technical Interview
+
+Behavioral Interview
+
+HR Interview
+
+Feedback
+
+Score
+
+Priority
+
+⭐⭐⭐⭐⭐
+
+Module 8
+
+Job Recommendation
+
+AI recommends
+
+Jobs
+
+Internships
+
+Hiring Drives
+
+Priority
+
+⭐⭐⭐⭐
+
+Module 9
+
+Recruiter Dashboard
+
+Features
+
+Company Profile
+
+Job Posting
+
+Candidate Ranking
+
+Interview Scheduling
+
+Priority
+
+⭐⭐⭐⭐
+
+Module 10
+
+Placement Dashboard
+
+Features
+
+Analytics
+
+Eligible Students
+
+Reports
+
+Drive Management
+
+Priority
+
+⭐⭐⭐⭐⭐
+
+Feature Prioritization (MoSCoW)
+Must Have
+Authentication
+Student Profile
+Resume Upload
+Resume Analysis
+Skill Gap
+Roadmap
+Job Recommendation
+Recruiter Portal
+Placement Dashboard
+Should Have
+GitHub Analysis
+LinkedIn Profile
+Resume Versions
+Notifications
+Could Have
+AI Voice Interview
+Coding Assessment
+Chatbot
+Won't Have (V1)
+Mobile App
+Video Interview Analysis
+Multi-language
+ERP Integration
+Success Metrics
+Students
+
+Resume Score ↑
+
+Placement Readiness ↑
+
+Interview Score ↑
+
+Applications ↑
+
+Recruiters
+
+Time to Shortlist ↓
+
+Hiring Efficiency ↑
+
+Placement Cell
+
+Manual Work ↓
+
+Placement Percentage ↑
+
+User Stories
+Student
+
+As a student,
+
+I want to upload my resume
+
+so that AI can analyze it.
+
+As a student,
+
+I want to know missing skills
+
+so that I can improve.
+
+As a student,
+
+I want AI mock interviews
+
+so I can practice.
+
+Recruiter
+
+As a recruiter,
+
+I want AI ranking
+
+so that I don't manually review 500 resumes.
+
+Placement Officer
+
+As a placement officer,
+
+I want analytics
+
+so I can track student progress.
+
+Acceptance Criteria
+
+Example
+
+Resume Upload
+
+✔ PDF accepted
+
+✔ Max 5 MB
+
+✔ AI analysis starts automatically
+
+✔ Score generated
+
+✔ Suggestions displayed
+
+Notifications
+
+Students receive
+
+New Job
+Interview Schedule
+Resume Reviewed
+Roadmap Updated
+Mock Interview Complete
+
+Recruiters receive
+
+Applications
+Interview Confirmations
+
+Placement Officer receives
+
+New Company
+Drive Statistics
+Risks
+AI response delay
+Poor resume quality
+IBM API quota
+Network failure
+Out of Scope
+Coding contests
+Online compiler
+Video proctoring
+Payroll
+College ERP
+Release Plan
+MVP (Version 1)
+Authentication
+Student Profile
+Resume Upload
+AI Resume Analysis
+Skill Gap Analysis
+Recruiter Module
+Placement Dashboard
+Version 2
+AI Mock Interview
+Placement Readiness Score
+Project Recommendation
+GitHub Analysis
+Version 3
+Voice Interview
+AI Chat Mentor
+Coding Assessment
+Mobile App
+Final Advice: Before Writing Code
+
+At this point, you have:
+
+✅ Lean Canvas
+✅ SRS
+✅ PRD
+
+The next document should not be more text. It should be the System Architecture Document (SAD), where we define:
+
+Complete folder structure (Next.js App Router)
+Database schema (Prisma)
+ER diagram
+AI agent architecture
+Authentication flow
+Sequence diagrams
+Deployment architecture
+API contracts
+Security architecture
+Infrastructure (IBM watsonx, Neon, Cloudinary, Vercel)
+Folder naming conventions
+Coding standards

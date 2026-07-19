@@ -1,0 +1,524 @@
+SYSTEM ARCHITECTURE DOCUMENT (SAD)
+
+Project: AI Career Intelligence Platform
+
+Version: 1.0
+
+1. System Overview
+
+The AI Career Intelligence Platform is a cloud-based SaaS application that connects Students, Recruiters, Placement Officers, and Administrators. It leverages IBM watsonx.ai to provide intelligent career guidance, automate placement workflows, and support data-driven decision making.
+
+2. High-Level Architecture
+                         Users
+                            │
+       ┌─────────────┬───────────────┬─────────────┐
+       │             │               │             │
+    Student      Recruiter      Placement     Admin
+                                 Officer
+       │
+       ▼
+┌──────────────────────────────────────────┐
+│           Next.js 15 Application         │
+│                                          │
+│  Server Components + API Routes + SSR    │
+└──────────────┬───────────────────────────┘
+               │
+       ┌───────┼─────────────────────┐
+       │       │                     │
+       ▼       ▼                     ▼
+ PostgreSQL  Cloudinary        IBM Watsonx AI
+   Prisma    Resume Storage      Granite Models
+3. Architecture Style
+
+We'll use
+
+Modular Monolithic Architecture
+
+Why?
+
+Easier deployment
+Easier debugging
+Better for one development team
+Can later migrate to microservices
+4. Technology Stack
+Frontend
+Next.js 15
+React 19
+TypeScript
+Tailwind CSS
+shadcn/ui
+Framer Motion
+Backend
+
+Using
+
+Next.js API Routes
+
+No Express.
+
+Database
+
+PostgreSQL
+
+Prisma ORM
+
+Authentication
+
+JWT
+
+Google OAuth (Optional)
+
+AI
+
+IBM Granite
+
+IBM Watsonx.ai
+
+Storage
+
+Cloudinary
+
+Email
+
+Resend
+
+Hosting
+
+Vercel
+
+5. Folder Structure
+career-intelligence/
+
+├── app/
+│   ├── (public)/
+│   ├── (student)/
+│   ├── (recruiter)/
+│   ├── (placement)/
+│   ├── (admin)/
+│   ├── api/
+│   └── auth/
+│
+├── components/
+│
+├── features/
+│   ├── auth/
+│   ├── profile/
+│   ├── resume/
+│   ├── interview/
+│   ├── jobs/
+│   ├── roadmap/
+│   └── ai/
+│
+├── lib/
+│
+├── services/
+│
+├── prisma/
+│
+├── hooks/
+│
+├── middleware.ts
+│
+└── types/
+6. Module Breakdown
+Authentication Module
+
+Responsibilities
+
+Login
+Register
+JWT
+Email Verification
+Password Reset
+Student Module
+
+Responsibilities
+
+Profile
+Resume
+Skills
+Certificates
+Projects
+AI Module
+
+Responsibilities
+
+Resume Analysis
+Skill Gap
+Roadmap
+Interview
+Recommendations
+Recruiter Module
+
+Responsibilities
+
+Company
+Jobs
+Candidates
+Placement Module
+
+Responsibilities
+
+Drives
+Analytics
+Reports
+Notification Module
+
+Responsibilities
+
+Email
+In-App
+Push (Future)
+7. AI Architecture
+Student Uploads Resume
+          │
+          ▼
+Extract Resume Text
+          │
+          ▼
+IBM Granite Model
+          │
+          ▼
+Resume Analysis
+          │
+ ┌────────┼─────────┐
+ │        │         │
+ ▼        ▼         ▼
+ATS     Skill     Suggestions
+Score   Gap
+8. AI Agent Architecture
+Agent 1
+
+Resume Analyzer
+
+↓
+
+Extract
+
+↓
+
+Analyze
+
+↓
+
+Score
+
+Agent 2
+
+Skill Gap Agent
+
+↓
+
+Resume
+
+Job
+
+↓
+
+Missing Skills
+
+Agent 3
+
+Career Mentor
+
+↓
+
+Goal
+
+↓
+
+Roadmap
+
+Agent 4
+
+Project Recommender
+
+↓
+
+Skills
+
+↓
+
+Projects
+
+Agent 5
+
+Mock Interview
+
+↓
+
+Questions
+
+↓
+
+Answers
+
+↓
+
+Feedback
+
+Agent 6
+
+Job Matching
+
+↓
+
+Resume
+
+↓
+
+Job
+
+↓
+
+Ranking
+
+9. Authentication Flow
+Register
+
+↓
+
+Verify Email
+
+↓
+
+Login
+
+↓
+
+JWT Generated
+
+↓
+
+Protected Dashboard
+
+↓
+
+Refresh Token
+
+↓
+
+Logout
+10. Authorization
+
+Role Based Access Control
+
+Guest
+
+↓
+
+Student
+
+↓
+
+Recruiter
+
+↓
+
+Placement Officer
+
+↓
+
+Admin
+11. Database Architecture
+
+Core Tables
+
+Users
+
+Profiles
+
+Resumes
+
+Skills
+
+Certificates
+
+Projects
+
+Companies
+
+Jobs
+
+Applications
+
+Roadmaps
+
+Notifications
+
+AIReports
+
+InterviewSessions
+
+InterviewFeedback
+
+PlacementScores
+12. Deployment Architecture
+User
+
+↓
+
+Cloudflare
+
+↓
+
+Vercel
+
+↓
+
+Next.js
+
+↓
+
+PostgreSQL
+
+↓
+
+Cloudinary
+
+↓
+
+IBM Watsonx
+13. Security Architecture
+
+Authentication
+
+JWT
+
+↓
+
+Authorization
+
+RBAC
+
+↓
+
+Validation
+
+Zod
+
+↓
+
+Database
+
+Prisma
+
+↓
+
+HTTPS
+
+↓
+
+Helmet
+
+↓
+
+Rate Limiter
+
+↓
+
+Audit Logs
+
+14. API Architecture
+/api/auth
+
+/api/student
+
+/api/profile
+
+/api/resume
+
+/api/jobs
+
+/api/company
+
+/api/interview
+
+/api/roadmap
+
+/api/notifications
+
+/api/admin
+
+/api/placement
+
+/api/recruiter
+15. Data Flow
+
+Resume Upload
+
+↓
+
+Cloudinary
+
+↓
+
+Resume Text Extraction
+
+↓
+
+IBM AI
+
+↓
+
+Analysis
+
+↓
+
+Database
+
+↓
+
+Dashboard
+
+16. Error Handling
+Global Error Boundary
+API Error Responses
+Retry AI Calls
+Validation Messages
+Logging
+17. Monitoring
+AI request logs
+User activity
+API performance
+Authentication events
+Failed uploads
+18. Scalability
+
+Designed to support:
+
+10,000+ students
+500+ recruiters
+Multiple colleges (future)
+AI processing queues
+Independent module expansion
+19. Coding Standards
+TypeScript strict mode
+ESLint
+Prettier
+Conventional commits
+Reusable components
+Feature-based organization
+Repository pattern for database access
+Environment variables for all secrets
+20. Documentation
+
+Maintain the following alongside development:
+
+API documentation (OpenAPI/Swagger)
+Database migration history
+AI prompt library
+Deployment guide
+User manual
+Admin manual
+What comes next?
+
+At this stage you have the business and technical architecture defined. The next artifact should move from architecture to implementation details.
+
+I recommend the following sequence:
+
+Database Design (ER Diagram + Prisma Schema) ⭐
+API Specification (OpenAPI-style endpoints)
+UI/UX Design System & Wireframes
+Development Sprint Plan (30–45 days)
+Implementation

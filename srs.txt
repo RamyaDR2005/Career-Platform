@@ -1,0 +1,604 @@
+Software Requirements Specification (SRS)
+
+Project Title
+
+AI Career Intelligence Platform
+
+Tagline
+
+An AI-Powered Placement & Employability Intelligence Platform
+
+Version
+Field	Value
+Document Version	1.0
+Project Type	Final Year Engineering Project
+SDG	SDG 4 – Quality Education & SDG 8 – Decent Work
+Technology	Next.js + PostgreSQL + IBM watsonx.ai
+Development Model	Agile
+Table of Contents
+1 Introduction
+
+2 Overall Description
+
+3 Product Perspective
+
+4 Product Features
+
+5 Stakeholders
+
+6 Functional Requirements
+
+7 Non Functional Requirements
+
+8 AI Modules
+
+9 User Roles
+
+10 Use Cases
+
+11 System Architecture
+
+12 Database Overview
+
+13 External Interfaces
+
+14 Security Requirements
+
+15 Constraints
+
+16 Assumptions
+
+17 Future Scope
+1. Introduction
+1.1 Purpose
+
+The AI Career Intelligence Platform is an AI-powered employability ecosystem designed to assist engineering students throughout their placement journey. The platform leverages IBM watsonx.ai and Granite foundation models to analyze resumes, identify skill gaps, recommend learning paths, conduct AI-driven mock interviews, and intelligently match students with suitable job opportunities.
+
+The system also provides dedicated portals for Placement Officers, Recruiters, Faculty Mentors, and Administrators, enabling end-to-end automation of campus recruitment activities.
+
+1.2 Scope
+
+The platform provides
+
+AI Resume Analysis
+AI Skill Gap Detection
+Personalized Learning Roadmap
+Mock Interviews
+Placement Readiness Score
+Recruiter Candidate Ranking
+Placement Analytics
+Resume Management
+Company Management
+Student Progress Tracking
+Notification System
+
+The application will be accessible through any modern web browser and deployed on cloud infrastructure.
+
+1.3 Objectives
+Improve placement readiness.
+Reduce manual effort for placement officers.
+Help recruiters shortlist candidates efficiently.
+Provide personalized AI career guidance.
+Automate placement activities using intelligent agents.
+2. Overall Description
+
+The application is a centralized web platform connecting four primary stakeholders:
+
+Students
+Placement Officers
+Recruiters
+Administrators
+
+The platform continuously analyzes student data using IBM AI services and provides personalized career recommendations.
+
+3. Product Perspective
+
+The platform functions as an intelligent layer above the traditional placement process.
+
+Instead of manually reviewing resumes and tracking student progress, AI agents automate analysis, recommendations, and candidate ranking.
+
+It acts as an AI Career Operating System for engineering institutions.
+
+4. Product Features
+Student Module
+Registration
+Login
+Profile Management
+Resume Upload
+Certificate Upload
+Skill Management
+Project Portfolio
+Placement Readiness Dashboard
+AI Resume Review
+AI Skill Gap Analysis
+AI Learning Roadmap
+AI Project Recommendation
+AI Mock Interview
+Job Recommendation
+Notifications
+Recruiter Module
+Company Registration
+Company Profile
+Job Posting
+Candidate Search
+AI Candidate Ranking
+Resume Download
+Interview Scheduling
+Placement Officer Module
+Student Management
+Company Management
+Job Drive Creation
+Eligibility Rules
+Notification Management
+Placement Analytics
+Reports
+Administrator Module
+User Management
+Role Management
+AI Configuration
+System Monitoring
+Audit Logs
+5. Stakeholders
+Primary
+Students
+Placement Officers
+Recruiters
+Secondary
+Faculty
+College Management
+Training Departments
+6. Functional Requirements
+Authentication
+
+FR-01 User Registration
+
+FR-02 User Login
+
+FR-03 Forgot Password
+
+FR-04 Email Verification
+
+FR-05 Session Management
+
+Student Profile
+
+FR-06 Edit Profile
+
+FR-07 Upload Resume
+
+FR-08 Upload Certificates
+
+FR-09 Add Skills
+
+FR-10 Add Projects
+
+FR-11 Connect GitHub
+
+FR-12 Add LinkedIn Profile
+
+AI Features
+
+FR-13 Resume Analysis
+
+FR-14 Skill Gap Detection
+
+FR-15 Learning Roadmap Generation
+
+FR-16 Career Recommendation
+
+FR-17 Project Recommendation
+
+FR-18 Mock Interview
+
+FR-19 Placement Readiness Score
+
+FR-20 Job Recommendation
+
+Recruiter
+
+FR-21 Create Company
+
+FR-22 Post Job
+
+FR-23 Search Students
+
+FR-24 AI Ranking
+
+FR-25 Schedule Interview
+
+Placement Cell
+
+FR-26 Create Placement Drive
+
+FR-27 Define Eligibility
+
+FR-28 Notify Students
+
+FR-29 Generate Reports
+
+7. Non Functional Requirements
+Performance
+Page load < 2 seconds
+AI response < 15 seconds
+Resume upload < 5 seconds
+Availability
+
+99% uptime
+
+Scalability
+
+Support
+
+10 Colleges
+10,000 Students
+500 Recruiters
+
+without architecture changes.
+
+Reliability
+
+Automatic recovery from server restart.
+
+Maintainability
+
+Modular architecture.
+
+Security
+
+JWT Authentication
+
+Role Based Access Control
+
+HTTPS
+
+Password Hashing
+
+Rate Limiting
+
+Audit Logs
+
+Input Validation
+
+File Validation
+
+8. AI Modules
+AI Agent 1
+
+Resume Analyzer
+
+Input
+
+Resume PDF
+
+Output
+
+ATS Score
+
+Grammar Suggestions
+
+Formatting
+
+Missing Keywords
+
+AI Agent 2
+
+Skill Gap Analyzer
+
+Compares
+
+Resume
+
+Job Description
+
+Returns
+
+Missing Skills
+
+Priority
+
+Difficulty
+
+Learning Time
+
+AI Agent 3
+
+Career Mentor
+
+Generates
+
+Learning Plan
+Career Advice
+Certification Suggestions
+Placement Timeline
+AI Agent 4
+
+Project Recommendation
+
+Suggests projects
+
+based on
+
+Skills
+Career Goal
+Experience
+AI Agent 5
+
+Mock Interview
+
+Conducts
+
+Technical Interview
+
+Behavioral Interview
+
+HR Interview
+
+Evaluates
+
+Confidence
+
+Accuracy
+
+Communication
+
+AI Agent 6
+
+Job Matching
+
+Ranks
+
+Students
+
+against
+
+Job Description
+
+using AI similarity.
+
+9. User Roles
+Student
+
+Manage profile
+
+Practice interviews
+
+Upload resume
+
+Track progress
+
+Recruiter
+
+Create jobs
+
+Search candidates
+
+Download resumes
+
+Placement Officer
+
+Manage placement drives
+
+View analytics
+
+Send notifications
+
+Admin
+
+Manage entire platform
+
+Configure AI
+
+Monitor system
+
+10. Use Cases
+Student
+
+Register
+
+↓
+
+Complete Profile
+
+↓
+
+Upload Resume
+
+↓
+
+AI Analysis
+
+↓
+
+Skill Gap
+
+↓
+
+Roadmap
+
+↓
+
+Mock Interview
+
+↓
+
+Apply Jobs
+
+Recruiter
+
+Login
+
+↓
+
+Create Job
+
+↓
+
+AI Ranks Students
+
+↓
+
+Shortlist
+
+↓
+
+Interview
+
+↓
+
+Offer
+
+Placement Officer
+
+Create Drive
+
+↓
+
+Eligibility
+
+↓
+
+Notify Students
+
+↓
+
+Track Applications
+
+↓
+
+Reports
+
+11. System Architecture
+Browser
+
+↓
+
+Next.js
+
+↓
+
+API Routes
+
+↓
+
+IBM watsonx AI
+
+↓
+
+Prisma ORM
+
+↓
+
+PostgreSQL
+
+↓
+
+Cloudinary
+12. Database Overview
+
+Major Tables
+
+Users
+
+StudentProfiles
+
+Skills
+
+Projects
+
+Certificates
+
+Resumes
+
+Companies
+
+Jobs
+
+Applications
+
+Notifications
+
+Roadmaps
+
+PlacementScores
+
+InterviewSessions
+
+InterviewFeedback
+
+AIReports
+
+AuditLogs
+13. External Interfaces
+IBM watsonx
+
+Resume Analysis
+
+Career Mentor
+
+Interview AI
+
+Cloudinary
+
+Resume Storage
+
+Certificate Storage
+
+Resend
+
+Email Verification
+
+OTP
+
+Notifications
+
+GitHub
+
+Repository Analysis
+
+(Optional)
+
+14. Security Requirements
+JWT Authentication
+Refresh Tokens
+Password Hashing using bcrypt
+Role Based Access Control
+HTTPS
+Helmet Security Headers
+CORS
+SQL Injection Protection using Prisma
+XSS Protection
+CSRF Protection
+Rate Limiting
+Audit Logging
+Secure File Upload Validation
+Environment Variables for Secrets
+15. Constraints
+IBM watsonx free-tier request limits.
+Cloudinary storage limits on the free plan.
+Internet connection required for AI features.
+AI recommendations depend on the quality of uploaded resumes and user-provided data.
+16. Assumptions
+Users provide accurate academic and professional information.
+IBM watsonx.ai services remain available.
+Recruiters define clear job requirements.
+Students regularly update their profiles and resumes.
+17. Future Scope
+Mobile application (Android/iOS)
+Video-based AI interview analysis
+AI salary prediction
+Campus placement forecasting
+Multi-language support
+Internship recommendation engine
+Coding assessment platform
+AI aptitude test generation
+Integration with College ERP/LMS
+Analytics dashboard for accreditation and placement reports
+Deliverable Status
+
+This SRS serves as the Version 1.0 foundation for your project. From here, the recommended sequence is:
+
+Product Requirements Document (PRD) – Detailed user stories, workflows, and acceptance criteria.
+System Architecture Document (SAD) – Component diagrams, deployment architecture, AI workflows, and infrastructure.
+Database Design – ER diagram, normalized schema, and Prisma models.
+UI/UX Design – Information architecture, wireframes, design system, and high-fidelity screens.
+API Specification – REST endpoints (or Route Handlers), request/response schemas, validation rules, and authentication flow.
