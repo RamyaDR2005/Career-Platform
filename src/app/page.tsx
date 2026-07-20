@@ -16,6 +16,8 @@ export default async function RootPage() {
         redirect("/recruiter");
       case "PLACEMENT_OFFICER":
         redirect("/placement");
+      case "ADMIN":
+        redirect("/admin");
       default:
         redirect("/login");
     }

@@ -15,6 +15,10 @@ export async function submitInterviewMessage(chatHistory: { role: 'user' | 'assi
       where: { userId: session.user.id },
     });
 
+    if (!profile) {
+      return { error: "Student profile not found. Please set up your profile first." };
+    }
+
     const aiResponse = await generateInterviewResponse(chatHistory, profile, context);
 
     return { response: aiResponse };
@@ -35,6 +39,10 @@ export async function endInterview(chatHistory: { role: 'user' | 'assistant', co
     const profile = await prisma.studentProfile.findUnique({
       where: { userId: session.user.id },
     });
+
+    if (!profile) {
+      return { error: "Student profile not found. Please set up your profile first." };
+    }
 
     const { generateInterviewFeedback } = await import("@/services/watsonx");
     const aiFeedback = await generateInterviewFeedback(chatHistory, profile);

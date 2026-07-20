@@ -24,7 +24,7 @@ export default async function StudentLayout({
   }
 
   return (
-    <div className="flex min-h-screen bg-zinc-950 text-zinc-100">
+    <div className="flex h-screen overflow-hidden bg-zinc-950 text-zinc-100">
       {/* Sidebar */}
       <aside className="w-64 border-r border-zinc-800 bg-zinc-900/50 hidden md:flex flex-col">
         <div className="p-6">

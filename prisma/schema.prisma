@@ -24,6 +24,8 @@ model User {
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+  isActive      Boolean   @default(true)
+  isDeleted     Boolean   @default(false)
 
   studentProfile StudentProfile?
   company        Company?        @relation(fields: [companyId], references: [id])

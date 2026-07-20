@@ -44,22 +44,24 @@ export function ApplyButton({ jobId, hasApplied, isDisabled, disabledReason }: {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button 
-          disabled={isApplying}
-          className="bg-blue-600 text-white hover:bg-blue-700 w-full md:w-auto"
-        >
-          {isApplying ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Submitting...
-            </>
-          ) : (
-            <>
-              <Send className="mr-2 h-4 w-4" /> Apply Now
-            </>
-          )}
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger 
+        render={
+          <Button 
+            disabled={isApplying}
+            className="bg-blue-600 text-white hover:bg-blue-700 w-full md:w-auto"
+          >
+            {isApplying ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Submitting...
+              </>
+            ) : (
+              <>
+                <Send className="mr-2 h-4 w-4" /> Apply Now
+              </>
+            )}
+          </Button>
+        }
+      />
       <DialogContent className="bg-zinc-950 border-zinc-800 text-zinc-100 max-w-md">
         <DialogHeader>
           <DialogTitle>Confirm Application</DialogTitle>
