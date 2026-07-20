@@ -31,7 +31,7 @@ export default async function ResumePage() {
                 <CardDescription className="text-zinc-400">Your resume is successfully uploaded.</CardDescription>
               </CardHeader>
               <CardContent>
-                <a href={profile.resumeUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-400 hover:underline">
+                <a href={profile.resumeUrl.replace("dl=1", "raw=1")} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-blue-400 hover:underline">
                   <FileText className="h-4 w-4" /> View Current Resume (PDF)
                 </a>
                 <div className="mt-4">

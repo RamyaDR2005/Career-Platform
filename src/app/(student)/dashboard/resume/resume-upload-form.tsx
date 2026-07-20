@@ -19,6 +19,10 @@ export default function ResumeUploadForm() {
       toast.error("Please select a PDF file");
       return;
     }
+    if (file.size > 3 * 1024 * 1024) {
+      toast.error("File size must be under 3MB");
+      return;
+    }
 
     setIsUploading(true);
     const formData = new FormData();
@@ -40,7 +44,9 @@ export default function ResumeUploadForm() {
     <Card className="bg-zinc-900 border-zinc-800">
       <CardHeader>
         <CardTitle className="text-zinc-100">Upload New Resume</CardTitle>
-        <CardDescription className="text-zinc-400">PDF format only, Max 5MB. Uploading a new resume will replace the current one.</CardDescription>
+        <CardDescription className="text-zinc-400">
+          PDF format only, Max 3MB. Uploading a new resume will replace the current one.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleUpload} className="space-y-4">
@@ -51,7 +57,7 @@ export default function ResumeUploadForm() {
                 <p className="mb-2 text-sm text-zinc-400">
                   <span className="font-semibold text-white">Click to upload</span> or drag and drop
                 </p>
-                <p className="text-xs text-zinc-500">PDF (MAX. 5MB)</p>
+                <p className="text-xs text-zinc-500 mt-2">PDF (MAX. 3MB)</p>
                 {file && <p className="mt-4 text-sm font-medium text-blue-400 flex items-center gap-2"><FileText className="w-4 h-4"/> {file.name}</p>}
               </div>
               <Input 

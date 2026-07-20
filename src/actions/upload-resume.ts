@@ -20,8 +20,8 @@ export async function uploadResume(formData: FormData) {
     return { error: "Only PDF files are allowed" };
   }
 
-  if (file.size > 5 * 1024 * 1024) {
-    return { error: "File exceeds 5MB limit" };
+  if (file.size > 3 * 1024 * 1024) {
+    return { error: "File exceeds 3MB limit" };
   }
 
   const arrayBuffer = await file.arrayBuffer();
