@@ -43,5 +43,5 @@ export async function getDropboxToken(): Promise<string> {
   // data.expires_in is usually 14400 (4 hours)
   tokenExpiration = Date.now() + data.expires_in * 1000;
 
-  return cachedToken;
+  return cachedToken as string;
 }
