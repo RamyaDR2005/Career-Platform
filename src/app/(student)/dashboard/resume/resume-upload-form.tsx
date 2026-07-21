@@ -60,9 +60,9 @@ export default function ResumeUploadForm() {
         toast.success("Resume uploaded successfully!");
         setFile(null);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Upload error:", error);
-      toast.error("An unexpected error occurred during upload.");
+      toast.error(`Error: ${error?.message || "An unexpected error occurred during upload."}`);
     } finally {
       setIsUploading(false);
     }
