@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { uploadResume } from "@/actions/upload-resume";
+import { getDropboxUploadLink, saveResumeUrl } from "@/actions/upload-resume";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,18 +25,46 @@ export default function ResumeUploadForm() {
     }
 
     setIsUploading(true);
-    const formData = new FormData();
-    formData.append("resume", file);
+    
+    try {
+      // 1. Get temporary upload link from the server
+      const linkResult = await getDropboxUploadLink(file.name);
+      
+      if (linkResult.error || !linkResult.link || !linkResult.path) {
+        toast.error(linkResult.error || "Failed to initialize upload");
+        setIsUploading(false);
+        return;
+      }
 
-    const result = await uploadResume(formData);
+      // 2. Upload file directly to Dropbox from the browser
+      const uploadRes = await fetch(linkResult.link, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/octet-stream",
+        },
+        body: file,
+      });
 
-    setIsUploading(false);
+      if (!uploadRes.ok) {
+        toast.error("Failed to upload file to Dropbox");
+        setIsUploading(false);
+        return;
+      }
 
-    if (result.error) {
-      toast.error(result.error);
-    } else {
-      toast.success("Resume uploaded successfully!");
-      setFile(null);
+      // 3. Save the uploaded file path to the database
+      const saveResult = await saveResumeUrl(linkResult.path);
+      
+      if (saveResult.error) {
+        toast.error(saveResult.error);
+      } else {
+        toast.success("Resume uploaded successfully!");
+        setFile(null);
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      toast.error("An unexpected error occurred during upload.");
+    } finally {
+      setIsUploading(false);
     }
   };
 
