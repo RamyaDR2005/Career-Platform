@@ -3,7 +3,7 @@
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { generateRoadmapPlan } from "@/services/watsonx";
-import { PDFParse } from "pdf-parse";
+import pdfParse from "pdf-parse";
 import { revalidatePath } from "next/cache";
 
 export async function createRoadmap(targetRole: string) {
@@ -12,28 +12,28 @@ export async function createRoadmap(targetRole: string) {
     return { error: "Unauthorized" };
   }
 
-  const profile = await prisma.studentProfile.findUnique({
-    where: { userId: session.user.id }
-  });
-
-  if (!profile || !profile.resumeUrl) {
-    return { error: "Please upload your resume first." };
-  }
-
   try {
-    // 1. Fetch Resume PDF
-    let resumeText = "";
-    try {
-      const response = await fetch(profile.resumeUrl);
-      if (!response.ok) throw new Error("Could not fetch resume");
-      const arrayBuffer = await response.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-      const parser = new PDFParse({ data: buffer });
-      const pdfData = await parser.getText();
-      resumeText = pdfData.text;
-    } catch (e) {
-      console.error("Resume parse error", e);
-      return { error: "Failed to parse your resume." };
+    const profile = await prisma.studentProfile.findUnique({
+      where: { userId: session.user.id },
+    });
+
+    if (!profile || !profile.resumeUrl) {
+      return { error: "No resume found. Please upload one first." };
+    }
+
+    const pdfResponse = await fetch(profile.resumeUrl);
+    if (!pdfResponse.ok) {
+      return { error: "Failed to fetch resume from storage." };
+    }
+
+    const arrayBuffer = await pdfResponse.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    const pdfData = await pdfParse(buffer);
+    const resumeText = pdfData.text;
+
+    if (!resumeText || resumeText.trim().length === 0) {
+      return { error: "Could not extract text from the PDF." };
     }
 
     // 2. Generate Roadmap using Watsonx

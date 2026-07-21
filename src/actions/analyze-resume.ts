@@ -2,7 +2,7 @@
 
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { PDFParse } from "pdf-parse";
+import pdfParse from "pdf-parse";
 
 import { analyzeResumeText } from "@/services/watsonx";
 import { revalidatePath } from "next/cache";
@@ -32,8 +32,7 @@ export async function analyzeResume(type: "general" | "job" = "general", jobDesc
     const buffer = Buffer.from(arrayBuffer);
 
     // 2. Parse PDF Text
-    const parser = new PDFParse({ data: buffer });
-    const pdfData = await parser.getText();
+    const pdfData = await pdfParse(buffer);
     const text = pdfData.text;
 
     if (!text || text.trim().length === 0) {

@@ -304,13 +304,13 @@ export async function evaluateCandidate(profile: any, job: any) {
   let extractedText = "";
   if (profile?.resumeUrl) {
     try {
-      const { PDFParse } = await import("pdf-parse");
+      const pdfParseModule = await import("pdf-parse");
+      const pdfParse = pdfParseModule.default || pdfParseModule;
       const pdfResponse = await fetch(profile.resumeUrl);
       if (pdfResponse.ok) {
         const arrayBuffer = await pdfResponse.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
-        const parser = new PDFParse({ data: buffer });
-        const pdfData = await parser.getText();
+        const pdfData = await pdfParse(buffer);
         extractedText = pdfData.text.trim();
       }
     } catch (e) {
