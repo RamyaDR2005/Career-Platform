@@ -5,10 +5,16 @@ import { CompanyForm } from "./company-form";
 
 export default async function CompanyProfilePage() {
   const session = await auth();
-  const user = await prisma.user.findUnique({
-    where: { id: session?.user?.id },
-    include: { company: true }
-  });
+  let user: any = null;
+
+  try {
+    user = await prisma.user.findUnique({
+      where: { id: session?.user?.id },
+      include: { company: true }
+    });
+  } catch (error) {
+    console.error("Recruiter company profile query error:", error);
+  }
 
   return (
     <div className="space-y-6 max-w-2xl">

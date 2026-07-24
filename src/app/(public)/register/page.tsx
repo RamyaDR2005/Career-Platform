@@ -114,7 +114,6 @@ export default function RegisterPage() {
               >
                 <option value="STUDENT">Student</option>
                 <option value="RECRUITER">Recruiter</option>
-                <option value="PLACEMENT_OFFICER">Placement Officer</option>
               </select>
             </div>
             <Button className="w-full bg-white text-zinc-950 hover:bg-zinc-200" type="submit" disabled={isLoading}>

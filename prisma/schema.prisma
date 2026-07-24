@@ -10,7 +10,6 @@ datasource db {
 enum Role {
   STUDENT
   RECRUITER
-  PLACEMENT_OFFICER
   ADMIN
 }
 
@@ -44,9 +43,10 @@ model StudentProfile {
   degree         String?
   branch         String?
   cgpa           Float?
-  resumeUrl      String? // Cloudinary URL
+  resumeUrl      String? // Cloudinary/Dropbox URL
   linkedinUrl    String?
   githubUrl      String?
+  portfolioUrl   String?
   atsScore       Float?
   aiAnalysis     Json?    // Detailed JSON feedback from Watsonx
   
@@ -112,6 +112,7 @@ model Application {
   studentProfile   StudentProfile @relation(fields: [studentProfileId], references: [id], onDelete: Cascade)
   status           String         @default("PENDING") // PENDING, SHORTLISTED, REJECTED, HIRED
   aiScore          Float?         // AI Ranking Score
+  customResumeUrl  String?        // Custom tailored resume for specific job application
   interviews       Interview[]
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt

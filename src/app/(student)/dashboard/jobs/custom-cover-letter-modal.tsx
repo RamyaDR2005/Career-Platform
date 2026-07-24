@@ -27,6 +27,7 @@ export function CustomCoverLetterModal() {
       return;
     }
 
+    setContent(""); // Clear previous temporary content before regeneration
     setIsLoading(true);
     const result = await generateCustomCoverLetter({
       title: jobTitle,
@@ -56,7 +57,17 @@ export function CustomCoverLetterModal() {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={(isOpen) => {
+      setOpen(isOpen);
+      if (!isOpen) {
+        // Discard temporary cover letter when pop up window is closed
+        setContent("");
+        setCopied(false);
+        setJobTitle("");
+        setCompanyName("");
+        setJobDescription("");
+      }
+    }}>
       <DialogTrigger 
         render={
           <Button className="bg-blue-600 hover:bg-blue-700 text-white">

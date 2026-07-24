@@ -1,7 +1,8 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { LayoutDashboard, Users, LogOut, ShieldAlert } from "lucide-react";
+import { ShieldAlert } from "lucide-react";
+import { SidebarNav, NavItem } from "@/components/sidebar-nav";
 import { Button } from "@/components/ui/button";
 
 export default async function AdminLayout({
@@ -23,7 +24,7 @@ export default async function AdminLayout({
         </div>
         <h1 className="text-3xl font-extrabold tracking-tight">403 Unauthorized Access</h1>
         <p className="text-zinc-400 max-w-md">
-          You do not have the required permissions to access the administrator portal.
+          You do not have administrative permissions to access this portal.
         </p>
         <Button asChild className="bg-white text-zinc-950 hover:bg-zinc-200 mt-4">
           <Link href="/">Return to Home</Link>
@@ -32,36 +33,24 @@ export default async function AdminLayout({
     );
   }
 
+  const adminNavItems: NavItem[] = [
+    { title: "Dashboard Overview", href: "/admin", iconName: "dashboard" },
+    { title: "User Management", href: "/admin/users", iconName: "users", badge: "System", badgeClass: "bg-red-500/20 text-red-300 border border-red-500/30" },
+  ];
+
   return (
-    <div className="flex h-screen overflow-hidden bg-zinc-950 text-zinc-100">
-      {/* Sidebar */}
-      <aside className="w-64 border-r border-zinc-800 bg-zinc-900/50 hidden md:flex flex-col">
-        <div className="p-6">
-          <h2 className="text-lg font-bold text-white flex items-center gap-2">
-            Career Platform
-          </h2>
-          <p className="text-sm text-zinc-400">Admin Portal</p>
-        </div>
-        <nav className="flex-1 px-4 space-y-2">
-          <Link href="/admin" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md hover:bg-zinc-800 transition-colors">
-            <LayoutDashboard className="h-4 w-4 text-zinc-400" /> Dashboard
-          </Link>
-          <Link href="/admin/users" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md hover:bg-zinc-800 transition-colors">
-            <Users className="h-4 w-4 text-zinc-400" /> User Management
-          </Link>
-        </nav>
-        <div className="p-4 border-t border-zinc-800">
-          <Button variant="ghost" className="w-full justify-start text-zinc-400 hover:text-white" asChild>
-            <Link href="/api/auth/signout">
-              <LogOut className="mr-2 h-4 w-4" /> Logout
-            </Link>
-          </Button>
-        </div>
-      </aside>
+    <div className="flex h-screen overflow-hidden bg-[#030409] text-zinc-100 selection:bg-blue-500/30 font-sans">
+      <SidebarNav
+        portalName="Admin Portal"
+        items={adminNavItems}
+        user={session.user}
+      />
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto">
-        <div className="p-8 max-w-6xl mx-auto">{children}</div>
+      <main className="flex-1 overflow-y-auto pt-14 md:pt-0">
+        <div className="p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto">
+          {children}
+        </div>
       </main>
     </div>
   );

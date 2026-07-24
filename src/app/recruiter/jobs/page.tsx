@@ -7,19 +7,27 @@ import { JobsClientList } from "./jobs-client-list";
 
 export default async function JobsPage() {
   const session = await auth();
-  const user = await prisma.user.findUnique({
-    where: { id: session?.user?.id }
-  });
+  let jobs: any[] = [];
 
-  const jobs = await prisma.job.findMany({
-    where: { companyId: user?.companyId! },
-    include: {
-      _count: {
-        select: { applications: true }
-      }
-    },
-    orderBy: { createdAt: 'desc' }
-  });
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: session?.user?.id }
+    });
+
+    if (user?.companyId) {
+      jobs = await prisma.job.findMany({
+        where: { companyId: user.companyId },
+        include: {
+          _count: {
+            select: { applications: true }
+          }
+        },
+        orderBy: { createdAt: 'desc' }
+      });
+    }
+  } catch (error) {
+    console.error("Recruiter jobs page query error:", error);
+  }
 
   return (
     <div className="space-y-6 max-w-5xl">

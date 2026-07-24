@@ -1,7 +1,8 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Home, User, FileText, Briefcase, MessageSquare, LogOut, BrainCircuit } from "lucide-react";
+import { ShieldAlert } from "lucide-react";
+import { SidebarNav, NavItem } from "@/components/sidebar-nav";
 import { Button } from "@/components/ui/button";
 
 export default async function StudentLayout({
@@ -17,52 +18,43 @@ export default async function StudentLayout({
 
   if (session?.user?.role !== "STUDENT") {
     return (
-      <div className="flex h-screen items-center justify-center bg-zinc-950 text-white">
-        <h1 className="text-2xl font-bold">Unauthorized Access</h1>
+      <div className="flex h-screen flex-col items-center justify-center bg-zinc-950 text-white p-6 text-center space-y-4">
+        <div className="w-16 h-16 bg-red-950/30 text-red-500 rounded-full flex items-center justify-center border border-red-900/50">
+          <ShieldAlert className="w-8 h-8" />
+        </div>
+        <h1 className="text-3xl font-extrabold tracking-tight">403 Unauthorized Access</h1>
+        <p className="text-zinc-400 max-w-md">
+          You do not have student credentials to access this portal.
+        </p>
+        <Button asChild className="bg-white text-zinc-950 hover:bg-zinc-200 mt-4">
+          <Link href="/">Return to Home</Link>
+        </Button>
       </div>
     );
   }
 
+  const studentNavItems: NavItem[] = [
+    { title: "Dashboard", href: "/dashboard", iconName: "home" },
+    { title: "My Profile", href: "/dashboard/profile", iconName: "user" },
+    { title: "Resume Center", href: "/dashboard/resume", iconName: "file-text" },
+    { title: "Career Roadmap", href: "/dashboard/roadmap", iconName: "roadmap", badge: "AI", badgeClass: "bg-purple-500/20 text-purple-300 border border-purple-500/30" },
+    { title: "Job Openings", href: "/dashboard/jobs", iconName: "jobs" },
+    { title: "Mock Interviews", href: "/dashboard/interviews", iconName: "interviews", badge: "AI", badgeClass: "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" },
+  ];
+
   return (
-    <div className="flex h-screen overflow-hidden bg-zinc-950 text-zinc-100">
-      {/* Sidebar */}
-      <aside className="w-64 border-r border-zinc-800 bg-zinc-900/50 hidden md:flex flex-col">
-        <div className="p-6">
-          <h2 className="text-lg font-bold">Career Platform</h2>
-          <p className="text-sm text-zinc-400">Student Portal</p>
-        </div>
-        <nav className="flex-1 px-4 space-y-2">
-          <Link href="/dashboard" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md hover:bg-zinc-800 transition-colors">
-            <Home className="h-4 w-4" /> Dashboard
-          </Link>
-          <Link href="/dashboard/profile" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md hover:bg-zinc-800 transition-colors">
-            <User className="h-4 w-4" /> My Profile
-          </Link>
-          <Link href="/dashboard/resume" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md hover:bg-zinc-800 transition-colors">
-            <FileText className="h-4 w-4" /> Resume Center
-          </Link>
-          <Link href="/dashboard/roadmap" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md hover:bg-zinc-800 transition-colors text-purple-400">
-            <BrainCircuit className="h-4 w-4" /> Career Roadmap
-          </Link>
-          <Link href="/dashboard/jobs" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md hover:bg-zinc-800 transition-colors">
-            <Briefcase className="h-4 w-4" /> Jobs
-          </Link>
-          <Link href="/dashboard/interviews" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md hover:bg-zinc-800 transition-colors">
-            <MessageSquare className="h-4 w-4" /> Mock Interviews
-          </Link>
-        </nav>
-        <div className="p-4 border-t border-zinc-800">
-          <Button variant="ghost" className="w-full justify-start text-zinc-400 hover:text-white" asChild>
-            <Link href="/api/auth/signout">
-              <LogOut className="mr-2 h-4 w-4" /> Logout
-            </Link>
-          </Button>
-        </div>
-      </aside>
+    <div className="flex h-screen overflow-hidden bg-[#030409] text-zinc-100 selection:bg-blue-500/30 font-sans">
+      <SidebarNav
+        portalName="Student Portal"
+        items={studentNavItems}
+        user={session.user}
+      />
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto">
-        <div className="p-8 max-w-6xl mx-auto">{children}</div>
+      <main className="flex-1 overflow-y-auto pt-14 md:pt-0">
+        <div className="p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto">
+          {children}
+        </div>
       </main>
     </div>
   );

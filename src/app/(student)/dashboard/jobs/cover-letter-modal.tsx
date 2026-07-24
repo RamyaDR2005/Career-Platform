@@ -15,6 +15,7 @@ export function CoverLetterModal({ jobId }: { jobId: string }) {
   const [copied, setCopied] = useState(false);
 
   const handleGenerate = async () => {
+    setContent(""); // Clear previous temporary content before regeneration
     setIsLoading(true);
     const result = await generateCoverLetter(jobId);
     
@@ -36,7 +37,14 @@ export function CoverLetterModal({ jobId }: { jobId: string }) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={(isOpen) => {
+      setOpen(isOpen);
+      if (!isOpen) {
+        // Discard temporary cover letter when pop up window is closed
+        setContent("");
+        setCopied(false);
+      }
+    }}>
       <DialogTrigger 
         render={
           <Button variant="outline" size="sm" className="bg-zinc-950 border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white" onClick={(e) => {

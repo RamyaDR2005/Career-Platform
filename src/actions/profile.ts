@@ -19,6 +19,7 @@ export async function updateProfile(data: any) {
   const cgpa = data.cgpa;
   const linkedinUrl = data.linkedinUrl?.trim() || "";
   const githubUrl = data.githubUrl?.trim() || "";
+  const portfolioUrl = data.portfolioUrl?.trim() || "";
 
   if (!name || name.length < 2 || name.length > 50 || !/^[a-zA-Z\s.-]+$/.test(name)) {
     return { error: "Name must be 2-50 characters and can only contain letters, spaces, dots, and hyphens" };
@@ -51,6 +52,10 @@ export async function updateProfile(data: any) {
     return { error: "Please enter a valid GitHub URL (e.g., https://github.com/username)" };
   }
 
+  if (portfolioUrl && !/^https?:\/\/.+$/i.test(portfolioUrl)) {
+    return { error: "Please enter a valid Portfolio URL (e.g., https://myportfolio.dev)" };
+  }
+
   try {
     const updatedProfile = await prisma.studentProfile.upsert({
       where: { userId: session.user.id },
@@ -62,6 +67,7 @@ export async function updateProfile(data: any) {
         cgpa: parsedCgpa,
         linkedinUrl: linkedinUrl || null,
         githubUrl: githubUrl || null,
+        portfolioUrl: portfolioUrl || null,
       },
       create: {
         userId: session.user.id,
@@ -72,6 +78,7 @@ export async function updateProfile(data: any) {
         cgpa: parsedCgpa,
         linkedinUrl: linkedinUrl || null,
         githubUrl: githubUrl || null,
+        portfolioUrl: portfolioUrl || null,
       }
     });
 
@@ -89,5 +96,58 @@ export async function updateProfile(data: any) {
   } catch (error: any) {
     console.error("Profile update error:", error);
     return { error: "Failed to update profile. Please try again." };
+  }
+}
+
+export async function analyzeCurrentResumeAction() {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { error: "Unauthorized" };
+  }
+
+  try {
+    const profile = await prisma.studentProfile.findUnique({
+      where: { userId: session.user.id }
+    });
+
+    if (!profile?.resumeUrl) {
+      return { error: "No resume found. Please upload a PDF resume first." };
+    }
+
+    let pdfText = "";
+    try {
+      const pdfParseModule = await import("pdf-parse");
+      const pdfParse = pdfParseModule.default || pdfParseModule;
+      const pdfRes = await fetch(profile.resumeUrl);
+      if (pdfRes.ok) {
+        const arrayBuffer = await pdfRes.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        const pdfData = await pdfParse(buffer);
+        pdfText = pdfData.text.trim();
+      }
+    } catch (err) {
+      console.error("Error parsing PDF resume:", err);
+    }
+
+    const { analyzeResumeText } = await import("@/services/watsonx");
+    const result = await analyzeResumeText(pdfText || "General candidate resume text", {
+      type: "general",
+      profile
+    });
+
+    await prisma.studentProfile.update({
+      where: { userId: session.user.id },
+      data: {
+        atsScore: result.atsScore || 70,
+        aiAnalysis: result
+      }
+    });
+
+    revalidatePath("/dashboard/resume");
+    revalidatePath("/dashboard");
+    return { success: true, result };
+  } catch (error: any) {
+    console.error("Analyze resume error:", error);
+    return { error: "Failed to analyze resume with Watsonx AI. Please try again." };
   }
 }

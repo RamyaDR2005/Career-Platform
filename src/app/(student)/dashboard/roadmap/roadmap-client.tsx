@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, BrainCircuit, Target, Code, BookOpen, AlertCircle, Calendar, Trash2 } from "lucide-react";
+import { Loader2, BrainCircuit, Target, Code, BookOpen, AlertCircle, Calendar, Trash2, Compass, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
 export function RoadmapClient({ hasResume, roadmaps }: { hasResume: boolean, roadmaps: any[] }) {
@@ -56,6 +56,47 @@ export function RoadmapClient({ hasResume, roadmaps }: { hasResume: boolean, roa
 
   return (
     <div className="space-y-8">
+      {/* External Learning Resources */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Resource 1: roadmap.sh */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-gradient-to-r from-purple-950/40 via-indigo-950/30 to-zinc-900/60 border border-purple-500/20 backdrop-blur-xl hover:border-purple-500/40 transition-all">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 shrink-0">
+              <Compass className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-white">Visual Developer Roadmaps</h4>
+              <p className="text-[11px] text-zinc-400">Explore role guides & skill paths at roadmap.sh</p>
+            </div>
+          </div>
+          <Button asChild size="sm" variant="outline" className="bg-purple-950/40 border-purple-700/50 text-purple-300 hover:text-white hover:bg-purple-900/40 text-xs shrink-0">
+            <a href="https://roadmap.sh" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
+              <span>roadmap.sh</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          </Button>
+        </div>
+
+        {/* Resource 2: takeuforward.org */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-gradient-to-r from-emerald-950/40 via-teal-950/30 to-zinc-900/60 border border-emerald-500/20 backdrop-blur-xl hover:border-emerald-500/40 transition-all">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+              <Code className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold text-white">DSA & Coding Practice</h4>
+              <p className="text-[11px] text-zinc-400">Master Striver SDE sheet & DSA topic-wise</p>
+            </div>
+          </div>
+          <Button asChild size="sm" variant="outline" className="bg-emerald-950/40 border-emerald-700/50 text-emerald-300 hover:text-white hover:bg-emerald-900/40 text-xs shrink-0">
+            <a href="https://takeuforward.org/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
+              <span>takeuforward.org</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          </Button>
+        </div>
+      </div>
+
       {/* Generation Form */}
       <Card className="bg-zinc-900 border-zinc-800">
         <CardHeader>

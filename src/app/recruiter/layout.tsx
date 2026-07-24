@@ -1,7 +1,8 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { LayoutDashboard, Building2, Briefcase, Users, LogOut } from "lucide-react";
+import { ShieldAlert } from "lucide-react";
+import { SidebarNav, NavItem } from "@/components/sidebar-nav";
 import { Button } from "@/components/ui/button";
 import prisma from "@/lib/prisma";
 
@@ -18,56 +19,51 @@ export default async function RecruiterLayout({
 
   if (session?.user?.role !== "RECRUITER") {
     return (
-      <div className="flex h-screen items-center justify-center bg-zinc-950 text-white">
-        <h1 className="text-2xl font-bold">Unauthorized Access</h1>
+      <div className="flex h-screen flex-col items-center justify-center bg-zinc-950 text-white p-6 text-center space-y-4">
+        <div className="w-16 h-16 bg-red-950/30 text-red-500 rounded-full flex items-center justify-center border border-red-900/50">
+          <ShieldAlert className="w-8 h-8" />
+        </div>
+        <h1 className="text-3xl font-extrabold tracking-tight">403 Unauthorized Access</h1>
+        <p className="text-zinc-400 max-w-md">
+          You do not have recruiter permissions to access this portal.
+        </p>
+        <Button asChild className="bg-white text-zinc-950 hover:bg-zinc-200 mt-4">
+          <Link href="/">Return to Home</Link>
+        </Button>
       </div>
     );
   }
 
-  const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: { companyId: true }
-  });
+  let user: any = null;
+
+  try {
+    user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { companyId: true }
+    });
+  } catch (error) {
+    console.error("Recruiter layout query error:", error);
+  }
+
+  const recruiterNavItems: NavItem[] = [
+    { title: "Dashboard", href: "/recruiter", iconName: "dashboard" },
+    { title: "Company Profile", href: "/recruiter/company", iconName: "company", badge: !user?.companyId ? "Setup Required" : undefined, badgeClass: "bg-amber-500/20 text-amber-300 border border-amber-500/30" },
+    ...(user?.companyId ? [{ title: "Job Postings", href: "/recruiter/jobs", iconName: "jobs" as const }] : []),
+  ];
 
   return (
-    <div className="flex h-screen overflow-hidden bg-zinc-950 text-zinc-100">
-      {/* Sidebar */}
-      <aside className="w-64 border-r border-zinc-800 bg-zinc-900/50 hidden md:flex flex-col">
-        <div className="p-6">
-          <h2 className="text-lg font-bold text-white">Career Platform</h2>
-          <p className="text-sm text-zinc-400">Recruiter Portal</p>
-        </div>
-        <nav className="flex-1 px-4 space-y-2">
-          <Link href="/recruiter" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md hover:bg-zinc-800 transition-colors">
-            <LayoutDashboard className="h-4 w-4" /> Dashboard
-          </Link>
-          <Link href="/recruiter/company" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md hover:bg-zinc-800 transition-colors">
-            <Building2 className="h-4 w-4" /> Company Profile
-          </Link>
-          {user?.companyId ? (
-            <>
-              <Link href="/recruiter/jobs" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md hover:bg-zinc-800 transition-colors">
-                <Briefcase className="h-4 w-4" /> Job Postings
-              </Link>
-            </>
-          ) : (
-            <div className="px-3 py-2 text-xs text-orange-400 opacity-80 border border-orange-900/30 bg-orange-900/10 rounded-md mt-4">
-              Setup Company Profile to unlock Job Postings.
-            </div>
-          )}
-        </nav>
-        <div className="p-4 border-t border-zinc-800">
-          <Button variant="ghost" className="w-full justify-start text-zinc-400 hover:text-white" asChild>
-            <Link href="/api/auth/signout">
-              <LogOut className="mr-2 h-4 w-4" /> Logout
-            </Link>
-          </Button>
-        </div>
-      </aside>
+    <div className="flex h-screen overflow-hidden bg-[#030409] text-zinc-100 selection:bg-blue-500/30 font-sans">
+      <SidebarNav
+        portalName="Recruiter Portal"
+        items={recruiterNavItems}
+        user={session.user}
+      />
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto">
-        <div className="p-8 max-w-6xl mx-auto">{children}</div>
+      <main className="flex-1 overflow-y-auto pt-14 md:pt-0">
+        <div className="p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto">
+          {children}
+        </div>
       </main>
     </div>
   );

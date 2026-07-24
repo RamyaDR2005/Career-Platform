@@ -34,6 +34,29 @@ function scrubPII(text: string): string {
   return scrubbed;
 }
 
+// Helper to fetch and extract text from user portfolio website
+async function fetchPortfolioContent(url?: string): Promise<string> {
+  if (!url) return "";
+  try {
+    const res = await fetch(url, {
+      headers: { "User-Agent": "CareerAI-Portfolio-Analyzer/1.0" },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!res.ok) return "";
+    const html = await res.text();
+    const cleanText = html
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+      .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, "")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    return cleanText.substring(0, 3000);
+  } catch (error) {
+    console.error("Error fetching portfolio website:", error);
+    return "";
+  }
+}
+
 export async function analyzeResumeText(resumeText: string, context?: { type: "general" | "job", jobDescription?: string, profile?: any }) {
   const projectId = process.env.WATSONX_PROJECT_ID;
   if (!projectId) throw new Error("WATSONX_PROJECT_ID is not configured.");
@@ -44,10 +67,17 @@ export async function analyzeResumeText(resumeText: string, context?: { type: "g
   if (context?.type === "job" && context.jobDescription) {
     analysisContext = `Compare this resume against the following Job Description and base your ATS score, missing keywords, and suggestions strictly on how well the candidate fits this specific job.\n\nJob Description:\n${context.jobDescription}`;
   } else if (context?.profile) {
-    const { degree, branch, college } = context.profile;
+    const { degree, branch, college, portfolioUrl } = context.profile;
     const academicContext = [degree, branch, college].filter(Boolean).join(" in ");
-    if (academicContext) {
-      analysisContext = `Tailor your analysis for a student with the following academic background: ${academicContext}. Provide a general ATS evaluation based on industry standards for this field.`;
+    let portfolioInfo = "";
+    if (portfolioUrl) {
+      const portfolioText = await fetchPortfolioContent(portfolioUrl);
+      if (portfolioText) {
+        portfolioInfo = `\n\nLive Portfolio Website Content (${portfolioUrl}):\n${portfolioText}`;
+      }
+    }
+    if (academicContext || portfolioInfo) {
+      analysisContext = `Tailor your analysis for a student with academic background: ${academicContext || 'Engineering'}.${portfolioInfo}\nEvaluate overall engineering placement readiness.`;
     }
   }
 
@@ -90,7 +120,7 @@ ${resumeText.substring(0, 15000)}
   const response = await fetch("https://eu-de.ml.cloud.ibm.com/ml/v1/text/generation?version=2023-05-29", {
     method: "POST",
     headers: {
-      "Authorization": `Bearer ${token}`,
+      "Authorization": `Bearer ${ token } `,
       "Content-Type": "application/json",
       "Accept": "application/json"
     },
@@ -99,7 +129,7 @@ ${resumeText.substring(0, 15000)}
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`Watsonx API Error: ${errorText}`);
+    throw new Error(`Watsonx API Error: ${ errorText } `);
   }
 
   const data = await response.json();
@@ -130,14 +160,14 @@ export async function generateInterviewResponse(chatHistory: { role: 'user' | 'a
 
   const token = await getWatsonxToken();
 
-  const academicContext = profile ? `${profile.degree} in ${profile.branch} from ${profile.college}` : "a student";
+  const academicContext = profile ? `${ profile.degree } in ${ profile.branch } from ${ profile.college } ` : "a student";
   const resumeContext = profile?.aiAnalysis ? `Here is the candidate's parsed resume summary for context: ${JSON.stringify(profile.aiAnalysis)}` : "The candidate has not provided a detailed resume.";
-  
+
   let formattedHistory = `System: You are an expert technical interviewer conducting a mock interview for ${academicContext}. ${resumeContext}\n`;
   if (context?.type === "job" && context.jobDescription) {
     formattedHistory += `You are hiring for a specific role. Based your questions heavily on this Job Description:\n"${context.jobDescription}"\n`;
   }
-  
+
   formattedHistory += `Your goal is to ask relevant technical or behavioral questions one by one. Keep your questions concise (under 3 sentences). When the candidate answers, briefly evaluate their answer (give constructive feedback) before asking the next question. Do NOT generate the candidate's response. Stop generating after your question.\n\n`;
 
   for (const msg of chatHistory) {
@@ -147,7 +177,7 @@ export async function generateInterviewResponse(chatHistory: { role: 'user' | 'a
       formattedHistory += `Candidate: ${msg.content}\n`;
     }
   }
-  
+
   formattedHistory += `Interviewer:`;
 
   const payload = {
@@ -205,7 +235,7 @@ export async function generateInterviewFeedback(chatHistory: { role: 'user' | 'a
       formattedHistory += `Candidate: ${msg.content}\n`;
     }
   }
-  
+
   formattedHistory += `System: Please provide your final evaluation and feedback now.\nInterviewer Feedback:`;
 
   const payload = {
@@ -292,7 +322,16 @@ Cover Letter:`;
   }
 
   const data = await response.json();
-  return data.results[0].generated_text.trim();
+  let generatedText = data.results[0].generated_text.trim();
+
+  // Truncate at signature to avoid duplicate generations or LLM continuation notes
+  const signMatch = generatedText.match(/(Sincerely|Best regards|Regards|Warm regards|Respectfully),?\s*\n?[^\n]+/i);
+  if (signMatch && signMatch.index !== undefined) {
+    const cutoffIndex = signMatch.index + signMatch[0].length;
+    generatedText = generatedText.substring(0, cutoffIndex).trim();
+  }
+
+  return generatedText;
 }
 
 export async function evaluateCandidate(profile: any, job: any) {
@@ -318,22 +357,37 @@ export async function evaluateCandidate(profile: any, job: any) {
     }
   }
 
+  let portfolioText = "";
+  if (profile?.portfolioUrl) {
+    try {
+      portfolioText = await fetchPortfolioContent(profile.portfolioUrl);
+    } catch (e) {
+      console.error("Could not fetch portfolio content for candidate evaluation:", e);
+    }
+  }
+
+  const portfolioContext = portfolioText
+    ? `\n\nLive Portfolio Website Content (${profile.portfolioUrl}):\n${portfolioText}`
+    : profile?.portfolioUrl
+      ? `\n\nCandidate Portfolio Website Link: ${profile.portfolioUrl}`
+      : "";
+
   const aiAnalysisContext = profile?.aiAnalysis ? `(General ATS Summary Context: ${JSON.stringify(profile.aiAnalysis)})` : "";
-  const resumeContext = extractedText 
-    ? `Candidate's Resume Text:\n${extractedText.substring(0, 10000)}\n\n${aiAnalysisContext}`
-    : `Candidate's Profile Data:\nDegree: ${profile?.degree}, Branch: ${profile?.branch}\n${aiAnalysisContext}`;
+  const resumeContext = extractedText
+    ? `Candidate's Resume Text:\n${extractedText.substring(0, 10000)}\n\n${aiAnalysisContext}${portfolioContext}`
+    : `Candidate's Profile Data:\nDegree: ${profile?.degree}, Branch: ${profile?.branch}\n${aiAnalysisContext}${portfolioContext}`;
 
   const prompt = `<|begin_of_text|><|start_header_id|>system<|end_header_id|>
-You are an expert technical recruiter and AI ATS system. Your job is to evaluate a candidate's resume against a specific job description.
+You are an expert technical recruiter and AI ATS system. Your job is to evaluate a candidate's resume and live portfolio website against a specific job description.
 CRITICAL INSTRUCTION: You MUST output valid JSON only. Do not output any conversational text or markdown formatting (no backticks). The JSON must have exactly two fields: "score" (a number between 0 and 100) and "summary" (a 3-4 sentence paragraph explaining the fit).<|eot_id|><|start_header_id|>user<|end_header_id|>
-Candidate Resume:
+Candidate Resume & Portfolio Context:
 ${resumeContext}
 
 Job Title: ${job.title}
 Job Description: ${job.description}
 Job Requirements: ${job.requirements}
 
-Analyze the candidate's fit for this specific role and output the raw JSON object:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+Analyze the candidate's fit for this specific role considering both their resume and live portfolio craftsmanship, then output the raw JSON object:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
 {
   "score": `;
 
@@ -365,11 +419,11 @@ Analyze the candidate's fit for this specific role and output the raw JSON objec
 
   const data = await response.json();
   const rawText = data.results[0].generated_text.trim();
-  
+
   try {
     // We pre-filled `{ "score": ` in the prompt, so we must prepend it to the rawText
     const completeJsonText = `{ \n  "score": ${rawText}`;
-    
+
     const jsonMatch = completeJsonText.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
       return JSON.parse(jsonMatch[0]);
@@ -460,11 +514,11 @@ Output ONLY valid JSON matching the schema above.<|eot_id|><|start_header_id|>as
     if (jsonMatch) {
       jsonString = jsonMatch[0];
     }
-    
+
     // Clean up trailing commas and unescaped control chars
     jsonString = jsonString.replace(/,\s*([}\]])/g, '$1');
     jsonString = jsonString.replace(/[\u0000-\u001F]+/g, " ");
-    
+
     return JSON.parse(jsonString);
   } catch (error) {
     console.error("Failed to parse Roadmap JSON:", rawText);

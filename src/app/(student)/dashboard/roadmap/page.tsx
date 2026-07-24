@@ -7,17 +7,18 @@ export default async function RoadmapPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
-  const profile = await prisma.studentProfile.findUnique({
-    where: { userId: session.user.id },
-    include: {
-      roadmaps: {
-        orderBy: { createdAt: 'desc' }
+  let profile: any = null;
+  try {
+    profile = await prisma.studentProfile.findUnique({
+      where: { userId: session.user.id },
+      include: {
+        roadmaps: {
+          orderBy: { createdAt: 'desc' }
+        }
       }
-    }
-  });
-
-  if (!profile) {
-    redirect("/dashboard/profile");
+    });
+  } catch (error) {
+    console.error("Student roadmap page query error:", error);
   }
 
   return (
@@ -30,8 +31,8 @@ export default async function RoadmapPage() {
       </div>
 
       <RoadmapClient 
-        hasResume={!!profile.resumeUrl} 
-        roadmaps={profile.roadmaps} 
+        hasResume={!!profile?.resumeUrl} 
+        roadmaps={profile?.roadmaps || []} 
       />
     </div>
   );

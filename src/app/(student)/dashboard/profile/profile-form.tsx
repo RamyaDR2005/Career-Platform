@@ -35,6 +35,7 @@ export function ProfileForm({ initialData }: { initialData: any }) {
     cgpa: initialData?.cgpa || "",
     linkedinUrl: initialData?.linkedinUrl || "",
     githubUrl: initialData?.githubUrl || "",
+    portfolioUrl: initialData?.portfolioUrl || "",
   });
 
   // Degree states
@@ -389,6 +390,21 @@ export function ProfileForm({ initialData }: { initialData: any }) {
                   className={`bg-zinc-950 border-zinc-800 text-zinc-100 ${errors.githubUrl ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
                 />
                 {errors.githubUrl && <p className="text-xs text-red-500 font-medium mt-1">{errors.githubUrl}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="portfolioUrl" className="text-zinc-300">Portfolio Website URL</Label>
+                <Input 
+                  id="portfolioUrl" 
+                  name="portfolioUrl" 
+                  type="url" 
+                  value={formData.portfolioUrl} 
+                  onChange={handleChange} 
+                  placeholder="https://myportfolio.dev" 
+                  className={`bg-zinc-950 border-zinc-800 text-zinc-100 ${errors.portfolioUrl ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
+                />
+                <p className="text-[11px] text-zinc-500">Watsonx AI will analyze your live portfolio website & project demos as an engineer.</p>
+                {errors.portfolioUrl && <p className="text-xs text-red-500 font-medium mt-1">{errors.portfolioUrl}</p>}
               </div>
             </div>
           </div>

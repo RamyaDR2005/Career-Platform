@@ -18,8 +18,6 @@ export default async function RootPage() {
         redirect("/dashboard");
       case "RECRUITER":
         redirect("/recruiter");
-      case "PLACEMENT_OFFICER":
-        redirect("/placement");
       case "ADMIN":
         redirect("/admin");
       default:

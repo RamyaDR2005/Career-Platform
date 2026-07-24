@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Loader2, BrainCircuit, Code, Globe, FileText, CheckCircle2, Calendar } from "lucide-react";
+import { ResumeViewerModal } from "@/components/resume-viewer-modal";
 
 export function ApplicationTable({ initialApplications }: { initialApplications: any[] }) {
   const [applications, setApplications] = useState(initialApplications);
@@ -217,14 +218,20 @@ export function ApplicationTable({ initialApplications }: { initialApplications:
           </DialogHeader>
           
           <div className="py-4 space-y-6">
-            <div className="flex gap-4 border-b border-zinc-800 pb-4">
-              {selectedApp?.studentProfile?.resumeUrl && (
-                <a href={selectedApp.studentProfile.resumeUrl.replace("dl.dropboxusercontent.com", "www.dropbox.com")} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-sm text-blue-400 hover:text-blue-300 bg-blue-950/30 px-3 py-1.5 rounded-md border border-blue-900/50">
-                  <FileText className="w-4 h-4" /> Resume PDF
+            <div className="flex flex-wrap gap-3 border-b border-zinc-800 pb-4">
+              {(selectedApp?.customResumeUrl || selectedApp?.studentProfile?.resumeUrl) && (
+                <ResumeViewerModal
+                  applicationId={selectedApp.id}
+                  buttonText={selectedApp?.customResumeUrl ? "Tailored Job Resume PDF" : "Primary Resume PDF"}
+                />
+              )}
+              {selectedApp?.studentProfile?.portfolioUrl && (
+                <a href={selectedApp.studentProfile.portfolioUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs text-purple-400 hover:text-purple-300 bg-purple-950/30 px-3 py-1.5 rounded-xl border border-purple-900/50 font-semibold">
+                  <Globe className="w-4 h-4" /> Live Portfolio Site
                 </a>
               )}
               {selectedApp?.studentProfile?.linkedinUrl && (
-                <a href={selectedApp.studentProfile.linkedinUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-sm text-blue-400 hover:text-blue-300">
+                <a href={selectedApp.studentProfile.linkedinUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 bg-blue-950/30 px-3 py-1.5 rounded-xl border border-blue-900/50 font-semibold">
                   <Globe className="w-4 h-4" /> LinkedIn
                 </a>
               )}

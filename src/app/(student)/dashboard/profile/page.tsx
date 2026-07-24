@@ -9,10 +9,16 @@ export default async function ProfilePage() {
     redirect("/login");
   }
 
-  const profile = await prisma.studentProfile.findUnique({
-    where: { userId: session.user.id },
-    include: { user: true }
-  });
+  let profile: any = null;
+
+  try {
+    profile = await prisma.studentProfile.findUnique({
+      where: { userId: session.user.id },
+      include: { user: true }
+    });
+  } catch (error) {
+    console.error("Student profile page query error:", error);
+  }
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">

@@ -1,111 +1,84 @@
 "use client";
 
 import { useState } from "react";
-import { getDropboxUploadLink, saveResumeUrl } from "@/actions/upload-resume";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { uploadFileToDropbox } from "@/actions/upload-resume";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { FileUp, FileText } from "lucide-react";
+import { Loader2, Upload, FileCheck } from "lucide-react";
 
 export default function ResumeUploadForm() {
-  const [isUploading, setIsUploading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file) {
-      toast.error("Please select a PDF file");
+      toast.error("Please select a PDF resume file first.");
       return;
     }
-    if (file.size > 3 * 1024 * 1024) {
-      toast.error("File size must be under 3MB");
+
+    if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+      toast.error("Only PDF files are supported.");
       return;
     }
 
     setIsUploading(true);
-    
+
     try {
-      // 1. Get temporary upload link from the server
-      const linkResult = await getDropboxUploadLink(file.name);
-      
-      if (linkResult.error || !linkResult.link || !linkResult.path) {
-        toast.error(linkResult.error || "Failed to initialize upload");
-        setIsUploading(false);
-        return;
-      }
+      const formData = new FormData();
+      formData.append("file", file);
 
-      // 2. Upload file directly to Dropbox from the browser
-      const uploadRes = await fetch(linkResult.link, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/octet-stream",
-        },
-        body: file,
-      });
+      const res = await uploadFileToDropbox(formData, true);
 
-      if (!uploadRes.ok) {
-        toast.error("Failed to upload file to Dropbox");
-        setIsUploading(false);
-        return;
-      }
-
-      // 3. Save the uploaded file path to the database
-      const saveResult = await saveResumeUrl(linkResult.path);
-      
-      if (saveResult.error) {
-        toast.error(saveResult.error);
+      if (res.error) {
+        toast.error(res.error);
       } else {
         toast.success("Resume uploaded successfully!");
         setFile(null);
       }
-    } catch (error: any) {
-      console.error("Upload error:", error);
-      toast.error(`Error: ${error?.message || "An unexpected error occurred during upload."}`);
+    } catch (error) {
+      console.error("Resume upload error:", error);
+      toast.error("An error occurred during resume upload.");
     } finally {
       setIsUploading(false);
     }
   };
 
   return (
-    <Card className="bg-zinc-900 border-zinc-800">
-      <CardHeader>
-        <CardTitle className="text-zinc-100">Upload New Resume</CardTitle>
-        <CardDescription className="text-zinc-400">
-          PDF format only, Max 3MB. Uploading a new resume will replace the current one.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleUpload} className="space-y-4">
-          <div className="flex items-center justify-center w-full">
-            <Label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-48 border-2 border-zinc-700 border-dashed rounded-lg cursor-pointer bg-zinc-950 hover:bg-zinc-800/50 transition-colors">
-              <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <FileUp className="w-10 h-10 mb-3 text-zinc-500" />
-                <p className="mb-2 text-sm text-zinc-400">
-                  <span className="font-semibold text-white">Click to upload</span> or drag and drop
-                </p>
-                <p className="text-xs text-zinc-500 mt-2">PDF (MAX. 3MB)</p>
-                {file && <p className="mt-4 text-sm font-medium text-blue-400 flex items-center gap-2"><FileText className="w-4 h-4"/> {file.name}</p>}
-              </div>
-              <Input 
-                id="dropzone-file" 
-                type="file" 
-                accept="application/pdf"
-                className="hidden" 
-                onChange={(e) => setFile(e.target.files?.[0] || null)}
-              />
-            </Label>
-          </div>
-          <Button 
-            type="submit" 
-            disabled={isUploading || !file} 
-            className="w-full bg-white text-zinc-950 hover:bg-zinc-200"
-          >
-            {isUploading ? "Uploading..." : "Upload Resume"}
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+    <form onSubmit={handleUpload} className="space-y-4">
+      <div className="border-2 border-dashed border-zinc-800 hover:border-blue-500/50 transition-all rounded-xl p-6 text-center bg-zinc-950/50">
+        <Upload className="w-8 h-8 text-zinc-500 mx-auto mb-2" />
+        <input
+          type="file"
+          accept=".pdf"
+          id="resumeFile"
+          onChange={(e) => setFile(e.target.files?.[0] || null)}
+          className="hidden"
+        />
+        <label
+          htmlFor="resumeFile"
+          className="cursor-pointer text-xs font-semibold text-blue-400 hover:text-blue-300 block"
+        >
+          {file ? file.name : "Click to select a PDF file"}
+        </label>
+        <p className="text-[11px] text-zinc-500 mt-1">Maximum file size: 10MB</p>
+      </div>
+
+      <Button
+        type="submit"
+        disabled={!file || isUploading}
+        className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs h-10 rounded-xl"
+      >
+        {isUploading ? (
+          <>
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Uploading to Storage...
+          </>
+        ) : (
+          <>
+            <FileCheck className="w-4 h-4 mr-2" /> Save Resume
+          </>
+        )}
+      </Button>
+    </form>
   );
 }

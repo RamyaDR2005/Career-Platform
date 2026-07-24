@@ -9,22 +9,28 @@ import { ArrowLeft } from "lucide-react";
 export default async function JobApplicationsPage({ params }: { params: Promise<{ jobId: string }> }) {
   const { jobId } = await params;
   const session = await auth();
-  const user = await prisma.user.findUnique({ where: { id: session?.user?.id } });
+  let job: any = null;
 
-  const job = await prisma.job.findUnique({
-    where: { id: jobId, companyId: user?.companyId! },
-    include: {
-      applications: {
+  try {
+    const user = await prisma.user.findUnique({ where: { id: session?.user?.id } });
+    if (user?.companyId) {
+      job = await prisma.job.findUnique({
+        where: { id: jobId, companyId: user.companyId },
         include: {
-          studentProfile: {
-            include: { user: true }
+          applications: {
+            include: {
+              studentProfile: {
+                include: { user: true }
+              }
+            },
+            orderBy: { aiScore: 'desc' }
           }
-        },
-        // In reality, this would order by the specific job match score. For MVP we use the general atsScore.
-        orderBy: { studentProfile: { atsScore: 'desc' } }
-      }
+        }
+      });
     }
-  });
+  } catch (error) {
+    console.error("Job applications query error:", error);
+  }
 
   if (!job) {
     notFound();

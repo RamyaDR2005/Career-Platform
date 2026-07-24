@@ -9,26 +9,32 @@ import { StudentJobsClientList } from "./student-jobs-client-list";
 
 export default async function JobsBoardPage() {
   const session = await auth();
-  
-  const user = await prisma.user.findUnique({
-    where: { id: session?.user?.id },
-    include: { studentProfile: true }
-  });
+  let jobs: any[] = [];
+  let appliedJobIds = new Set<string>();
 
-  const jobs = await prisma.job.findMany({
-    include: { company: true },
-    orderBy: { createdAt: 'desc' }
-  });
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: session?.user?.id },
+      include: { studentProfile: true }
+    });
 
-  // Fetch student's current applications to know which ones they already applied to
-  const applications = user?.studentProfile 
-    ? await prisma.application.findMany({
-        where: { studentProfileId: user.studentProfile.id },
-        select: { jobId: true }
-      })
-    : [];
-    
-  const appliedJobIds = new Set(applications.map(a => a.jobId));
+    const fetchedJobs = await prisma.job.findMany({
+      include: { company: true },
+      orderBy: { createdAt: 'desc' }
+    });
+    jobs = fetchedJobs;
+
+    const applications = user?.studentProfile 
+      ? await prisma.application.findMany({
+          where: { studentProfileId: user.studentProfile.id },
+          select: { jobId: true }
+        })
+      : [];
+      
+    appliedJobIds = new Set(applications.map(a => a.jobId));
+  } catch (error) {
+    console.error("Student jobs page query error:", error);
+  }
 
   return (
     <div className="space-y-6 max-w-6xl">

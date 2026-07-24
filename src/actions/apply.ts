@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-export async function applyForJob(jobId: string) {
+export async function applyForJob(jobId: string, customResumeUrl?: string) {
   const session = await auth();
   if (!session?.user?.id || session.user.role !== "STUDENT") {
     return { error: "Unauthorized. Only students can apply for jobs." };
@@ -19,8 +19,10 @@ export async function applyForJob(jobId: string) {
       return { error: "Please complete your profile before applying." };
     }
 
-    if (!profile.resumeUrl) {
-      return { error: "You must upload a resume in the Resume Center before applying." };
+    const effectiveResumeUrl = customResumeUrl || profile.resumeUrl;
+
+    if (!effectiveResumeUrl) {
+      return { error: "You must upload a resume in the Resume Center or attach a custom resume before applying." };
     }
 
     // Check if already applied
@@ -52,16 +54,18 @@ export async function applyForJob(jobId: string) {
       return { error: "The deadline for this job has passed." };
     }
 
-    // Evaluate the candidate specifically for this job using WatsonX
+    // Evaluate the candidate specifically for this job using WatsonX with their effective resume (custom or primary)
     const { evaluateCandidate } = await import("@/services/watsonx");
-    const aiEvaluation = await evaluateCandidate(profile, job);
+    const profileWithEffectiveResume = { ...profile, resumeUrl: effectiveResumeUrl };
+    const aiEvaluation = await evaluateCandidate(profileWithEffectiveResume, job);
 
-    // Create application
+    // Create application with custom resume support
     await prisma.application.create({
       data: {
         jobId,
         studentProfileId: profile.id,
         aiScore: aiEvaluation.score || 50, // Use the specific job fit score
+        customResumeUrl: customResumeUrl || null,
       }
     });
 
