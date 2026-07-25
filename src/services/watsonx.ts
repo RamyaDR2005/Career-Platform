@@ -154,7 +154,7 @@ ${resumeText.substring(0, 15000)}
   }
 }
 
-export async function generateInterviewResponse(chatHistory: { role: 'user' | 'assistant', content: string }[], profile: any, context?: { type: "general" | "job", jobDescription?: string }) {
+export async function generateInterviewResponse(chatHistory: { role: 'user' | 'assistant', content: string }[], profile: any, context?: { type: "general" | "job", jobDescription?: string, mode?: "general" | "job" | "arvi" }) {
   const projectId = process.env.WATSONX_PROJECT_ID;
   if (!projectId) throw new Error("WATSONX_PROJECT_ID is not configured.");
 
@@ -163,12 +163,18 @@ export async function generateInterviewResponse(chatHistory: { role: 'user' | 'a
   const academicContext = profile ? `${ profile.degree } in ${ profile.branch } from ${ profile.college } ` : "a student";
   const resumeContext = profile?.aiAnalysis ? `Here is the candidate's parsed resume summary for context: ${JSON.stringify(profile.aiAnalysis)}` : "The candidate has not provided a detailed resume.";
 
-  let formattedHistory = `System: You are an expert technical interviewer conducting a mock interview for ${academicContext}. ${resumeContext}\n`;
+  const isArviMode = context?.mode === "arvi";
+
+  let formattedHistory = isArviMode
+    ? `System: You are ARVI, a voice-based, adaptive AI interviewer conducting a mock interview for ${academicContext}. ${resumeContext}\n`
+    : `System: You are an expert technical interviewer conducting a mock interview for ${academicContext}. ${resumeContext}\n`;
   if (context?.type === "job" && context.jobDescription) {
     formattedHistory += `You are hiring for a specific role. Based your questions heavily on this Job Description:\n"${context.jobDescription}"\n`;
   }
 
-  formattedHistory += `Your goal is to ask relevant technical or behavioral questions one by one. Keep your questions concise (under 3 sentences). When the candidate answers, briefly evaluate their answer (give constructive feedback) before asking the next question. Do NOT generate the candidate's response. Stop generating after your question.\n\n`;
+  formattedHistory += isArviMode
+    ? `Your goal is to behave like a live interviewer: ask one concise question at a time, listen to the candidate's answer, give a brief piece of feedback on that answer, then ask a smart follow-up question based on the answer and the candidate's background. Keep your tone warm, clear, and professional. Do NOT generate the candidate's response. Speak as ARVI. Stop after the follow-up question.\n\n`
+    : `Your goal is to ask relevant technical or behavioral questions one by one. Keep your questions concise (under 3 sentences). When the candidate answers, briefly evaluate their answer (give constructive feedback) before asking the next question. Do NOT generate the candidate's response. Stop generating after your question.\n\n`;
 
   for (const msg of chatHistory) {
     if (msg.role === 'assistant') {
@@ -213,7 +219,7 @@ export async function generateInterviewResponse(chatHistory: { role: 'user' | 'a
   return generatedText;
 }
 
-export async function generateInterviewFeedback(chatHistory: { role: 'user' | 'assistant', content: string }[], profile: any) {
+export async function generateInterviewFeedback(chatHistory: { role: 'user' | 'assistant', content: string }[], profile: any, context?: { mode?: "general" | "job" | "arvi" }) {
   const userMessages = chatHistory.filter(msg => msg.role === 'user');
   if (userMessages.length === 0) {
     return "It looks like we didn't get a chance to start the interview! Please provide answers to the questions to receive personalized feedback on your performance.";
@@ -226,7 +232,11 @@ export async function generateInterviewFeedback(chatHistory: { role: 'user' | 'a
 
   const resumeContext = profile?.aiAnalysis ? `Candidate Resume: ${JSON.stringify(profile.aiAnalysis)}` : "";
 
-  let formattedHistory = `System: You are an expert technical interviewer. ${resumeContext}\nThe following is a transcript of a mock interview. Please evaluate the candidate's performance across the entire interview based on their actual answers. Do NOT invent or hallucinate answers that the candidate did not provide. If the candidate provided very short or poor answers, state that clearly. Provide constructive feedback, highlighting their strengths and areas for improvement. Format your response clearly. Do not ask any more questions.\n\n`;
+  const isArviMode = context?.mode === "arvi";
+
+  let formattedHistory = isArviMode
+    ? `System: You are ARVI, the candidate-facing voice interviewer. ${resumeContext}\nThe following is a transcript of a mock interview. Please evaluate the candidate's performance across the entire interview based on their actual answers. Do NOT invent or hallucinate answers that the candidate did not provide. If the candidate provided very short or poor answers, state that clearly. Provide constructive feedback, highlighting their strengths and areas for improvement. Keep the feedback direct, useful, and encouraging. Do not ask any more questions.\n\n`
+    : `System: You are an expert technical interviewer. ${resumeContext}\nThe following is a transcript of a mock interview. Please evaluate the candidate's performance across the entire interview based on their actual answers. Do NOT invent or hallucinate answers that the candidate did not provide. If the candidate provided very short or poor answers, state that clearly. Provide constructive feedback, highlighting their strengths and areas for improvement. Format your response clearly. Do not ask any more questions.\n\n`;
 
   for (const msg of chatHistory) {
     if (msg.role === 'assistant') {
