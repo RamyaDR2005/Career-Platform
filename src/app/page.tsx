@@ -7,7 +7,9 @@ import HeroSection from "@/components/landing/hero-section";
 import HowItWorksSection from "@/components/landing/how-it-works-section";
 import FeaturesSection from "@/components/landing/features-section";
 import TestimonialsSection from "@/components/landing/testimonials-section";
+import FaqSection from "@/components/landing/faq-section";
 import Footer from "@/components/landing/footer";
+
 export default async function RootPage() {
   const session = await auth();
 
@@ -44,9 +46,11 @@ export default async function RootPage() {
           </div>
           
           {/* Menu */}
-          <nav className="hidden md:flex items-center gap-7 text-[13px] font-medium tracking-wide text-zinc-400">
+          <nav className="hidden md:flex items-center gap-6 text-[13px] font-medium tracking-wide text-zinc-400">
             <Link href="#features" className="hover:text-white transition-colors duration-200">Features</Link>
             <Link href="#how-it-works" className="hover:text-white transition-colors duration-200">How it Works</Link>
+            <Link href="#testimonials" className="hover:text-white transition-colors duration-200">Testimonials</Link>
+            <Link href="#faq" className="hover:text-white transition-colors duration-200">FAQ</Link>
             <Link href="/login" className="hover:text-white transition-colors duration-200">For Recruiters</Link>
           </nav>
           
@@ -70,6 +74,7 @@ export default async function RootPage() {
         <HowItWorksSection />
         <FeaturesSection />
         <TestimonialsSection />
+        <FaqSection />
       </main>
 
       <Footer />
