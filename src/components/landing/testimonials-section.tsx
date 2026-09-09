@@ -181,7 +181,7 @@ export default function TestimonialsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="mt-16 bg-gradient-to-br from-[#C95A2E] via-[#BA4F26] to-[#A94724] text-white rounded-3xl p-8 sm:p-12 shadow-[0_15px_35px_rgba(201,90,46,0.3)] flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden max-w-7xl mx-auto"
+          className="mt-16 bg-gradient-to-br from-[#C95A2E] via-[#BA4F26] to-[#A94724] text-foreground rounded-3xl p-8 sm:p-12 shadow-[0_15px_35px_rgba(201,90,46,0.3)] flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden max-w-7xl mx-auto"
         >
           {/* Subtle Light Ring Graphics */}
           <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full blur-2xl pointer-events-none" />
@@ -190,12 +190,12 @@ export default function TestimonialsSection() {
             <h3 className="text-2xl sm:text-4xl font-extrabold mb-3 leading-tight">
               Your Future Doesn't Need Guesswork.
             </h3>
-            <p className="text-white/90 text-sm sm:text-base font-normal leading-relaxed">
+            <p className="text-foreground/90 text-sm sm:text-base font-normal leading-relaxed">
               Discover your direction. Build your roadmap. Start moving forward.
             </p>
           </div>
 
-          <Button asChild size="lg" className="relative z-10 h-14 px-8 rounded-full bg-[#173D2A] hover:bg-[#1C211D] text-white font-bold text-sm sm:text-base shadow-lg transition-all group shrink-0 w-full sm:w-auto">
+          <Button asChild size="lg" className="relative z-10 h-14 px-8 rounded-full bg-[#173D2A] hover:bg-[#1C211D] text-foreground font-bold text-sm sm:text-base shadow-lg transition-all group shrink-0 w-full sm:w-auto">
             <Link href="/register" className="flex items-center justify-center gap-2">
               <span>Start Your Career Journey</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

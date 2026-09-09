@@ -33,10 +33,10 @@ import {
 import { 
   updateUser, 
   setUserStatus, 
-  softDeleteUser, 
+  deleteUserPermanently, 
   restoreUser,
   bulkSetUserStatus,
-  bulkSoftDeleteUsers,
+  bulkDeleteUsersPermanently,
   bulkRestoreUsers
 } from "@/actions/admin";
 import { Role } from "@prisma/client";
@@ -146,15 +146,17 @@ export function UsersTableClient({
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to soft delete this user?")) return;
+    if (!confirm("Are you sure you want to permanently delete this user? This action cannot be undone and will delete all their associated data, including company profiles and jobs.")) return;
     setActionLoading(true);
-    const res = await softDeleteUser(id);
+    const res = await deleteUserPermanently(id);
     setActionLoading(false);
     if (res.error) {
       toast.error(res.error);
     } else {
-      toast.success("User soft deleted successfully.");
+      toast.success("User permanently deleted successfully.");
       setSelectedIds((prev) => prev.filter((item) => item !== id));
+      // Refresh URL to fetch updated users
+      updateUrl({}); 
     }
   };
 
@@ -183,15 +185,16 @@ export function UsersTableClient({
   };
 
   const handleBulkDelete = async () => {
-    if (!confirm(`Are you sure you want to soft delete ${selectedIds.length} users?`)) return;
+    if (!confirm(`Are you sure you want to permanently delete ${selectedIds.length} users? This will wipe all associated data.`)) return;
     setActionLoading(true);
-    const res = await bulkSoftDeleteUsers(selectedIds);
+    const res = await bulkDeleteUsersPermanently(selectedIds);
     setActionLoading(false);
     if (res.error) {
       toast.error(res.error);
     } else {
-      toast.success("Selected users soft deleted successfully.");
+      toast.success("Selected users permanently deleted successfully.");
       setSelectedIds([]);
+      updateUrl({});
     }
   };
 
@@ -225,11 +228,11 @@ export function UsersTableClient({
   return (
     <div className="space-y-6">
       {/* Controls Bar */}
-      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-zinc-900 p-4 rounded-xl border border-zinc-800">
+      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-card p-4 rounded-xl border border-border">
         
         {/* Search */}
         <div className="flex-1 w-full md:w-auto relative">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-zinc-500" />
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search by name, email or role..."
             value={searchQuery}
@@ -240,7 +243,7 @@ export function UsersTableClient({
               }
             }}
             onBlur={() => updateUrl({ q: searchQuery })}
-            className="pl-9 bg-zinc-950 border-zinc-850 text-zinc-150 focus-visible:ring-zinc-700"
+            className="pl-9 bg-background border-zinc-850 text-zinc-150 focus-visible:ring-zinc-700"
           />
         </div>
 
@@ -249,7 +252,7 @@ export function UsersTableClient({
           <select
             value={initialFilters.role}
             onChange={(e) => updateUrl({ role: e.target.value })}
-            className="bg-zinc-950 border border-zinc-800 text-zinc-300 rounded-md text-sm px-3 py-2 outline-none focus:ring-1 focus:ring-zinc-700 cursor-pointer"
+            className="bg-background border border-border text-muted-foreground rounded-md text-sm px-3 py-2 outline-none focus:ring-1 focus:ring-zinc-700 cursor-pointer"
           >
             <option value="">All Roles</option>
             <option value="STUDENT">Student</option>
@@ -260,7 +263,7 @@ export function UsersTableClient({
           <select
             value={initialFilters.status}
             onChange={(e) => updateUrl({ status: e.target.value })}
-            className="bg-zinc-950 border border-zinc-800 text-zinc-300 rounded-md text-sm px-3 py-2 outline-none focus:ring-1 focus:ring-zinc-700 cursor-pointer"
+            className="bg-background border border-border text-muted-foreground rounded-md text-sm px-3 py-2 outline-none focus:ring-1 focus:ring-zinc-700 cursor-pointer"
           >
             <option value="">Active/Disabled (All)</option>
             <option value="ACTIVE">Active Only</option>
@@ -271,7 +274,7 @@ export function UsersTableClient({
           <select
             value={initialFilters.date}
             onChange={(e) => updateUrl({ date: e.target.value })}
-            className="bg-zinc-950 border border-zinc-800 text-zinc-300 rounded-md text-sm px-3 py-2 outline-none focus:ring-1 focus:ring-zinc-700 cursor-pointer"
+            className="bg-background border border-border text-muted-foreground rounded-md text-sm px-3 py-2 outline-none focus:ring-1 focus:ring-zinc-700 cursor-pointer"
           >
             <option value="">All Time</option>
             <option value="today">Last 24 Hours</option>
@@ -283,7 +286,7 @@ export function UsersTableClient({
           <select
             value={initialFilters.sort}
             onChange={(e) => updateUrl({ sort: e.target.value })}
-            className="bg-zinc-950 border border-zinc-800 text-zinc-300 rounded-md text-sm px-3 py-2 outline-none focus:ring-1 focus:ring-zinc-700 cursor-pointer"
+            className="bg-background border border-border text-muted-foreground rounded-md text-sm px-3 py-2 outline-none focus:ring-1 focus:ring-zinc-700 cursor-pointer"
           >
             <option value="newest">Newest</option>
             <option value="oldest">Oldest</option>
@@ -295,8 +298,8 @@ export function UsersTableClient({
 
       {/* Bulk Actions Panel */}
       {selectedIds.length > 0 && (
-        <div className="flex flex-col sm:flex-row gap-3 items-center p-4 bg-blue-950/20 border border-blue-900/35 rounded-xl animate-fade-in">
-          <span className="text-sm text-blue-400 font-medium">
+        <div className="flex flex-col sm:flex-row gap-3 items-center p-4 bg-primary/20 border border-primary/35 rounded-xl animate-fade-in">
+          <span className="text-sm text-primary font-medium">
             {selectedIds.length} users selected for bulk action
           </span>
           <div className="flex gap-2 w-full sm:w-auto sm:ml-auto justify-end">
@@ -304,7 +307,7 @@ export function UsersTableClient({
               size="sm"
               onClick={() => handleBulkStatus(true)}
               disabled={actionLoading}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs h-8 px-3"
+              className="bg-primary hover:bg-primary text-foreground text-xs h-8 px-3"
             >
               Enable
             </Button>
@@ -312,7 +315,7 @@ export function UsersTableClient({
               size="sm"
               onClick={() => handleBulkStatus(false)}
               disabled={actionLoading}
-              className="bg-amber-600 hover:bg-amber-700 text-white text-xs h-8 px-3"
+              className="bg-amber-600 hover:bg-amber-700 text-foreground text-xs h-8 px-3"
             >
               Disable
             </Button>
@@ -321,7 +324,7 @@ export function UsersTableClient({
                 size="sm"
                 onClick={handleBulkRestore}
                 disabled={actionLoading}
-                className="bg-purple-600 hover:bg-purple-700 text-white text-xs h-8 px-3"
+                className="bg-primary hover:bg-primary text-foreground text-xs h-8 px-3"
               >
                 Restore
               </Button>
@@ -330,7 +333,7 @@ export function UsersTableClient({
                 size="sm"
                 onClick={handleBulkDelete}
                 disabled={actionLoading}
-                className="bg-red-600 hover:bg-red-700 text-white text-xs h-8 px-3"
+                className="bg-red-600 hover:bg-red-700 text-foreground text-xs h-8 px-3"
               >
                 Delete
               </Button>
@@ -339,7 +342,7 @@ export function UsersTableClient({
               size="sm"
               variant="outline"
               onClick={() => setSelectedIds([])}
-              className="bg-transparent border-zinc-700 text-zinc-400 text-xs h-8"
+              className="bg-transparent border-border text-muted-foreground text-xs h-8"
             >
               Clear
             </Button>
@@ -348,16 +351,16 @@ export function UsersTableClient({
       )}
 
       {/* Responsive Table Container */}
-      <div className="overflow-x-auto rounded-xl border border-zinc-800 bg-zinc-900/50">
-        <table className="w-full border-collapse text-left text-sm text-zinc-300">
-          <thead className="bg-zinc-900 border-b border-zinc-800 text-xs font-semibold uppercase text-zinc-400">
+      <div className="overflow-x-auto rounded-xl border border-border bg-card/50">
+        <table className="w-full border-collapse text-left text-sm text-muted-foreground">
+          <thead className="bg-card border-b border-border text-xs font-semibold uppercase text-muted-foreground">
             <tr>
               <th className="p-4 w-12">
                 <input
                   type="checkbox"
                   checked={initialUsers.length > 0 && selectedIds.length === initialUsers.length}
                   onChange={handleSelectAll}
-                  className="rounded border-zinc-800 bg-zinc-950 text-blue-600 focus:ring-blue-600/30 w-4 h-4 cursor-pointer"
+                  className="rounded border-border bg-background text-primary focus:ring-primary/30 w-4 h-4 cursor-pointer"
                 />
               </th>
               <th className="p-4">Name / Info</th>
@@ -380,11 +383,11 @@ export function UsersTableClient({
               initialUsers.map((user) => {
                 const isSelected = selectedIds.includes(user.id);
                 let statusLabel = "Active";
-                let statusColor = "bg-emerald-950/40 text-emerald-500 border-emerald-900/50";
+                let statusColor = "bg-primary/40 text-primary0 border-primary/50";
 
                 if (user.isDeleted) {
                   statusLabel = "Deleted";
-                  statusColor = "bg-red-950/40 text-red-500 border-red-900/50";
+                  statusColor = "bg-red-950/40 text-red-500 border-destructive/20";
                 } else if (!user.isActive) {
                   statusLabel = "Disabled";
                   statusColor = "bg-amber-950/40 text-amber-500 border-amber-900/50";
@@ -397,23 +400,23 @@ export function UsersTableClient({
                         type="checkbox"
                         checked={isSelected}
                         onChange={(e) => handleSelectOne(user.id, e.target.checked)}
-                        className="rounded border-zinc-800 bg-zinc-950 text-blue-600 focus:ring-blue-600/30 w-4 h-4 cursor-pointer"
+                        className="rounded border-border bg-background text-primary focus:ring-primary/30 w-4 h-4 cursor-pointer"
                       />
                     </td>
                     <td className="p-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-zinc-800 text-zinc-300 flex items-center justify-center font-bold text-xs uppercase border border-zinc-700">
+                        <div className="w-9 h-9 rounded-full bg-muted text-muted-foreground flex items-center justify-center font-bold text-xs uppercase border border-border">
                           {user.name ? user.name.slice(0, 2) : "U"}
                         </div>
                         <div>
                           <div className="font-semibold text-zinc-200">{user.name || "Unnamed"}</div>
-                          <div className="text-xs text-zinc-500 md:hidden">{user.email}</div>
+                          <div className="text-xs text-muted-foreground md:hidden">{user.email}</div>
                         </div>
                       </div>
                     </td>
-                    <td className="p-4 hidden md:table-cell text-zinc-300 font-mono text-xs">{user.email}</td>
+                    <td className="p-4 hidden md:table-cell text-muted-foreground font-mono text-xs">{user.email}</td>
                     <td className="p-4">
-                      <span className="text-[11px] font-bold tracking-wide uppercase px-2 py-0.5 rounded bg-zinc-800 text-zinc-400">
+                      <span className="text-[11px] font-bold tracking-wide uppercase px-2 py-0.5 rounded bg-muted text-muted-foreground">
                         {user.role.replace("_", " ")}
                       </span>
                     </td>
@@ -422,10 +425,10 @@ export function UsersTableClient({
                         {statusLabel}
                       </span>
                     </td>
-                    <td className="p-4 hidden lg:table-cell text-zinc-500 text-xs">
+                    <td className="p-4 hidden lg:table-cell text-muted-foreground text-xs">
                       {new Date(user.createdAt).toLocaleDateString()}
                     </td>
-                    <td className="p-4 hidden lg:table-cell text-zinc-500 text-xs">
+                    <td className="p-4 hidden lg:table-cell text-muted-foreground text-xs">
                       {new Date(user.updatedAt).toLocaleDateString()}
                     </td>
                     <td className="p-4">
@@ -434,7 +437,7 @@ export function UsersTableClient({
                           size="xs"
                           variant="outline"
                           onClick={() => setViewUser(user)}
-                          className="bg-transparent border-zinc-800 text-zinc-400 hover:text-white"
+                          className="bg-transparent border-border text-muted-foreground hover:text-foreground"
                         >
                           <Eye className="w-3.5 h-3.5 mr-1" /> View
                         </Button>
@@ -442,7 +445,7 @@ export function UsersTableClient({
                           size="xs"
                           variant="outline"
                           onClick={() => setEditUser(user)}
-                          className="bg-transparent border-zinc-800 text-zinc-400 hover:text-white"
+                          className="bg-transparent border-border text-muted-foreground hover:text-foreground"
                         >
                           <Edit2 className="w-3.5 h-3.5 mr-1" /> Edit
                         </Button>
@@ -452,10 +455,10 @@ export function UsersTableClient({
                               size="xs"
                               variant="outline"
                               onClick={() => handleToggleStatus(user.id, !user.isActive)}
-                              className={`bg-transparent border-zinc-800 ${
+                              className={`bg-transparent border-border ${
                                 user.isActive 
                                   ? "text-amber-500 hover:bg-amber-950/20" 
-                                  : "text-emerald-500 hover:bg-emerald-950/20"
+                                  : "text-primary0 hover:bg-primary/20"
                               }`}
                             >
                               {user.isActive ? "Disable" : "Enable"}
@@ -464,7 +467,8 @@ export function UsersTableClient({
                               size="xs"
                               variant="outline"
                               onClick={() => handleDelete(user.id)}
-                              className="bg-transparent border-zinc-800 text-red-500 hover:bg-red-950/20"
+                              className="bg-transparent border-border text-red-500 hover:bg-red-950/20"
+                              title="Permanently Delete"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
                             </Button>
@@ -474,7 +478,7 @@ export function UsersTableClient({
                             size="xs"
                             variant="outline"
                             onClick={() => handleRestore(user.id)}
-                            className="bg-transparent border-zinc-800 text-purple-400 hover:bg-purple-950/20"
+                            className="bg-transparent border-border text-primary hover:bg-primary/20"
                           >
                             <RotateCcw className="w-3.5 h-3.5 mr-1" /> Restore
                           </Button>
@@ -491,9 +495,9 @@ export function UsersTableClient({
 
       {/* Pagination Controls */}
       {totalPages > 1 && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-zinc-900 p-4 rounded-xl border border-zinc-800">
-          <span className="text-sm text-zinc-500">
-            Showing Page <strong className="text-zinc-300">{currentPage}</strong> of <strong className="text-zinc-300">{totalPages}</strong> ({totalCount} total entries)
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-card p-4 rounded-xl border border-border">
+          <span className="text-sm text-muted-foreground">
+            Showing Page <strong className="text-muted-foreground">{currentPage}</strong> of <strong className="text-muted-foreground">{totalPages}</strong> ({totalCount} total entries)
           </span>
           <div className="flex gap-1.5">
             <Button
@@ -501,7 +505,7 @@ export function UsersTableClient({
               variant="outline"
               disabled={currentPage <= 1}
               onClick={() => updateUrl({ page: "1" })}
-              className="bg-transparent border-zinc-800 text-zinc-300 disabled:opacity-30"
+              className="bg-transparent border-border text-muted-foreground disabled:opacity-30"
             >
               <ChevronsLeft className="w-4 h-4" />
             </Button>
@@ -510,7 +514,7 @@ export function UsersTableClient({
               variant="outline"
               disabled={currentPage <= 1}
               onClick={() => updateUrl({ page: String(currentPage - 1) })}
-              className="bg-transparent border-zinc-800 text-zinc-300 disabled:opacity-30"
+              className="bg-transparent border-border text-muted-foreground disabled:opacity-30"
             >
               <ChevronLeft className="w-4 h-4" /> Prev
             </Button>
@@ -519,7 +523,7 @@ export function UsersTableClient({
               variant="outline"
               disabled={currentPage >= totalPages}
               onClick={() => updateUrl({ page: String(currentPage + 1) })}
-              className="bg-transparent border-zinc-800 text-zinc-300 disabled:opacity-30"
+              className="bg-transparent border-border text-muted-foreground disabled:opacity-30"
             >
               Next <ChevronRight className="w-4 h-4" />
             </Button>
@@ -528,7 +532,7 @@ export function UsersTableClient({
               variant="outline"
               disabled={currentPage >= totalPages}
               onClick={() => updateUrl({ page: String(totalPages) })}
-              className="bg-transparent border-zinc-800 text-zinc-300 disabled:opacity-30"
+              className="bg-transparent border-border text-muted-foreground disabled:opacity-30"
             >
               <ChevronsRight className="w-4 h-4" />
             </Button>
@@ -539,77 +543,77 @@ export function UsersTableClient({
       {/* Details View Modal */}
       {viewUser && (
         <Dialog open={!!viewUser} onOpenChange={(open) => !open && setViewUser(null)}>
-          <DialogContent className="bg-zinc-950 border-zinc-850 text-zinc-100 max-w-lg p-6">
+          <DialogContent className="bg-background border-zinc-850 text-foreground max-w-lg p-6">
             <DialogHeader className="relative pr-6">
               <DialogTitle className="text-xl font-bold">User Details</DialogTitle>
-              <DialogDescription className="text-zinc-500">Full platform profile data.</DialogDescription>
+              <DialogDescription className="text-muted-foreground">Full platform profile data.</DialogDescription>
               <button 
                 onClick={() => setViewUser(null)} 
-                className="absolute right-0 top-0 text-zinc-500 hover:text-white"
+                className="absolute right-0 top-0 text-muted-foreground hover:text-foreground"
               >
                 <X className="w-4 h-4" />
               </button>
             </DialogHeader>
 
             <div className="space-y-4 py-4">
-              <div className="flex items-center gap-4 border-b border-zinc-800 pb-4">
-                <div className="w-12 h-12 rounded-full bg-zinc-800 text-zinc-200 flex items-center justify-center font-bold text-lg uppercase border border-zinc-700">
+              <div className="flex items-center gap-4 border-b border-border pb-4">
+                <div className="w-12 h-12 rounded-full bg-muted text-zinc-200 flex items-center justify-center font-bold text-lg uppercase border border-border">
                   {viewUser.name ? viewUser.name.slice(0, 2) : "U"}
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">{viewUser.name || "Unnamed"}</h3>
-                  <p className="text-sm text-zinc-400">{viewUser.email}</p>
+                  <h3 className="text-lg font-bold text-foreground">{viewUser.name || "Unnamed"}</h3>
+                  <p className="text-sm text-muted-foreground">{viewUser.email}</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <span className="block text-zinc-500 text-xs font-semibold uppercase">User ID</span>
-                  <span className="font-mono text-xs text-zinc-300">{viewUser.id}</span>
+                  <span className="block text-muted-foreground text-xs font-semibold uppercase">User ID</span>
+                  <span className="font-mono text-xs text-muted-foreground">{viewUser.id}</span>
                 </div>
                 <div>
-                  <span className="block text-zinc-500 text-xs font-semibold uppercase">Role</span>
-                  <span className="text-zinc-300">{viewUser.role.replace("_", " ")}</span>
+                  <span className="block text-muted-foreground text-xs font-semibold uppercase">Role</span>
+                  <span className="text-muted-foreground">{viewUser.role.replace("_", " ")}</span>
                 </div>
                 <div>
-                  <span className="block text-zinc-500 text-xs font-semibold uppercase">Status</span>
-                  <span className="text-zinc-300">
+                  <span className="block text-muted-foreground text-xs font-semibold uppercase">Status</span>
+                  <span className="text-muted-foreground">
                     {viewUser.isDeleted ? "Deleted" : viewUser.isActive ? "Active" : "Disabled"}
                   </span>
                 </div>
                 <div>
-                  <span className="block text-zinc-500 text-xs font-semibold uppercase">Registered</span>
-                  <span className="text-zinc-300">{new Date(viewUser.createdAt).toLocaleString()}</span>
+                  <span className="block text-muted-foreground text-xs font-semibold uppercase">Registered</span>
+                  <span className="text-muted-foreground">{new Date(viewUser.createdAt).toLocaleString()}</span>
                 </div>
               </div>
 
               {/* Conditional: Student Specific Info */}
               {viewUser.role === "STUDENT" && viewUser.studentProfile && (
-                <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4 space-y-2 mt-2">
-                  <h4 className="text-xs font-bold text-blue-400 uppercase tracking-wide">Academic Record</h4>
+                <div className="bg-card border border-border rounded-lg p-4 space-y-2 mt-2">
+                  <h4 className="text-xs font-bold text-primary uppercase tracking-wide">Academic Record</h4>
                   <div className="grid grid-cols-2 gap-3 text-xs">
                     <div>
-                      <span className="block text-zinc-500">College</span>
+                      <span className="block text-muted-foreground">College</span>
                       <span className="text-zinc-200">{viewUser.studentProfile.college || "N/A"}</span>
                     </div>
                     <div>
-                      <span className="block text-zinc-500">Degree</span>
+                      <span className="block text-muted-foreground">Degree</span>
                       <span className="text-zinc-200">{viewUser.studentProfile.degree || "N/A"}</span>
                     </div>
                     <div>
-                      <span className="block text-zinc-500">Branch</span>
+                      <span className="block text-muted-foreground">Branch</span>
                       <span className="text-zinc-200">{viewUser.studentProfile.branch || "N/A"}</span>
                     </div>
                     <div>
-                      <span className="block text-zinc-500">Graduation Year</span>
+                      <span className="block text-muted-foreground">Graduation Year</span>
                       <span className="text-zinc-200">{viewUser.studentProfile.graduationYear || "N/A"}</span>
                     </div>
                     <div>
-                      <span className="block text-zinc-500">CGPA</span>
+                      <span className="block text-muted-foreground">CGPA</span>
                       <span className="text-zinc-200">{viewUser.studentProfile.cgpa || "N/A"}</span>
                     </div>
                     <div>
-                      <span className="block text-zinc-500">ATS Score</span>
+                      <span className="block text-muted-foreground">ATS Score</span>
                       <span className="text-zinc-200">{viewUser.studentProfile.atsScore || "N/A"}</span>
                     </div>
                   </div>
@@ -618,15 +622,15 @@ export function UsersTableClient({
 
               {/* Conditional: Recruiter Specific Info */}
               {viewUser.role === "RECRUITER" && viewUser.company && (
-                <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4 space-y-2 mt-2">
-                  <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-wide">Company details</h4>
+                <div className="bg-card border border-border rounded-lg p-4 space-y-2 mt-2">
+                  <h4 className="text-xs font-bold text-primary uppercase tracking-wide">Company details</h4>
                   <div className="grid grid-cols-2 gap-3 text-xs">
                     <div>
-                      <span className="block text-zinc-500">Company Name</span>
+                      <span className="block text-muted-foreground">Company Name</span>
                       <span className="text-zinc-200">{viewUser.company.name}</span>
                     </div>
                     <div>
-                      <span className="block text-zinc-500">Website</span>
+                      <span className="block text-muted-foreground">Website</span>
                       <span className="text-zinc-200">{viewUser.company.website || "N/A"}</span>
                     </div>
                   </div>
@@ -634,8 +638,8 @@ export function UsersTableClient({
               )}
             </div>
             
-            <div className="flex justify-end pt-2 border-t border-zinc-800">
-              <Button onClick={() => setViewUser(null)} className="bg-zinc-800 hover:bg-zinc-700 text-white">
+            <div className="flex justify-end pt-2 border-t border-border">
+              <Button onClick={() => setViewUser(null)} className="bg-muted hover:bg-zinc-700 text-foreground">
                 Close
               </Button>
             </div>
@@ -646,13 +650,13 @@ export function UsersTableClient({
       {/* Edit Modal */}
       {editUser && (
         <Dialog open={!!editUser} onOpenChange={(open) => !open && setEditUser(null)}>
-          <DialogContent className="bg-zinc-950 border-zinc-850 text-zinc-100 max-w-md p-6">
+          <DialogContent className="bg-background border-zinc-850 text-foreground max-w-md p-6">
             <DialogHeader className="relative pr-6">
               <DialogTitle className="text-xl font-bold">Edit User</DialogTitle>
-              <DialogDescription className="text-zinc-500">Modify user profile fields and role settings.</DialogDescription>
+              <DialogDescription className="text-muted-foreground">Modify user profile fields and role settings.</DialogDescription>
               <button 
                 onClick={() => setEditUser(null)} 
-                className="absolute right-0 top-0 text-zinc-500 hover:text-white"
+                className="absolute right-0 top-0 text-muted-foreground hover:text-foreground"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -666,7 +670,7 @@ export function UsersTableClient({
                   value={editFormData.name}
                   onChange={(e) => setEditFormData((prev) => ({ ...prev, name: e.target.value }))}
                   required
-                  className="bg-zinc-900 border-zinc-800 text-zinc-100"
+                  className="bg-card border-border text-foreground"
                 />
               </div>
 
@@ -678,7 +682,7 @@ export function UsersTableClient({
                   value={editFormData.email}
                   onChange={(e) => setEditFormData((prev) => ({ ...prev, email: e.target.value }))}
                   required
-                  className="bg-zinc-900 border-zinc-800 text-zinc-100"
+                  className="bg-card border-border text-foreground"
                 />
               </div>
 
@@ -688,7 +692,7 @@ export function UsersTableClient({
                   id="editRole"
                   value={editFormData.role}
                   onChange={(e) => setEditFormData((prev) => ({ ...prev, role: e.target.value as Role }))}
-                  className="bg-zinc-900 border border-zinc-800 text-zinc-300 rounded-md text-sm px-3 py-2 w-full outline-none focus:ring-1 focus:ring-zinc-700 cursor-pointer"
+                  className="bg-card border border-border text-muted-foreground rounded-md text-sm px-3 py-2 w-full outline-none focus:ring-1 focus:ring-zinc-700 cursor-pointer"
                 >
                   <option value="STUDENT">Student</option>
                   <option value="RECRUITER">Recruiter</option>
@@ -696,19 +700,19 @@ export function UsersTableClient({
                 </select>
               </div>
 
-              <div className="flex justify-end gap-2 pt-4 border-t border-zinc-800">
+              <div className="flex justify-end gap-2 pt-4 border-t border-border">
                 <Button 
                   type="button" 
                   onClick={() => setEditUser(null)} 
                   variant="outline"
-                  className="bg-transparent border-zinc-800 text-zinc-400 hover:text-white"
+                  className="bg-transparent border-border text-muted-foreground hover:text-foreground"
                 >
                   Cancel
                 </Button>
                 <Button 
                   type="submit" 
                   disabled={actionLoading}
-                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  className="bg-primary hover:bg-primary text-foreground"
                 >
                   {actionLoading ? "Saving..." : "Save Changes"}
                 </Button>

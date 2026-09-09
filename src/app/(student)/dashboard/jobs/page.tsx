@@ -39,15 +39,15 @@ export default async function JobsBoardPage() {
   return (
     <div className="space-y-6 max-w-6xl">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-white">Jobs Board</h1>
-        <p className="text-zinc-400 mt-2">Discover and apply to new opportunities.</p>
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">Jobs Board</h1>
+        <p className="text-muted-foreground mt-2">Discover and apply to new opportunities.</p>
       </div>
 
-      <Card className="bg-gradient-to-r from-blue-900/20 to-emerald-900/10 border-blue-900/30">
+      <Card className="bg-gradient-to-r from-primary/20 to-primary/10 border-primary/30">
         <CardContent className="flex flex-col sm:flex-row items-center justify-between p-6 gap-4">
           <div>
-            <h3 className="font-semibold text-zinc-100 text-lg">Applying somewhere else?</h3>
-            <p className="text-sm text-zinc-400">Generate a tailored cover letter for any external job posting.</p>
+            <h3 className="font-semibold text-foreground text-lg">Applying somewhere else?</h3>
+            <p className="text-sm text-muted-foreground">Generate a tailored cover letter for any external job posting.</p>
           </div>
           <CustomCoverLetterModal />
         </CardContent>

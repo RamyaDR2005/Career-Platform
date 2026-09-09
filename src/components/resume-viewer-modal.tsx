@@ -33,34 +33,34 @@ export function ResumeViewerModal({
         render={
           <Button
             variant="outline"
-            className="bg-blue-950/40 border-blue-500/30 text-blue-300 hover:bg-blue-900/50 hover:text-white font-semibold text-xs h-9 px-4 rounded-xl shadow-md transition-all flex items-center gap-2"
+            className="bg-primary/40 border-primary0/30 text-primary hover:bg-primary/50 hover:text-foreground font-semibold text-xs h-9 px-4 rounded-xl shadow-md transition-all flex items-center gap-2"
           >
-            <FileText className="w-4 h-4 text-blue-400" />
+            <FileText className="w-4 h-4 text-primary" />
             <span>{buttonText}</span>
           </Button>
         }
       />
-      <DialogContent className="bg-zinc-950 border-white/10 text-zinc-100 !max-w-5xl sm:!max-w-5xl md:!max-w-6xl w-[92vw] h-[88vh] flex flex-col p-4 sm:p-6 rounded-2xl">
+      <DialogContent className="bg-background border-white/10 text-foreground !max-w-5xl sm:!max-w-5xl md:!max-w-6xl w-[92vw] h-[88vh] flex flex-col p-4 sm:p-6 rounded-2xl">
         <DialogHeader className="flex flex-row items-center justify-between pb-2 border-b border-white/10 shrink-0">
-          <DialogTitle className="text-base font-bold text-white flex items-center gap-2">
-            <FileText className="w-5 h-5 text-blue-400" />
+          <DialogTitle className="text-base font-bold text-foreground flex items-center gap-2">
+            <FileText className="w-5 h-5 text-primary" />
             {buttonText}
           </DialogTitle>
           <a
             href={previewUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-zinc-400 hover:text-white flex items-center gap-1.5 bg-zinc-900 px-3 py-1.5 rounded-lg border border-white/10 mr-6"
+            className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1.5 bg-card px-3 py-1.5 rounded-lg border border-white/10 mr-6"
           >
             <span>Open in Full Tab</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </DialogHeader>
 
-        <div className="relative flex-1 w-full h-full mt-4 bg-zinc-900 rounded-xl overflow-hidden border border-white/5">
+        <div className="relative flex-1 w-full h-full mt-4 bg-card rounded-xl overflow-hidden border border-white/5">
           {isLoading && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-950/80 z-10 text-zinc-400">
-              <Loader2 className="w-8 h-8 animate-spin text-blue-500 mb-2" />
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/80 z-10 text-muted-foreground">
+              <Loader2 className="w-8 h-8 animate-spin text-primary0 mb-2" />
               <p className="text-xs font-semibold">Loading Resume PDF Preview...</p>
             </div>
           )}

@@ -189,52 +189,52 @@ export function ProfileForm({ initialData }: { initialData: any }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Card className="bg-zinc-900 border-zinc-800">
+      <Card className="bg-card border-border">
         <CardHeader>
-          <CardTitle className="text-zinc-100">Personal Information</CardTitle>
-          <CardDescription className="text-zinc-400">Update your academic and professional details.</CardDescription>
+          <CardTitle className="text-foreground">Personal Information</CardTitle>
+          <CardDescription className="text-muted-foreground">Update your academic and professional details.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           
           <div className="space-y-4">
-            <h3 className="text-sm font-medium text-white border-b border-zinc-800 pb-2">Basic Details</h3>
+            <h3 className="text-sm font-medium text-foreground border-b border-border pb-2">Basic Details</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-zinc-300">Full Name</Label>
+                <Label htmlFor="name" className="text-muted-foreground">Full Name</Label>
                 <Input 
                   id="name" 
                   name="name" 
                   value={formData.name} 
                   onChange={handleChange} 
-                  className={`bg-zinc-950 border-zinc-800 text-zinc-100 ${errors.name ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
+                  className={`bg-background border-border text-foreground ${errors.name ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
                 />
                 {errors.name && <p className="text-xs text-red-500 font-medium mt-1">{errors.name}</p>}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-zinc-300">Email Address</Label>
-                <Input id="email" value={initialData?.user?.email || ""} readOnly className="bg-zinc-900 border-zinc-800 text-zinc-400 focus-visible:ring-0" />
+                <Label htmlFor="email" className="text-muted-foreground">Email Address</Label>
+                <Input id="email" value={initialData?.user?.email || ""} readOnly className="bg-card border-border text-muted-foreground focus-visible:ring-0" />
               </div>
             </div>
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-sm font-medium text-white border-b border-zinc-800 pb-2">Academic Details</h3>
+            <h3 className="text-sm font-medium text-foreground border-b border-border pb-2">Academic Details</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2 md:col-span-2">
-                <Label htmlFor="college" className="text-zinc-300">College / University</Label>
+                <Label htmlFor="college" className="text-muted-foreground">College / University</Label>
                 <Input 
                   id="college" 
                   name="college" 
                   value={formData.college} 
                   onChange={handleChange} 
                   placeholder="e.g. Stanford University" 
-                  className={`bg-zinc-950 border-zinc-800 text-zinc-100 ${errors.college ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
+                  className={`bg-background border-border text-foreground ${errors.college ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
                 />
                 {errors.college && <p className="text-xs text-red-500 font-medium mt-1">{errors.college}</p>}
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="degreeSelect" className="text-zinc-300">Degree</Label>
+                <Label htmlFor="degreeSelect" className="text-muted-foreground">Degree</Label>
                 <select
                   id="degreeSelect"
                   name="degreeSelect"
@@ -249,17 +249,17 @@ export function ProfileForm({ initialData }: { initialData: any }) {
                       });
                     }
                   }}
-                  className={`bg-zinc-950 border-zinc-800 text-zinc-100 flex h-9 w-full rounded-md border px-3 py-1 text-sm shadow-xs focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-zinc-700 ${errors.degree ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+                  className={`bg-background border-border text-foreground flex h-9 w-full rounded-md border px-3 py-1 text-sm shadow-xs focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-zinc-700 ${errors.degree ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
                 >
                   <option value="" disabled>Select your degree</option>
                   {DEGREES.map((deg) => (
-                    <option key={deg} value={deg} className="bg-zinc-950 text-zinc-100">{deg}</option>
+                    <option key={deg} value={deg} className="bg-background text-foreground">{deg}</option>
                   ))}
-                  <option value="Other" className="bg-zinc-950 text-zinc-100">Other (Specify manually)</option>
+                  <option value="Other" className="bg-background text-foreground">Other (Specify manually)</option>
                 </select>
                 {degreeSelect === "Other" && (
                   <div className="mt-2 space-y-1">
-                    <Label htmlFor="customDegree" className="text-zinc-400 text-xs">Specify Custom Degree</Label>
+                    <Label htmlFor="customDegree" className="text-muted-foreground text-xs">Specify Custom Degree</Label>
                     <Input 
                       id="customDegree" 
                       name="customDegree" 
@@ -275,7 +275,7 @@ export function ProfileForm({ initialData }: { initialData: any }) {
                         }
                       }} 
                       placeholder="e.g. B.S. in Design" 
-                      className={`bg-zinc-950 border-zinc-800 text-zinc-100 ${errors.degree ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
+                      className={`bg-background border-border text-foreground ${errors.degree ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
                     />
                   </div>
                 )}
@@ -283,7 +283,7 @@ export function ProfileForm({ initialData }: { initialData: any }) {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="branchSelect" className="text-zinc-300">Branch / Major</Label>
+                <Label htmlFor="branchSelect" className="text-muted-foreground">Branch / Major</Label>
                 <select
                   id="branchSelect"
                   name="branchSelect"
@@ -298,17 +298,17 @@ export function ProfileForm({ initialData }: { initialData: any }) {
                       });
                     }
                   }}
-                  className={`bg-zinc-950 border-zinc-800 text-zinc-100 flex h-9 w-full rounded-md border px-3 py-1 text-sm shadow-xs focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-zinc-700 ${errors.branch ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+                  className={`bg-background border-border text-foreground flex h-9 w-full rounded-md border px-3 py-1 text-sm shadow-xs focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-zinc-700 ${errors.branch ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
                 >
                   <option value="" disabled>Select your branch/major</option>
                   {BRANCHES.map((br) => (
-                    <option key={br} value={br} className="bg-zinc-950 text-zinc-100">{br}</option>
+                    <option key={br} value={br} className="bg-background text-foreground">{br}</option>
                   ))}
-                  <option value="Other" className="bg-zinc-950 text-zinc-100">Other (Specify manually)</option>
+                  <option value="Other" className="bg-background text-foreground">Other (Specify manually)</option>
                 </select>
                 {branchSelect === "Other" && (
                   <div className="mt-2 space-y-1">
-                    <Label htmlFor="customBranch" className="text-zinc-400 text-xs">Specify Custom Branch / Major</Label>
+                    <Label htmlFor="customBranch" className="text-muted-foreground text-xs">Specify Custom Branch / Major</Label>
                     <Input 
                       id="customBranch" 
                       name="customBranch" 
@@ -324,7 +324,7 @@ export function ProfileForm({ initialData }: { initialData: any }) {
                         }
                       }} 
                       placeholder="e.g. Cognitive Science" 
-                      className={`bg-zinc-950 border-zinc-800 text-zinc-100 ${errors.branch ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
+                      className={`bg-background border-border text-foreground ${errors.branch ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
                     />
                   </div>
                 )}
@@ -332,7 +332,7 @@ export function ProfileForm({ initialData }: { initialData: any }) {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="graduationYear" className="text-zinc-300">Graduation Year</Label>
+                <Label htmlFor="graduationYear" className="text-muted-foreground">Graduation Year</Label>
                 <Input 
                   id="graduationYear" 
                   name="graduationYear" 
@@ -340,13 +340,13 @@ export function ProfileForm({ initialData }: { initialData: any }) {
                   value={formData.graduationYear} 
                   onChange={handleChange} 
                   placeholder="e.g. 2025" 
-                  className={`bg-zinc-950 border-zinc-800 text-zinc-100 ${errors.graduationYear ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
+                  className={`bg-background border-border text-foreground ${errors.graduationYear ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
                 />
                 {errors.graduationYear && <p className="text-xs text-red-500 font-medium mt-1">{errors.graduationYear}</p>}
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="cgpa" className="text-zinc-300">CGPA (Out of 10 or 4)</Label>
+                <Label htmlFor="cgpa" className="text-muted-foreground">CGPA (Out of 10 or 4)</Label>
                 <Input 
                   id="cgpa" 
                   name="cgpa" 
@@ -355,7 +355,7 @@ export function ProfileForm({ initialData }: { initialData: any }) {
                   value={formData.cgpa} 
                   onChange={handleChange} 
                   placeholder="e.g. 8.5" 
-                  className={`bg-zinc-950 border-zinc-800 text-zinc-100 ${errors.cgpa ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
+                  className={`bg-background border-border text-foreground ${errors.cgpa ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
                 />
                 {errors.cgpa && <p className="text-xs text-red-500 font-medium mt-1">{errors.cgpa}</p>}
               </div>
@@ -363,10 +363,10 @@ export function ProfileForm({ initialData }: { initialData: any }) {
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-sm font-medium text-white border-b border-zinc-800 pb-2">Social Profiles</h3>
+            <h3 className="text-sm font-medium text-foreground border-b border-border pb-2">Social Profiles</h3>
             <div className="grid grid-cols-1 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="linkedinUrl" className="text-zinc-300">LinkedIn URL</Label>
+                <Label htmlFor="linkedinUrl" className="text-muted-foreground">LinkedIn URL</Label>
                 <Input 
                   id="linkedinUrl" 
                   name="linkedinUrl" 
@@ -374,12 +374,12 @@ export function ProfileForm({ initialData }: { initialData: any }) {
                   value={formData.linkedinUrl} 
                   onChange={handleChange} 
                   placeholder="https://linkedin.com/in/username" 
-                  className={`bg-zinc-950 border-zinc-800 text-zinc-100 ${errors.linkedinUrl ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
+                  className={`bg-background border-border text-foreground ${errors.linkedinUrl ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
                 />
                 {errors.linkedinUrl && <p className="text-xs text-red-500 font-medium mt-1">{errors.linkedinUrl}</p>}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="githubUrl" className="text-zinc-300">GitHub URL</Label>
+                <Label htmlFor="githubUrl" className="text-muted-foreground">GitHub URL</Label>
                 <Input 
                   id="githubUrl" 
                   name="githubUrl" 
@@ -387,13 +387,13 @@ export function ProfileForm({ initialData }: { initialData: any }) {
                   value={formData.githubUrl} 
                   onChange={handleChange} 
                   placeholder="https://github.com/username" 
-                  className={`bg-zinc-950 border-zinc-800 text-zinc-100 ${errors.githubUrl ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
+                  className={`bg-background border-border text-foreground ${errors.githubUrl ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
                 />
                 {errors.githubUrl && <p className="text-xs text-red-500 font-medium mt-1">{errors.githubUrl}</p>}
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="portfolioUrl" className="text-zinc-300">Portfolio Website URL</Label>
+                <Label htmlFor="portfolioUrl" className="text-muted-foreground">Portfolio Website URL</Label>
                 <Input 
                   id="portfolioUrl" 
                   name="portfolioUrl" 
@@ -401,17 +401,17 @@ export function ProfileForm({ initialData }: { initialData: any }) {
                   value={formData.portfolioUrl} 
                   onChange={handleChange} 
                   placeholder="https://myportfolio.dev" 
-                  className={`bg-zinc-950 border-zinc-800 text-zinc-100 ${errors.portfolioUrl ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
+                  className={`bg-background border-border text-foreground ${errors.portfolioUrl ? 'border-red-500 focus-visible:ring-red-500' : ''}`} 
                 />
-                <p className="text-[11px] text-zinc-500">Watsonx AI will analyze your live portfolio website & project demos as an engineer.</p>
+                <p className="text-[11px] text-muted-foreground">Watsonx AI will analyze your live portfolio website & project demos as an engineer.</p>
                 {errors.portfolioUrl && <p className="text-xs text-red-500 font-medium mt-1">{errors.portfolioUrl}</p>}
               </div>
             </div>
           </div>
 
         </CardContent>
-        <CardFooter className="border-t border-zinc-800 pt-6">
-          <Button type="submit" disabled={isLoading} className="bg-blue-600 hover:bg-blue-700 text-white ml-auto">
+        <CardFooter className="border-t border-border pt-6">
+          <Button type="submit" disabled={isLoading} className="bg-primary hover:bg-primary text-foreground ml-auto">
             {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
             Save Changes
           </Button>

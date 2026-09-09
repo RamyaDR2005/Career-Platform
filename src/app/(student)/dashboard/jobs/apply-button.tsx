@@ -68,7 +68,7 @@ export function ApplyButton({
 
   if (applied) {
     return (
-      <Button disabled variant="outline" className="bg-emerald-950/30 text-emerald-400 border-emerald-900/50 w-full md:w-auto">
+      <Button disabled variant="outline" className="bg-primary/30 text-primary border-primary/50 w-full md:w-auto">
         <CheckCircle2 className="mr-2 h-4 w-4" /> Applied
       </Button>
     );
@@ -76,7 +76,7 @@ export function ApplyButton({
 
   if (isDisabled) {
     return (
-      <Button disabled variant="outline" className="bg-zinc-900 text-zinc-500 border-zinc-800 w-full md:w-auto cursor-not-allowed">
+      <Button disabled variant="outline" className="bg-card text-muted-foreground border-border w-full md:w-auto cursor-not-allowed">
         {disabledReason || "Closed"}
       </Button>
     );
@@ -88,7 +88,7 @@ export function ApplyButton({
         render={
           <Button
             disabled={isApplying}
-            className="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs px-5 h-9 rounded-xl shadow-md shadow-blue-600/20 w-full md:w-auto"
+            className="bg-primary hover:bg-primary0 text-foreground font-semibold text-xs px-5 h-9 rounded-xl shadow-md shadow-primary/20 w-full md:w-auto"
           >
             {isApplying ? (
               <>
@@ -102,13 +102,13 @@ export function ApplyButton({
           </Button>
         }
       />
-      <DialogContent className="bg-zinc-950 border-white/10 text-zinc-100 max-w-md rounded-2xl p-6">
+      <DialogContent className="bg-background border-white/10 text-foreground max-w-md rounded-2xl p-6">
         <DialogHeader>
-          <div className="flex items-center gap-2 text-blue-400 text-xs font-bold uppercase tracking-wider">
+          <div className="flex items-center gap-2 text-primary text-xs font-bold uppercase tracking-wider">
             <Sparkles className="w-4 h-4" /> Application Setup
           </div>
-          <DialogTitle className="text-xl font-bold text-white mt-1">Submit Application</DialogTitle>
-          <DialogDescription className="text-zinc-400 text-xs">
+          <DialogTitle className="text-xl font-bold text-foreground mt-1">Submit Application</DialogTitle>
+          <DialogDescription className="text-muted-foreground text-xs">
             Choose whether to submit your primary active resume or attach a job-tailored resume.
           </DialogDescription>
         </DialogHeader>
@@ -119,8 +119,8 @@ export function ApplyButton({
             onClick={() => setUseCustomResume(false)}
             className={`p-3.5 rounded-xl border cursor-pointer transition-all ${
               !useCustomResume
-                ? "bg-blue-950/30 border-blue-500/50 shadow-md shadow-blue-500/10"
-                : "bg-zinc-900/50 border-white/5 hover:border-white/10"
+                ? "bg-primary/30 border-primary0/50 shadow-md shadow-primary0/10"
+                : "bg-card/50 border-white/5 hover:border-white/10"
             }`}
           >
             <div className="flex items-center gap-3">
@@ -129,12 +129,12 @@ export function ApplyButton({
                 name="resumeOption"
                 checked={!useCustomResume}
                 onChange={() => setUseCustomResume(false)}
-                className="accent-blue-500"
+                className="accent-primary0"
               />
-              <FileText className="w-4.5 h-4.5 text-blue-400" />
+              <FileText className="w-4.5 h-4.5 text-primary" />
               <div>
-                <p className="text-xs font-bold text-white">Use Primary Active Resume</p>
-                <p className="text-[11px] text-zinc-400">Default profile resume from Resume Center</p>
+                <p className="text-xs font-bold text-foreground">Use Primary Active Resume</p>
+                <p className="text-[11px] text-muted-foreground">Default profile resume from Resume Center</p>
               </div>
             </div>
           </div>
@@ -144,8 +144,8 @@ export function ApplyButton({
             onClick={() => setUseCustomResume(true)}
             className={`p-3.5 rounded-xl border cursor-pointer transition-all ${
               useCustomResume
-                ? "bg-purple-950/30 border-purple-500/50 shadow-md shadow-purple-500/10"
-                : "bg-zinc-900/50 border-white/5 hover:border-white/10"
+                ? "bg-primary/30 border-primary0/50 shadow-md shadow-primary0/10"
+                : "bg-card/50 border-white/5 hover:border-white/10"
             }`}
           >
             <div className="flex items-center gap-3">
@@ -154,12 +154,12 @@ export function ApplyButton({
                 name="resumeOption"
                 checked={useCustomResume}
                 onChange={() => setUseCustomResume(true)}
-                className="accent-purple-500"
+                className="accent-primary0"
               />
-              <Upload className="w-4.5 h-4.5 text-purple-400" />
+              <Upload className="w-4.5 h-4.5 text-primary" />
               <div>
-                <p className="text-xs font-bold text-white">Attach Tailored PDF Resume</p>
-                <p className="text-[11px] text-zinc-400">Upload a custom resume for this specific job</p>
+                <p className="text-xs font-bold text-foreground">Attach Tailored PDF Resume</p>
+                <p className="text-[11px] text-muted-foreground">Upload a custom resume for this specific job</p>
               </div>
             </div>
 
@@ -169,10 +169,10 @@ export function ApplyButton({
                   type="file"
                   accept=".pdf"
                   onChange={(e) => setCustomFile(e.target.files?.[0] || null)}
-                  className="block w-full text-xs text-zinc-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-500"
+                  className="block w-full text-xs text-muted-foreground file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-foreground hover:file:bg-primary0"
                 />
                 {customFile && (
-                  <p className="text-[11px] text-purple-300 mt-1 font-semibold truncate">
+                  <p className="text-[11px] text-primary mt-1 font-semibold truncate">
                     Selected: {customFile.name}
                   </p>
                 )}
@@ -186,14 +186,14 @@ export function ApplyButton({
             variant="outline"
             onClick={() => setOpen(false)}
             disabled={isApplying}
-            className="bg-transparent border-white/10 text-zinc-300 hover:bg-zinc-800 text-xs"
+            className="bg-transparent border-white/10 text-muted-foreground hover:bg-muted text-xs"
           >
             Cancel
           </Button>
           <Button
             onClick={handleApply}
             disabled={isApplying || (useCustomResume && !customFile)}
-            className="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs px-5"
+            className="bg-primary hover:bg-primary0 text-foreground font-semibold text-xs px-5"
           >
             {isApplying ? (
               <>

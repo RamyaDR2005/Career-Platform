@@ -33,10 +33,10 @@ export function ApplicationTable({ initialApplications }: { initialApplications:
 
   const getStatusColor = (status: string) => {
     switch(status) {
-      case 'HIRED': return 'bg-green-500/20 text-green-400 border-green-500/30';
-      case 'SHORTLISTED': return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
+      case 'HIRED': return 'bg-primary0/20 text-primary border-primary0/30';
+      case 'SHORTLISTED': return 'bg-primary0/20 text-primary border-primary0/30';
       case 'REJECTED': return 'bg-red-500/20 text-red-400 border-red-500/30';
-      default: return 'bg-zinc-500/20 text-zinc-400 border-zinc-500/30';
+      default: return 'bg-zinc-500/20 text-muted-foreground border-zinc-500/30';
     }
   };
 
@@ -103,7 +103,7 @@ export function ApplicationTable({ initialApplications }: { initialApplications:
   };
 
   if (applications.length === 0) {
-    return <div className="p-12 text-center text-zinc-500 font-medium text-sm">No applications received yet.</div>;
+    return <div className="p-12 text-center text-muted-foreground font-medium text-sm">No applications received yet.</div>;
   }
 
   let filteredApps = applications.filter(app => {
@@ -125,12 +125,12 @@ export function ApplicationTable({ initialApplications }: { initialApplications:
         <input 
           type="text" 
           placeholder="Search by name or email..." 
-          className="bg-zinc-950 border border-zinc-800 rounded-md text-sm py-2 px-3 text-white focus:outline-none focus:border-zinc-700 w-full sm:w-64"
+          className="bg-background border border-border rounded-md text-sm py-2 px-3 text-foreground focus:outline-none focus:border-border w-full sm:w-64"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
         <select
-          className="bg-zinc-950 border border-zinc-800 rounded-md text-sm py-2 px-3 text-white focus:outline-none focus:border-zinc-700 w-full sm:w-auto"
+          className="bg-background border border-border rounded-md text-sm py-2 px-3 text-foreground focus:outline-none focus:border-border w-full sm:w-auto"
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
         >
@@ -143,15 +143,15 @@ export function ApplicationTable({ initialApplications }: { initialApplications:
         <Button 
           variant={sortByScore ? "default" : "outline"}
           onClick={() => setSortByScore(!sortByScore)}
-          className={`w-full sm:w-auto ${sortByScore ? 'bg-purple-600 hover:bg-purple-700 text-white border-transparent' : 'bg-zinc-950 text-zinc-300 border-zinc-800 hover:bg-zinc-900'}`}
+          className={`w-full sm:w-auto ${sortByScore ? 'bg-primary hover:bg-primary text-foreground border-transparent' : 'bg-background text-muted-foreground border-border hover:bg-card'}`}
         >
           Sort by AI Score
         </Button>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full text-sm text-left text-zinc-300">
-        <thead className="text-xs uppercase bg-zinc-950 text-zinc-400 border-b border-zinc-800">
+        <table className="w-full text-sm text-left text-muted-foreground">
+        <thead className="text-xs uppercase bg-background text-muted-foreground border-b border-border">
           <tr>
             <th className="px-6 py-4 font-medium">Candidate</th>
             <th className="px-6 py-4 font-medium">General ATS Match</th>
@@ -162,24 +162,24 @@ export function ApplicationTable({ initialApplications }: { initialApplications:
         </thead>
         <tbody className="divide-y divide-zinc-800">
           {filteredApps.map((app) => (
-            <tr key={app.id} className="hover:bg-zinc-800/50 transition-colors">
+            <tr key={app.id} className="hover:bg-muted transition-colors">
               <td className="px-6 py-4">
-                <div className="font-medium text-white">{app.studentProfile.user.name}</div>
-                <div className="text-zinc-500 text-xs">{app.studentProfile.user.email}</div>
+                <div className="font-medium text-foreground">{app.studentProfile.user.name}</div>
+                <div className="text-muted-foreground text-xs">{app.studentProfile.user.email}</div>
               </td>
               <td className="px-6 py-4">
-                <span className="text-white font-bold">{app.studentProfile.atsScore || '--'}</span>
-                <span className="text-zinc-500 text-xs ml-1">/100</span>
+                <span className="text-foreground font-bold">{app.studentProfile.atsScore || '--'}</span>
+                <span className="text-muted-foreground text-xs ml-1">/100</span>
               </td>
               <td className="px-6 py-4">
                 {app.aiScore ? (
                   <div className="flex items-center gap-2">
-                    <span className="text-blue-400 font-bold">{app.aiScore}</span>
-                    <span className="text-zinc-500 text-xs">/100</span>
-                    <CheckCircle2 className="w-3 h-3 text-blue-500" />
+                    <span className="text-primary font-bold">{app.aiScore}</span>
+                    <span className="text-muted-foreground text-xs">/100</span>
+                    <CheckCircle2 className="w-3 h-3 text-primary0" />
                   </div>
                 ) : (
-                  <span className="text-zinc-500 text-xs italic">Not evaluated</span>
+                  <span className="text-muted-foreground text-xs italic">Not evaluated</span>
                 )}
               </td>
               <td className="px-6 py-4">
@@ -188,11 +188,11 @@ export function ApplicationTable({ initialApplications }: { initialApplications:
                 </span>
               </td>
               <td className="px-6 py-4 text-right space-x-2">
-                <Button variant="outline" size="sm" onClick={() => openModal(app)} className="border-zinc-700 bg-transparent text-zinc-300 hover:bg-zinc-800">
+                <Button variant="outline" size="sm" onClick={() => openModal(app)} className="border-border bg-transparent text-muted-foreground hover:bg-muted">
                   Review
                 </Button>
                 <select 
-                  className="bg-zinc-950 border border-zinc-700 rounded-md text-xs py-1.5 px-2 text-white focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="bg-background border border-border rounded-md text-xs py-1.5 px-2 text-foreground focus:outline-none focus:ring-1 focus:ring-primary0"
                   value={app.status}
                   onChange={(e) => handleStatusChange(app.id, e.target.value)}
                 >
@@ -209,16 +209,16 @@ export function ApplicationTable({ initialApplications }: { initialApplications:
 
       {/* Evaluation Modal */}
       <Dialog open={!!selectedApp} onOpenChange={(open) => !open && setSelectedApp(null)}>
-        <DialogContent className="bg-zinc-950 border-zinc-800 text-zinc-100 sm:max-w-6xl w-[95vw] max-h-[90vh] overflow-y-auto">
+        <DialogContent className="bg-background border-border text-foreground sm:max-w-6xl w-[95vw] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-xl">{selectedApp?.studentProfile?.user?.name}</DialogTitle>
-            <DialogDescription className="text-zinc-400">
+            <DialogDescription className="text-muted-foreground">
               {selectedApp?.studentProfile?.degree} in {selectedApp?.studentProfile?.branch} from {selectedApp?.studentProfile?.college}
             </DialogDescription>
           </DialogHeader>
           
           <div className="py-4 space-y-6">
-            <div className="flex flex-wrap gap-3 border-b border-zinc-800 pb-4">
+            <div className="flex flex-wrap gap-3 border-b border-border pb-4">
               {(selectedApp?.customResumeUrl || selectedApp?.studentProfile?.resumeUrl) && (
                 <ResumeViewerModal
                   applicationId={selectedApp.id}
@@ -226,70 +226,70 @@ export function ApplicationTable({ initialApplications }: { initialApplications:
                 />
               )}
               {selectedApp?.studentProfile?.portfolioUrl && (
-                <a href={selectedApp.studentProfile.portfolioUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs text-purple-400 hover:text-purple-300 bg-purple-950/30 px-3 py-1.5 rounded-xl border border-purple-900/50 font-semibold">
+                <a href={selectedApp.studentProfile.portfolioUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs text-primary hover:text-primary bg-primary/30 px-3 py-1.5 rounded-xl border border-primary/50 font-semibold">
                   <Globe className="w-4 h-4" /> Live Portfolio Site
                 </a>
               )}
               {selectedApp?.studentProfile?.linkedinUrl && (
-                <a href={selectedApp.studentProfile.linkedinUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs text-blue-400 hover:text-blue-300 bg-blue-950/30 px-3 py-1.5 rounded-xl border border-blue-900/50 font-semibold">
+                <a href={selectedApp.studentProfile.linkedinUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs text-primary hover:text-primary bg-primary/30 px-3 py-1.5 rounded-xl border border-primary/50 font-semibold">
                   <Globe className="w-4 h-4" /> LinkedIn
                 </a>
               )}
               {selectedApp?.studentProfile?.githubUrl && (
-                <a href={selectedApp.studentProfile.githubUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-sm text-blue-400 hover:text-blue-300">
+                <a href={selectedApp.studentProfile.githubUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-sm text-primary hover:text-primary">
                   <Code className="w-4 h-4" /> GitHub
                 </a>
               )}
             </div>
 
-            <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-5">
+            <div className="bg-card border border-border rounded-lg p-5">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-semibold flex items-center gap-2">
-                  <BrainCircuit className="w-5 h-5 text-purple-400" />
+                  <BrainCircuit className="w-5 h-5 text-primary" />
                   AI Job Fit Analysis
                 </h3>
                 {!evaluationResult && !selectedApp?.aiScore && (
-                  <Button size="sm" onClick={() => handleEvaluate(selectedApp.id)} disabled={isEvaluating} className="bg-purple-600 hover:bg-purple-700 text-white">
+                  <Button size="sm" onClick={() => handleEvaluate(selectedApp.id)} disabled={isEvaluating} className="bg-primary hover:bg-primary text-foreground">
                     {isEvaluating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : "Run AI Analysis"}
                   </Button>
                 )}
                 {!evaluationResult && selectedApp?.aiScore && (
-                  <Button size="sm" variant="outline" onClick={() => handleEvaluate(selectedApp.id)} disabled={isEvaluating} className="bg-transparent border-zinc-700 text-zinc-300 hover:bg-zinc-800">
+                  <Button size="sm" variant="outline" onClick={() => handleEvaluate(selectedApp.id)} disabled={isEvaluating} className="bg-transparent border-border text-muted-foreground hover:bg-muted">
                     {isEvaluating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : "Re-evaluate"}
                   </Button>
                 )}
               </div>
               
               {isEvaluating ? (
-                <div className="text-center py-8 text-zinc-500">
-                  <Loader2 className="w-8 h-8 animate-spin mx-auto mb-3 text-purple-500" />
+                <div className="text-center py-8 text-muted-foreground">
+                  <Loader2 className="w-8 h-8 animate-spin mx-auto mb-3 text-primary0" />
                   <p>Watsonx is comparing the candidate's parsed resume against the job description...</p>
                 </div>
               ) : evaluationResult ? (
                 <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2">
                   <div className="flex items-center gap-3">
-                    <span className="text-3xl font-bold text-white">{evaluationResult.score}</span>
-                    <span className="text-sm text-zinc-400">/ 100 Match Score</span>
+                    <span className="text-3xl font-bold text-foreground">{evaluationResult.score}</span>
+                    <span className="text-sm text-muted-foreground">/ 100 Match Score</span>
                   </div>
-                  <p className="text-sm text-zinc-300 leading-relaxed border-l-2 border-purple-500 pl-4">{evaluationResult.summary}</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed border-l-2 border-primary0 pl-4">{evaluationResult.summary}</p>
                 </div>
               ) : selectedApp?.aiScore ? (
                 <div className="space-y-4">
                    <div className="flex items-center gap-3">
-                    <span className="text-3xl font-bold text-white">{selectedApp.aiScore}</span>
-                    <span className="text-sm text-zinc-400">/ 100 Match Score (Saved)</span>
+                    <span className="text-3xl font-bold text-foreground">{selectedApp.aiScore}</span>
+                    <span className="text-sm text-muted-foreground">/ 100 Match Score (Saved)</span>
                   </div>
-                  <p className="text-sm text-zinc-400 italic">This candidate has been evaluated. Re-run analysis to view the detailed summary.</p>
+                  <p className="text-sm text-muted-foreground italic">This candidate has been evaluated. Re-run analysis to view the detailed summary.</p>
                 </div>
               ) : (
-                <p className="text-sm text-zinc-500">Run the AI analysis to see how well this candidate fits the role requirements.</p>
+                <p className="text-sm text-muted-foreground">Run the AI analysis to see how well this candidate fits the role requirements.</p>
               )}
             </div>
 
             {/* Interview Scheduling Section */}
-            <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-5">
+            <div className="bg-card border border-border rounded-lg p-5">
               <h3 className="font-semibold flex items-center gap-2 mb-4">
-                <Calendar className="w-5 h-5 text-blue-400" />
+                <Calendar className="w-5 h-5 text-primary" />
                 Interviews
               </h3>
               
@@ -299,7 +299,7 @@ export function ApplicationTable({ initialApplications }: { initialApplications:
                     type="datetime-local"
                     value={scheduledAt}
                     onChange={(e) => setScheduledAt(e.target.value)}
-                    className="bg-zinc-950 border-zinc-800 text-white w-full sm:w-auto"
+                    className="bg-background border-border text-foreground w-full sm:w-auto"
                     disabled={isScheduling}
                   />
                   <Input
@@ -307,35 +307,35 @@ export function ApplicationTable({ initialApplications }: { initialApplications:
                     placeholder="Meeting Link (optional)"
                     value={meetingLink}
                     onChange={(e) => setMeetingLink(e.target.value)}
-                    className="bg-zinc-950 border-zinc-800 text-white flex-1"
+                    className="bg-background border-border text-foreground flex-1"
                     disabled={isScheduling}
                   />
                   <Button 
                     onClick={() => handleSchedule(selectedApp.id)}
                     disabled={isScheduling || !scheduledAt}
-                    className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto"
+                    className="bg-primary hover:bg-primary text-foreground w-full sm:w-auto"
                   >
                     {isScheduling ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : "Schedule"}
                   </Button>
                 </div>
 
                 {interviews.length > 0 && (
-                  <div className="mt-6 border-t border-zinc-800/50 pt-4">
-                    <h4 className="text-sm font-medium text-zinc-400 mb-3">Scheduled Interviews</h4>
+                  <div className="mt-6 border-t border-border/50 pt-4">
+                    <h4 className="text-sm font-medium text-muted-foreground mb-3">Scheduled Interviews</h4>
                     <ul className="space-y-2">
                       {interviews.map(inv => (
-                        <li key={inv.id} className="flex justify-between items-center bg-zinc-950 p-3 rounded-md border border-zinc-800">
+                        <li key={inv.id} className="flex justify-between items-center bg-background p-3 rounded-md border border-border">
                           <div>
-                            <div className="text-white text-sm font-medium">
+                            <div className="text-foreground text-sm font-medium">
                               {new Date(inv.scheduledAt).toLocaleString()}
                             </div>
                             {inv.link && (
-                              <a href={inv.link} target="_blank" rel="noreferrer" className="text-blue-400 text-xs hover:underline mt-1 block">
+                              <a href={inv.link} target="_blank" rel="noreferrer" className="text-primary text-xs hover:underline mt-1 block">
                                 Join Meeting
                               </a>
                             )}
                           </div>
-                          <span className="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded-md">
+                          <span className="text-xs bg-muted text-muted-foreground px-2 py-1 rounded-md">
                             {inv.status}
                           </span>
                         </li>

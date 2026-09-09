@@ -35,7 +35,7 @@ export default function MobileNav() {
           >
             <div className="flex items-center gap-2 pb-4 border-b border-[#DED3C5]">
               <div className="w-7 h-7 bg-[#C95A2E] rounded-full flex items-center justify-center shadow-[0_4px_10px_rgba(201,90,46,0.3)]">
-                <Brain className="w-4 h-4 text-white" />
+                <Brain className="w-4 h-4 text-foreground" />
               </div>
               <span className="font-bold text-base tracking-tight text-[#1C211D]">Career<span className="text-[#C95A2E]">AI</span> Menu</span>
             </div>
@@ -90,7 +90,7 @@ export default function MobileNav() {
               </Button>
               <Button
                 asChild
-                className="w-full justify-center bg-[#C95A2E] hover:bg-[#A94724] text-white font-semibold shadow-[0_4px_15px_rgba(201,90,46,0.3)]"
+                className="w-full justify-center bg-[#C95A2E] hover:bg-[#A94724] text-foreground font-semibold shadow-[0_4px_15px_rgba(201,90,46,0.3)]"
               >
                 <Link href="/register" onClick={closeMenu} className="flex items-center gap-2">
                   <span>Get Started Free</span>

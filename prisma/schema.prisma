@@ -11,6 +11,7 @@ enum Role {
   STUDENT
   RECRUITER
   ADMIN
+  ALUMNI
 }
 
 model User {
@@ -23,10 +24,13 @@ model User {
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  isActive      Boolean   @default(true)
-  isDeleted     Boolean   @default(false)
+  isActive         Boolean   @default(true)
+  isDeleted        Boolean   @default(false)
+  resetToken       String?   @unique
+  resetTokenExpiry DateTime?
 
   studentProfile StudentProfile?
+  recruiterProfile RecruiterProfile?
   company        Company?        @relation(fields: [companyId], references: [id])
   companyId      String?
   
@@ -185,4 +189,18 @@ model Interview {
   notes            String?
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
+}
+
+model RecruiterProfile {
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName        String
+  employeeId         String
+  verificationDocUrl String
+  isVerified         Boolean  @default(false)
+  rejectionNote      String?  @db.Text
+  editRequest        Json?    // Structured JSON for edit requests
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }

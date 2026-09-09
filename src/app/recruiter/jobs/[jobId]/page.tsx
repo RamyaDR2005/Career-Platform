@@ -39,16 +39,16 @@ export default async function JobApplicationsPage({ params }: { params: Promise<
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" asChild className="text-zinc-400 hover:text-white">
+        <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-foreground">
           <Link href="/recruiter/jobs"><ArrowLeft className="h-5 w-5" /></Link>
         </Button>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white">{job.title} Candidates</h1>
-          <p className="text-zinc-400 mt-1">Review and manage applicants for this position.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">{job.title} Candidates</h1>
+          <p className="text-muted-foreground mt-1">Review and manage applicants for this position.</p>
         </div>
       </div>
 
-      <div className="bg-zinc-900 border border-zinc-800 rounded-lg overflow-hidden">
+      <div className="bg-card border border-border rounded-lg overflow-hidden">
         <ApplicationTable initialApplications={job.applications} />
       </div>
     </div>

@@ -34,16 +34,16 @@ export default function AnalyzeResumeButton() {
     <Button
       onClick={handleAnalyze}
       disabled={isAnalyzing}
-      className="w-full bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs h-10 rounded-xl shadow-lg shadow-purple-600/20 transition-all flex items-center justify-center gap-2"
+      className="w-full bg-primary hover:bg-primary0 text-foreground font-semibold text-xs h-10 rounded-xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2"
     >
       {isAnalyzing ? (
         <>
-          <Loader2 className="w-4 h-4 animate-spin text-purple-200" />
+          <Loader2 className="w-4 h-4 animate-spin text-primary" />
           <span>Watsonx AI Analyzing Resume...</span>
         </>
       ) : (
         <>
-          <Sparkles className="w-4 h-4 text-purple-300" />
+          <Sparkles className="w-4 h-4 text-primary" />
           <span>Analyze Resume with Watsonx AI</span>
         </>
       )}

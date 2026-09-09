@@ -40,7 +40,7 @@ export default function CtaSection() {
             <Button
               asChild
               size="lg"
-              className="h-14 px-8 rounded-full bg-[#C95A2E] hover:bg-[#A94724] text-white font-bold text-base shadow-[0_6px_20px_rgba(201,90,46,0.35)] hover:-translate-y-0.5 transition-all duration-300 group w-full sm:w-auto"
+              className="h-14 px-8 rounded-full bg-[#C95A2E] hover:bg-[#A94724] text-foreground font-bold text-base shadow-[0_6px_20px_rgba(201,90,46,0.35)] hover:-translate-y-0.5 transition-all duration-300 group w-full sm:w-auto"
             >
               <Link href="/register" className="flex items-center gap-2 justify-center">
                 <UserCheck className="w-5 h-5" />

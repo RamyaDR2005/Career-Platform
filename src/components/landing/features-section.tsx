@@ -20,7 +20,7 @@ import {
 const roadmapNodes = [
   {
     step: "START",
-    icon: <Flag className="w-4 h-4 text-white" />,
+    icon: <Flag className="w-4 h-4 text-foreground" />,
     title: "Learn Java",
     time: "2-3 weeks",
     isStart: true
@@ -147,7 +147,7 @@ export default function FeaturesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="relative rounded-3xl bg-[#173D2A] p-8 sm:p-14 shadow-[0_20px_50px_rgba(23,61,42,0.3)] border border-[#78957F]/30 overflow-hidden text-white"
+          className="relative rounded-3xl bg-[#173D2A] p-8 sm:p-14 shadow-[0_20px_50px_rgba(23,61,42,0.3)] border border-[#78957F]/30 overflow-hidden text-foreground"
         >
           {/* Subtle Ambient Background Lighting inside Forest Green Container */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-[#78957F]/20 rounded-full blur-[100px] pointer-events-none" />
@@ -160,7 +160,7 @@ export default function FeaturesSection() {
                 <Sparkles className="w-3.5 h-3.5 fill-[#F4D2C3]" />
                 <span>YOUR PERSONALIZED ROADMAP</span>
               </div>
-              <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-4 leading-tight">
+              <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground mb-4 leading-tight">
                 See Where Your Skills Can <br className="hidden sm:inline" />
                 <span className="text-[#E5A84B]">Take You.</span>
               </h2>
@@ -170,7 +170,7 @@ export default function FeaturesSection() {
             </div>
 
             <div className="lg:col-span-4 flex lg:justify-end">
-              <Button asChild size="lg" className="h-13 px-7 rounded-full bg-[#C95A2E] hover:bg-[#A94724] text-white font-bold text-sm shadow-[0_6px_20px_rgba(201,90,46,0.4)] transition-all duration-300 group">
+              <Button asChild size="lg" className="h-13 px-7 rounded-full bg-[#C95A2E] hover:bg-[#A94724] text-foreground font-bold text-sm shadow-[0_6px_20px_rgba(201,90,46,0.4)] transition-all duration-300 group">
                 <Link href="/register" className="flex items-center gap-2">
                   <span>Explore Roadmap</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -200,7 +200,7 @@ export default function FeaturesSection() {
                   {/* Node Circle Badge */}
                   <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-4 shadow-md transition-transform hover:scale-110 ${
                     node.isStart 
-                      ? "bg-[#C95A2E] text-white ring-4 ring-[#C95A2E]/30" 
+                      ? "bg-[#C95A2E] text-foreground ring-4 ring-[#C95A2E]/30" 
                       : node.isGoal 
                       ? "bg-[#FFF9F2] text-[#1C211D] ring-4 ring-[#E5A84B]/50" 
                       : "bg-[#FFF9F2] text-[#1C211D] border-2 border-[#78957F]/40"
@@ -219,7 +219,7 @@ export default function FeaturesSection() {
                     {/* Top Badge Slot (Uniform h-5 across all cards) */}
                     <div className="h-5 mb-1 flex items-center justify-center shrink-0">
                       {node.isStart ? (
-                        <span className="text-[9px] font-extrabold uppercase bg-[#C95A2E] text-white px-2 py-0.5 rounded-full">
+                        <span className="text-[9px] font-extrabold uppercase bg-[#C95A2E] text-foreground px-2 py-0.5 rounded-full">
                           START
                         </span>
                       ) : node.isGoal ? (

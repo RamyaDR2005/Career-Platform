@@ -14,7 +14,7 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-4">
             <Link href="/" className="flex items-center gap-2.5 mb-4 group cursor-pointer">
               <div className="w-9 h-9 bg-[#C95A2E] rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(201,90,46,0.3)]">
-                <Brain className="w-5 h-5 text-white" />
+                <Brain className="w-5 h-5 text-foreground" />
               </div>
               <span className="font-bold text-xl tracking-tight text-[#F7F1E7]">
                 Career<span className="text-[#C95A2E]">AI</span>
@@ -58,7 +58,7 @@ export default function Footer() {
                 placeholder="Enter your email"
                 className="w-full bg-[#1C211D]/60 border border-[#78957F]/40 rounded-full px-4 py-2 text-xs text-[#F7F1E7] placeholder-[#78957F] focus:outline-none focus:border-[#C95A2E]"
               />
-              <Button type="submit" className="bg-[#C95A2E] hover:bg-[#A94724] text-white text-xs font-bold px-4 py-2 rounded-full shrink-0 shadow-sm">
+              <Button type="submit" className="bg-[#C95A2E] hover:bg-[#A94724] text-foreground text-xs font-bold px-4 py-2 rounded-full shrink-0 shadow-sm">
                 Subscribe
               </Button>
             </form>

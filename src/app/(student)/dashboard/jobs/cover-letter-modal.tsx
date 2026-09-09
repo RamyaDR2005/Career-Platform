@@ -47,7 +47,7 @@ export function CoverLetterModal({ jobId }: { jobId: string }) {
     }}>
       <DialogTrigger 
         render={
-          <Button variant="outline" size="sm" className="bg-zinc-950 border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white" onClick={(e) => {
+          <Button variant="outline" size="sm" className="bg-background border-border text-muted-foreground hover:bg-muted hover:text-foreground" onClick={(e) => {
             if (!content) handleGenerate();
           }}>
             <FileSignature className="w-4 h-4 mr-2" />
@@ -55,21 +55,21 @@ export function CoverLetterModal({ jobId }: { jobId: string }) {
           </Button>
         }
       />
-      <DialogContent className="bg-zinc-950 border-zinc-800 text-zinc-100 sm:max-w-6xl w-[95vw] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="bg-background border-border text-foreground sm:max-w-6xl w-[95vw] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <FileSignature className="w-5 h-5 text-blue-500" />
+            <FileSignature className="w-5 h-5 text-primary0" />
             AI-Generated Cover Letter
           </DialogTitle>
-          <DialogDescription className="text-zinc-400">
+          <DialogDescription className="text-muted-foreground">
             Tailored to this specific job based on your AI resume analysis.
           </DialogDescription>
         </DialogHeader>
 
         <div className="py-4">
           {isLoading ? (
-            <div className="flex flex-col items-center justify-center py-12 text-zinc-500">
-              <Loader2 className="w-8 h-8 animate-spin text-blue-500 mb-4" />
+            <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
+              <Loader2 className="w-8 h-8 animate-spin text-primary0 mb-4" />
               <p>Watsonx is writing your cover letter...</p>
               <p className="text-xs mt-2 text-zinc-600">Analyzing your skills against job requirements</p>
             </div>
@@ -78,15 +78,15 @@ export function CoverLetterModal({ jobId }: { jobId: string }) {
               <Textarea 
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                className="min-h-[300px] bg-zinc-900 border-zinc-800 text-zinc-300 text-sm leading-relaxed p-4"
+                className="min-h-[300px] bg-card border-border text-muted-foreground text-sm leading-relaxed p-4"
               />
               <div className="flex justify-between items-center">
-                <p className="text-xs text-zinc-500">You can edit the text directly before copying.</p>
+                <p className="text-xs text-muted-foreground">You can edit the text directly before copying.</p>
                 <div className="space-x-2">
-                  <Button variant="outline" size="sm" onClick={() => handleGenerate()} disabled={isLoading} className="bg-transparent border-zinc-700 hover:bg-zinc-800 text-zinc-300">
+                  <Button variant="outline" size="sm" onClick={() => handleGenerate()} disabled={isLoading} className="bg-transparent border-border hover:bg-muted text-muted-foreground">
                     Regenerate
                   </Button>
-                  <Button size="sm" onClick={handleCopy} className="bg-blue-600 hover:bg-blue-700 text-white">
+                  <Button size="sm" onClick={handleCopy} className="bg-primary hover:bg-primary text-foreground">
                     {copied ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
                     {copied ? "Copied" : "Copy to Clipboard"}
                   </Button>
@@ -95,7 +95,7 @@ export function CoverLetterModal({ jobId }: { jobId: string }) {
             </div>
           ) : (
             <div className="text-center py-8">
-              <Button onClick={handleGenerate} className="bg-blue-600 hover:bg-blue-700 text-white">
+              <Button onClick={handleGenerate} className="bg-primary hover:bg-primary text-foreground">
                 Generate Cover Letter
               </Button>
             </div>

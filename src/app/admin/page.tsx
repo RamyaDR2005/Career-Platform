@@ -74,21 +74,21 @@ export default async function AdminDashboardPage() {
   }
 
   const statCards = [
-    { title: "Total Students", value: totalStudents, icon: Users, color: "text-blue-400" },
-    { title: "Total Recruiters", value: totalRecruiters, icon: UserCheck, color: "text-emerald-400" },
+    { title: "Total Students", value: totalStudents, icon: Users, color: "text-primary" },
+    { title: "Total Recruiters", value: totalRecruiters, icon: UserCheck, color: "text-primary" },
     { title: "Total Admins", value: totalAdmins, icon: Shield, color: "text-pink-400" },
     { title: "Total Companies", value: totalCompanies, icon: Building2, color: "text-amber-400" },
     { title: "Total Jobs", value: totalJobs, icon: Briefcase, color: "text-sky-400" },
-    { title: "Total Applications", value: totalApplications, icon: FileSpreadsheet, color: "text-indigo-400" },
-    { title: "Total Interviews", value: totalInterviews, icon: MessageSquare, color: "text-teal-400" },
+    { title: "Total Applications", value: totalApplications, icon: FileSpreadsheet, color: "text-primary" },
+    { title: "Total Interviews", value: totalInterviews, icon: MessageSquare, color: "text-primary" },
     { title: "Total Placements", value: totalPlacements, icon: Award, color: "text-yellow-400" },
   ];
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-white">Admin Dashboard</h1>
-        <p className="text-zinc-400 mt-2">Platform status overview and statistics.</p>
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">Admin Dashboard</h1>
+        <p className="text-muted-foreground mt-2">Platform status overview and statistics.</p>
       </div>
 
       {/* Stats Grid */}
@@ -96,16 +96,16 @@ export default async function AdminDashboardPage() {
         {statCards.map((card, idx) => {
           const Icon = card.icon;
           return (
-            <Card key={idx} className="bg-zinc-900 border-zinc-800 shadow-lg">
+            <Card key={idx} className="bg-card border-border shadow-lg">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-zinc-300">{card.title}</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">{card.title}</CardTitle>
                 <Icon className={`h-5 w-5 ${card.color}`} />
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-white tracking-tight">
+                <div className="text-3xl font-bold text-foreground tracking-tight">
                   {card.value}
                 </div>
-                <p className="text-xs text-zinc-500 mt-1">Total in Database</p>
+                <p className="text-xs text-muted-foreground mt-1">Total in Database</p>
               </CardContent>
             </Card>
           );
@@ -116,10 +116,10 @@ export default async function AdminDashboardPage() {
       <div className="grid gap-6 md:grid-cols-3">
         
         {/* Recent Users */}
-        <Card className="bg-zinc-900 border-zinc-800 shadow-md">
+        <Card className="bg-card border-border shadow-md">
           <CardHeader>
-            <CardTitle className="text-lg text-zinc-100 font-semibold">Recent Users</CardTitle>
-            <CardDescription className="text-zinc-500">Newly registered members.</CardDescription>
+            <CardTitle className="text-lg text-foreground font-semibold">Recent Users</CardTitle>
+            <CardDescription className="text-muted-foreground">Newly registered members.</CardDescription>
           </CardHeader>
           <CardContent>
             {recentUsers.length === 0 ? (
@@ -127,15 +127,15 @@ export default async function AdminDashboardPage() {
             ) : (
               <div className="space-y-4">
                 {recentUsers.map((u) => (
-                  <div key={u.id} className="flex items-center gap-3 border-b border-zinc-800 pb-3 last:border-0 last:pb-0">
-                    <div className="w-8 h-8 rounded-full bg-zinc-800 text-zinc-300 flex items-center justify-center font-bold text-xs uppercase">
+                  <div key={u.id} className="flex items-center gap-3 border-b border-border pb-3 last:border-0 last:pb-0">
+                    <div className="w-8 h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center font-bold text-xs uppercase">
                       {u.name ? u.name.slice(0, 2) : "U"}
                     </div>
                     <div className="flex-1 overflow-hidden">
                       <p className="text-sm text-zinc-200 font-medium truncate">{u.name || "Unnamed User"}</p>
-                      <p className="text-xs text-zinc-500 truncate">{u.email}</p>
+                      <p className="text-xs text-muted-foreground truncate">{u.email}</p>
                     </div>
-                    <span className="text-[10px] uppercase font-semibold text-zinc-500 bg-zinc-850 px-2 py-0.5 rounded-full">
+                    <span className="text-[10px] uppercase font-semibold text-muted-foreground bg-zinc-850 px-2 py-0.5 rounded-full">
                       {u.role.replace("_", " ")}
                     </span>
                   </div>
@@ -146,10 +146,10 @@ export default async function AdminDashboardPage() {
         </Card>
 
         {/* Recent Recruiters */}
-        <Card className="bg-zinc-900 border-zinc-800 shadow-md">
+        <Card className="bg-card border-border shadow-md">
           <CardHeader>
-            <CardTitle className="text-lg text-zinc-100 font-semibold">Recent Recruiters</CardTitle>
-            <CardDescription className="text-zinc-500">Recruiters representing firms.</CardDescription>
+            <CardTitle className="text-lg text-foreground font-semibold">Recent Recruiters</CardTitle>
+            <CardDescription className="text-muted-foreground">Recruiters representing firms.</CardDescription>
           </CardHeader>
           <CardContent>
             {recentRecruiters.length === 0 ? (
@@ -157,13 +157,13 @@ export default async function AdminDashboardPage() {
             ) : (
               <div className="space-y-4">
                 {recentRecruiters.map((r) => (
-                  <div key={r.id} className="flex items-center gap-3 border-b border-zinc-800 pb-3 last:border-0 last:pb-0">
-                    <div className="w-8 h-8 rounded-full bg-zinc-800 text-zinc-300 flex items-center justify-center font-bold text-xs uppercase">
+                  <div key={r.id} className="flex items-center gap-3 border-b border-border pb-3 last:border-0 last:pb-0">
+                    <div className="w-8 h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center font-bold text-xs uppercase">
                       {r.name ? r.name.slice(0, 2) : "R"}
                     </div>
                     <div className="flex-1 overflow-hidden">
                       <p className="text-sm text-zinc-200 font-medium truncate">{r.name || "Unnamed Recruiter"}</p>
-                      <p className="text-xs text-zinc-500 truncate">{r.company?.name || "No Company linked"}</p>
+                      <p className="text-xs text-muted-foreground truncate">{r.company?.name || "No Company linked"}</p>
                     </div>
                   </div>
                 ))}
@@ -173,10 +173,10 @@ export default async function AdminDashboardPage() {
         </Card>
 
         {/* Recent Companies */}
-        <Card className="bg-zinc-900 border-zinc-800 shadow-md">
+        <Card className="bg-card border-border shadow-md">
           <CardHeader>
-            <CardTitle className="text-lg text-zinc-100 font-semibold">Recent Companies</CardTitle>
-            <CardDescription className="text-zinc-500">Recently created corporate profiles.</CardDescription>
+            <CardTitle className="text-lg text-foreground font-semibold">Recent Companies</CardTitle>
+            <CardDescription className="text-muted-foreground">Recently created corporate profiles.</CardDescription>
           </CardHeader>
           <CardContent>
             {recentCompanies.length === 0 ? (
@@ -184,13 +184,13 @@ export default async function AdminDashboardPage() {
             ) : (
               <div className="space-y-4">
                 {recentCompanies.map((c) => (
-                  <div key={c.id} className="flex items-center gap-3 border-b border-zinc-800 pb-3 last:border-0 last:pb-0">
-                    <div className="w-8 h-8 rounded-full bg-zinc-800 text-zinc-300 flex items-center justify-center font-bold text-xs uppercase">
+                  <div key={c.id} className="flex items-center gap-3 border-b border-border pb-3 last:border-0 last:pb-0">
+                    <div className="w-8 h-8 rounded-full bg-muted text-muted-foreground flex items-center justify-center font-bold text-xs uppercase">
                       {c.name ? c.name.slice(0, 2) : "C"}
                     </div>
                     <div className="flex-1 overflow-hidden">
                       <p className="text-sm text-zinc-200 font-medium truncate">{c.name}</p>
-                      <p className="text-xs text-zinc-500 truncate">{c.website || "No website"}</p>
+                      <p className="text-xs text-muted-foreground truncate">{c.website || "No website"}</p>
                     </div>
                   </div>
                 ))}

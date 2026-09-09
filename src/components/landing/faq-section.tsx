@@ -119,8 +119,8 @@ export default function FaqSection() {
 
                 {/* AI Response Card */}
                 <div className="flex gap-3">
-                  <div className="w-8 h-8 rounded-full bg-[#C95A2E] text-white flex items-center justify-center shrink-0 text-xs font-bold shadow-sm">
-                    <Brain className="w-4 h-4 text-white" />
+                  <div className="w-8 h-8 rounded-full bg-[#C95A2E] text-foreground flex items-center justify-center shrink-0 text-xs font-bold shadow-sm">
+                    <Brain className="w-4 h-4 text-foreground" />
                   </div>
                   <div className="bg-[#FFF9F2] border border-[#DED3C5] rounded-2xl rounded-tl-none p-3.5 text-xs text-[#1C211D] space-y-2 max-w-[90%] shadow-xs">
                     <p className="text-[11px] text-[#706B63] font-medium">
@@ -158,7 +158,7 @@ export default function FaqSection() {
               </div>
             </div>
 
-            <Button asChild size="lg" className="w-full h-12 rounded-full bg-[#C95A2E] hover:bg-[#A94724] text-white font-bold text-sm shadow-sm transition-all">
+            <Button asChild size="lg" className="w-full h-12 rounded-full bg-[#C95A2E] hover:bg-[#A94724] text-foreground font-bold text-sm shadow-sm transition-all">
               <Link href="/register" className="flex items-center justify-center gap-2">
                 <span>Talk to AI Agent</span>
                 <ArrowRight className="w-4 h-4" />
@@ -258,7 +258,7 @@ export default function FaqSection() {
 
             </div>
 
-            <Button asChild size="lg" className="w-full h-12 rounded-full bg-[#173D2A] hover:bg-[#1C211D] text-white font-bold text-sm shadow-sm transition-all">
+            <Button asChild size="lg" className="w-full h-12 rounded-full bg-[#173D2A] hover:bg-[#1C211D] text-foreground font-bold text-sm shadow-sm transition-all">
               <Link href="/register" className="flex items-center justify-center gap-2">
                 <span>Explore Career Analytics</span>
                 <ArrowRight className="w-4 h-4" />
@@ -322,7 +322,7 @@ export default function FaqSection() {
                   onClick={() => setSelectedCategory(cat)}
                   className={`px-4.5 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-200 flex items-center gap-1.5 ${
                     isActive
-                      ? "text-white bg-[#C95A2E] shadow-sm"
+                      ? "text-foreground bg-[#C95A2E] shadow-sm"
                       : "text-[#706B63] bg-[#FFF9F2] border border-[#DED3C5] hover:text-[#1C211D] hover:bg-[#F4D2C3]/30"
                   }`}
                 >

@@ -72,7 +72,7 @@ export default function HeroSection() {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 mb-10">
-              <Button asChild size="lg" className="h-14 px-8 rounded-full bg-[#C95A2E] hover:bg-[#A94724] text-white font-bold text-base shadow-[0_8px_25px_rgba(201,90,46,0.35)] hover:shadow-[0_10px_30px_rgba(201,90,46,0.5)] hover:-translate-y-0.5 transition-all duration-300 group">
+              <Button asChild size="lg" className="h-14 px-8 rounded-full bg-[#C95A2E] hover:bg-[#A94724] text-foreground font-bold text-base shadow-[0_8px_25px_rgba(201,90,46,0.35)] hover:shadow-[0_10px_30px_rgba(201,90,46,0.5)] hover:-translate-y-0.5 transition-all duration-300 group">
                 <Link href="/register" className="flex items-center gap-2">
                   <span>Start Your Career Journey</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -140,7 +140,7 @@ export default function HeroSection() {
                 className="relative z-20 w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-[#FFF9F2] border-4 border-[#F4D2C3] shadow-[0_15px_45px_rgba(201,90,46,0.2)] flex flex-col items-center justify-center p-2 text-center group cursor-pointer"
               >
                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#C95A2E] flex items-center justify-center mb-1 shadow-md group-hover:scale-110 transition-transform">
-                  <Brain className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                  <Brain className="w-6 h-6 sm:w-7 sm:h-7 text-foreground" />
                 </div>
                 <span className="text-[11px] font-bold text-[#1C211D] leading-tight">CareerAI Bot</span>
               </motion.div>
@@ -151,7 +151,7 @@ export default function HeroSection() {
                 transition={{ duration: 4, repeat: Infinity, delay: 0.5 }}
                 className="absolute top-1 flex flex-col items-center gap-1 z-20"
               >
-                <div className="w-10 h-10 rounded-full bg-[#173D2A] text-white flex items-center justify-center shadow-lg border-2 border-[#FFF9F2]">
+                <div className="w-10 h-10 rounded-full bg-[#173D2A] text-foreground flex items-center justify-center shadow-lg border-2 border-[#FFF9F2]">
                   <Award className="w-5 h-5 text-[#E5A84B]" />
                 </div>
                 <span className="px-2.5 py-0.5 rounded-full bg-[#FFF9F2] border border-[#DED3C5] text-[#1C211D] text-[11px] font-bold shadow-sm">
@@ -165,7 +165,7 @@ export default function HeroSection() {
                 transition={{ duration: 4.5, repeat: Infinity, delay: 1 }}
                 className="absolute top-[22%] left-1 flex flex-col items-center gap-1 z-20"
               >
-                <div className="w-9 h-9 rounded-full bg-[#C95A2E] text-white flex items-center justify-center shadow-md border-2 border-[#FFF9F2]">
+                <div className="w-9 h-9 rounded-full bg-[#C95A2E] text-foreground flex items-center justify-center shadow-md border-2 border-[#FFF9F2]">
                   <Heart className="w-4.5 h-4.5 fill-white" />
                 </div>
                 <span className="px-2 py-0.5 rounded-full bg-[#FFF9F2] border border-[#DED3C5] text-[#1C211D] text-[10px] font-semibold shadow-sm">
@@ -179,8 +179,8 @@ export default function HeroSection() {
                 transition={{ duration: 4.2, repeat: Infinity, delay: 1.2 }}
                 className="absolute top-[22%] right-1 flex flex-col items-center gap-1 z-20"
               >
-                <div className="w-9 h-9 rounded-full bg-[#C95A2E] text-white flex items-center justify-center shadow-md border-2 border-[#FFF9F2]">
-                  <Target className="w-4.5 h-4.5 text-white" />
+                <div className="w-9 h-9 rounded-full bg-[#C95A2E] text-foreground flex items-center justify-center shadow-md border-2 border-[#FFF9F2]">
+                  <Target className="w-4.5 h-4.5 text-foreground" />
                 </div>
                 <span className="px-2 py-0.5 rounded-full bg-[#FFF9F2] border border-[#DED3C5] text-[#1C211D] text-[10px] font-semibold shadow-sm">
                   Career Goals
@@ -193,7 +193,7 @@ export default function HeroSection() {
                 transition={{ duration: 5.2, repeat: Infinity, delay: 0.8 }}
                 className="absolute bottom-[22%] left-1 flex flex-col items-center gap-1 z-20"
               >
-                <div className="w-9 h-9 rounded-full bg-[#173D2A] text-white flex items-center justify-center shadow-md border-2 border-[#FFF9F2]">
+                <div className="w-9 h-9 rounded-full bg-[#173D2A] text-foreground flex items-center justify-center shadow-md border-2 border-[#FFF9F2]">
                   <Briefcase className="w-4.5 h-4.5 text-[#F4D2C3]" />
                 </div>
                 <span className="px-2 py-0.5 rounded-full bg-[#FFF9F2] border border-[#DED3C5] text-[#1C211D] text-[10px] font-semibold shadow-sm">
@@ -207,7 +207,7 @@ export default function HeroSection() {
                 transition={{ duration: 4.8, repeat: Infinity, delay: 1.5 }}
                 className="absolute bottom-1 flex flex-col items-center gap-1 z-20"
               >
-                <div className="w-9 h-9 rounded-full bg-[#E5A84B] text-white flex items-center justify-center shadow-md border-2 border-[#FFF9F2]">
+                <div className="w-9 h-9 rounded-full bg-[#E5A84B] text-foreground flex items-center justify-center shadow-md border-2 border-[#FFF9F2]">
                   <TrendingUp className="w-4.5 h-4.5 text-[#1C211D]" />
                 </div>
                 <span className="px-2.5 py-0.5 rounded-full bg-[#FFF9F2] border border-[#DED3C5] text-[#1C211D] text-[10px] font-semibold shadow-sm">
@@ -221,7 +221,7 @@ export default function HeroSection() {
                 transition={{ duration: 5.5, repeat: Infinity, delay: 0.3 }}
                 className="absolute bottom-[22%] right-1 flex flex-col items-center gap-1 z-20"
               >
-                <div className="w-9 h-9 rounded-full bg-[#173D2A] text-white flex items-center justify-center shadow-md border-2 border-[#FFF9F2]">
+                <div className="w-9 h-9 rounded-full bg-[#173D2A] text-foreground flex items-center justify-center shadow-md border-2 border-[#FFF9F2]">
                   <Users className="w-4.5 h-4.5 text-[#78957F]" />
                 </div>
                 <span className="px-2 py-0.5 rounded-full bg-[#FFF9F2] border border-[#DED3C5] text-[#1C211D] text-[10px] font-semibold shadow-sm">

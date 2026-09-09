@@ -41,7 +41,7 @@ export default async function RootPage() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group cursor-pointer">
             <div className="w-8 h-8 bg-[#C95A2E] rounded-full flex items-center justify-center shadow-[0_4px_12px_rgba(201,90,46,0.3)] group-hover:scale-105 transition-transform duration-300">
-              <Brain className="w-4.5 h-4.5 text-white" />
+              <Brain className="w-4.5 h-4.5 text-foreground" />
             </div>
             <span className="font-bold text-lg tracking-tight text-[#1C211D]">
               Career<span className="text-[#C95A2E]">AI</span>
@@ -65,7 +65,7 @@ export default async function RootPage() {
             >
               Log in
             </Link>
-            <Button asChild className="hidden sm:inline-flex bg-[#C95A2E] hover:bg-[#A94724] text-white font-semibold text-xs px-5 h-8 rounded-full shadow-[0_4px_14px_rgba(201,90,46,0.35)] hover:shadow-[0_6px_20px_rgba(201,90,46,0.45)] hover:-translate-y-0.5 transition-all duration-300">
+            <Button asChild className="hidden sm:inline-flex bg-[#C95A2E] hover:bg-[#A94724] text-foreground font-semibold text-xs px-5 h-8 rounded-full shadow-[0_4px_14px_rgba(201,90,46,0.35)] hover:shadow-[0_6px_20px_rgba(201,90,46,0.45)] hover:-translate-y-0.5 transition-all duration-300">
               <Link href="/register">Get Started Free</Link>
             </Button>
             <MobileNav />

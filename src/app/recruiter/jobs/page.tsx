@@ -33,10 +33,10 @@ export default async function JobsPage() {
     <div className="space-y-6 max-w-5xl">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white">Job Postings</h1>
-          <p className="text-zinc-400 mt-2">Manage your active job listings.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">Job Postings</h1>
+          <p className="text-muted-foreground mt-2">Manage your active job listings.</p>
         </div>
-        <Button asChild className="bg-white text-zinc-950 hover:bg-zinc-200">
+        <Button asChild className="bg-primary text-primary-foreground hover:opacity-90 rounded-full px-6">
           <Link href="/recruiter/jobs/create">
             <Plus className="w-4 h-4 mr-2" /> Post New Job
           </Link>

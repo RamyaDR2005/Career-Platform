@@ -60,9 +60,9 @@ export function JobsClientList({ initialJobs }: { initialJobs: any[] }) {
   return (
     <div className="space-y-6">
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
         <Input 
-          className="pl-10 bg-zinc-900 border-zinc-800 text-zinc-100 placeholder:text-zinc-500 max-w-md"
+          className="pl-10 bg-card border-border text-foreground placeholder:text-muted-foreground max-w-md"
           placeholder="Search jobs by title or location..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -71,52 +71,52 @@ export function JobsClientList({ initialJobs }: { initialJobs: any[] }) {
 
       <div className="grid gap-4">
         {filteredJobs.length === 0 ? (
-          <Card className="bg-zinc-900 border-zinc-800">
-            <CardContent className="flex flex-col items-center justify-center p-12 text-zinc-500">
+          <Card className="bg-card border-border">
+            <CardContent className="flex flex-col items-center justify-center p-12 text-muted-foreground">
               <p>No jobs found.</p>
             </CardContent>
           </Card>
         ) : (
           filteredJobs.map(job => (
-            <Card key={job.id} className={`bg-zinc-900 border-zinc-800 flex flex-col md:flex-row items-start md:items-center justify-between ${job.status === "CLOSED" ? 'opacity-75' : ''}`}>
+            <Card key={job.id} className={`bg-card border-border flex flex-col md:flex-row items-start md:items-center justify-between ${job.status === "CLOSED" ? 'opacity-75' : ''}`}>
               <CardHeader className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <CardTitle className="text-zinc-100 truncate">{job.title}</CardTitle>
+                  <CardTitle className="text-foreground truncate">{job.title}</CardTitle>
                   {job.status === "CLOSED" && (
                     <span className="bg-red-950 text-red-400 text-xs px-2 py-0.5 rounded-full border border-red-900 flex items-center gap-1">
                       <XCircle className="w-3 h-3" /> Closed
                     </span>
                   )}
                   {job.status === "OPEN" && (
-                    <span className="bg-green-950 text-green-400 text-xs px-2 py-0.5 rounded-full border border-green-900 flex items-center gap-1">
+                    <span className="bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded-full border border-primary flex items-center gap-1">
                       <CheckCircle className="w-3 h-3" /> Open
                     </span>
                   )}
                 </div>
-                <CardDescription className="text-zinc-400 truncate mt-1">
+                <CardDescription className="text-muted-foreground truncate mt-1">
                   {job.location || "Remote"} • {job.salary || "Unspecified Salary"}
                   {job.deadline && ` • Deadline: ${new Date(job.deadline).toLocaleDateString()}`}
                 </CardDescription>
               </CardHeader>
               
               <CardContent className="pb-6 md:pb-0 pt-0 md:pt-6 flex flex-wrap gap-3 w-full md:w-auto items-center shrink-0">
-                <div className="flex items-center gap-2 text-sm text-zinc-400 bg-zinc-800 px-3 py-1.5 rounded-full border border-zinc-700">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted px-3 py-1.5 rounded-full border border-border">
                   <Users className="w-4 h-4" />
                   {job._count?.applications || 0} Applicants
                 </div>
                 
                 {job.status === "OPEN" && (
                   <>
-                    <Button variant="outline" size="sm" onClick={() => openDeadlineModal(job)} className="bg-transparent border-zinc-700 text-zinc-300 hover:bg-zinc-800">
+                    <Button variant="outline" size="sm" onClick={() => openDeadlineModal(job)} className="bg-transparent border-border text-muted-foreground hover:bg-muted">
                       <Calendar className="w-4 h-4 mr-2" /> Edit Deadline
                     </Button>
-                    <Button variant="outline" size="sm" onClick={() => handleCloseJob(job.id)} disabled={isSubmitting} className="bg-transparent border-red-900/50 text-red-400 hover:bg-red-950 hover:text-red-300">
+                    <Button variant="outline" size="sm" onClick={() => handleCloseJob(job.id)} disabled={isSubmitting} className="bg-transparent border-destructive/20 text-red-400 hover:bg-red-950 hover:text-red-300">
                       End Hiring
                     </Button>
                   </>
                 )}
 
-                <Button asChild variant="outline" size="sm" className="bg-zinc-950 border-zinc-700 text-white hover:bg-zinc-800 ml-auto">
+                <Button asChild variant="outline" size="sm" className="bg-background border-border text-foreground hover:bg-muted ml-auto">
                   <Link href={`/recruiter/jobs/${job.id}`}>View Candidates</Link>
                 </Button>
               </CardContent>
@@ -126,7 +126,7 @@ export function JobsClientList({ initialJobs }: { initialJobs: any[] }) {
       </div>
 
       <Dialog open={isDeadlineModalOpen} onOpenChange={setIsDeadlineModalOpen}>
-        <DialogContent className="bg-zinc-950 border-zinc-800 text-zinc-100">
+        <DialogContent className="bg-background border-border text-foreground">
           <DialogHeader>
             <DialogTitle>Update Deadline</DialogTitle>
           </DialogHeader>
@@ -135,12 +135,12 @@ export function JobsClientList({ initialJobs }: { initialJobs: any[] }) {
               type="date"
               value={newDeadline}
               onChange={(e) => setNewDeadline(e.target.value)}
-              className="bg-zinc-900 border-zinc-800 text-zinc-100"
+              className="bg-card border-border text-foreground"
             />
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDeadlineModalOpen(false)} className="bg-transparent border-zinc-700 text-zinc-300 hover:bg-zinc-800">Cancel</Button>
-            <Button onClick={handleUpdateDeadline} disabled={isSubmitting} className="bg-white text-zinc-950 hover:bg-zinc-200">Save</Button>
+            <Button variant="outline" onClick={() => setIsDeadlineModalOpen(false)} className="bg-transparent border-border text-muted-foreground hover:bg-muted">Cancel</Button>
+            <Button onClick={handleUpdateDeadline} disabled={isSubmitting} className="bg-primary text-primary-foreground hover:opacity-90 rounded-full px-6">Save</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
