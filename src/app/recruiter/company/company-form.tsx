@@ -37,33 +37,33 @@ export function CompanyForm({ initialData }: { initialData: any }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="name" className="text-zinc-300">Company Name</Label>
+        <Label htmlFor="name" className="text-muted-foreground">Company Name</Label>
         <Input 
           id="name" 
           name="name" 
           value={name}
           onChange={(e) => setName(e.target.value)}
           required 
-          className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500" 
+          className="bg-muted border-border text-foreground placeholder:text-muted-foreground" 
           placeholder="e.g. Acme Corp"
         />
       </div>
       
       <div className="space-y-2">
-        <Label htmlFor="website" className="text-zinc-300">Website URL (Optional)</Label>
+        <Label htmlFor="website" className="text-muted-foreground">Website URL (Optional)</Label>
         <Input 
           id="website" 
           name="website" 
           type="url" 
           value={website}
           onChange={(e) => setWebsite(e.target.value)}
-          className="bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-500" 
+          className="bg-muted border-border text-foreground placeholder:text-muted-foreground" 
           placeholder="https://acme.com"
         />
       </div>
       
       <div className="space-y-2">
-        <Label htmlFor="description" className="text-zinc-300">Company Description</Label>
+        <Label htmlFor="description" className="text-muted-foreground">Company Description</Label>
         <textarea 
           id="description" 
           name="description" 
@@ -71,12 +71,12 @@ export function CompanyForm({ initialData }: { initialData: any }) {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           rows={4}
-          className="flex w-full rounded-md border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 ring-offset-background placeholder:text-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex w-full rounded-md border border-border bg-muted px-3 py-2 text-sm text-foreground ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           placeholder="Describe your organization..."
         />
       </div>
       
-      <Button type="submit" disabled={isLoading} className="bg-white text-zinc-950 hover:bg-zinc-200">
+      <Button type="submit" disabled={isLoading} className="bg-primary text-primary-foreground hover:opacity-90 rounded-full px-8">
         {isLoading ? "Saving..." : "Save Profile"}
       </Button>
     </form>

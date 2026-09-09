@@ -15,6 +15,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      allowDangerousEmailAccountLinking: true,
     }),
     Credentials({
       name: "Credentials",
@@ -29,14 +30,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           where: { email: credentials.email as string },
         });
 
-        if (!user || !user.password) return null;
+        if (!user || !user.password) {
+          console.log("Auth Debug: User not found or no password", credentials.email);
+          return null;
+        }
 
         const isValid = await bcrypt.compare(
           credentials.password as string,
           user.password
         );
 
-        if (!isValid) return null;
+        if (!isValid) {
+          console.log("Auth Debug: Password mismatch for", credentials.email, "Input length:", (credentials.password as string).length);
+          return null;
+        }
+
+        console.log("Auth Debug: Password MATCHED for", credentials.email);
 
         return {
           id: user.id,
@@ -53,12 +62,33 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.id = user.id;
         token.role = (user as any).role;
       }
+
+      const userId = token.id || token.sub;
+      if (userId) {
+        token.id = userId;
+      }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id as string;
-        (session.user as any).role = token.role;
+        const userId = (token.id || token.sub) as string;
+        session.user.id = userId;
+        
+        // Fetch fresh role directly from DB on every session access
+        // This guarantees server components always see the latest role
+        try {
+          const dbUser = await prisma.user.findUnique({
+            where: { id: userId },
+            select: { role: true },
+          });
+          if (dbUser) {
+            (session.user as any).role = dbUser.role;
+          } else {
+            (session.user as any).role = token.role;
+          }
+        } catch (e) {
+          (session.user as any).role = token.role;
+        }
       }
       return session;
     },

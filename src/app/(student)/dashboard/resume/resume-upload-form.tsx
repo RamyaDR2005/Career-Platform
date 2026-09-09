@@ -46,8 +46,8 @@ export default function ResumeUploadForm() {
 
   return (
     <form onSubmit={handleUpload} className="space-y-4">
-      <div className="border-2 border-dashed border-zinc-800 hover:border-blue-500/50 transition-all rounded-xl p-6 text-center bg-zinc-950/50">
-        <Upload className="w-8 h-8 text-zinc-500 mx-auto mb-2" />
+      <div className="border-2 border-dashed border-border hover:border-primary0/50 transition-all rounded-xl p-6 text-center bg-background/50">
+        <Upload className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
         <input
           type="file"
           accept=".pdf"
@@ -57,17 +57,17 @@ export default function ResumeUploadForm() {
         />
         <label
           htmlFor="resumeFile"
-          className="cursor-pointer text-xs font-semibold text-blue-400 hover:text-blue-300 block"
+          className="cursor-pointer text-xs font-semibold text-primary hover:text-primary block"
         >
           {file ? file.name : "Click to select a PDF file"}
         </label>
-        <p className="text-[11px] text-zinc-500 mt-1">Maximum file size: 10MB</p>
+        <p className="text-[11px] text-muted-foreground mt-1">Maximum file size: 10MB</p>
       </div>
 
       <Button
         type="submit"
         disabled={!file || isUploading}
-        className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs h-10 rounded-xl"
+        className="w-full bg-primary hover:bg-primary0 text-foreground font-semibold text-xs h-10 rounded-xl"
       >
         {isUploading ? (
           <>

@@ -19,14 +19,14 @@ export default async function CompanyProfilePage() {
   return (
     <div className="space-y-6 max-w-2xl">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-white">Company Profile</h1>
-        <p className="text-zinc-400 mt-2">Manage your organization's details.</p>
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">Company Profile</h1>
+        <p className="text-muted-foreground mt-2">Manage your organization's details.</p>
       </div>
 
-      <Card className="bg-zinc-900 border-zinc-800">
+      <Card className="bg-card border-border">
         <CardHeader>
-          <CardTitle className="text-zinc-100">Organization Details</CardTitle>
-          <CardDescription className="text-zinc-400">
+          <CardTitle className="text-foreground">Organization Details</CardTitle>
+          <CardDescription className="text-muted-foreground">
             This information will be visible to students applying for your jobs.
           </CardDescription>
         </CardHeader>

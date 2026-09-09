@@ -26,16 +26,30 @@ export async function upsertCompany(formData: FormData) {
     let company;
     
     if (user?.companyId) {
-      // Update existing
+      // User already linked to a company, update it
       company = await prisma.company.update({
         where: { id: user.companyId },
         data: { name, description, website }
       });
     } else {
-      // Create new
-      company = await prisma.company.create({
-        data: { name, description, website }
+      // Check if company name already exists
+      const existingCompany = await prisma.company.findUnique({
+        where: { name }
       });
+
+      if (existingCompany) {
+        // Update existing company and link
+        company = await prisma.company.update({
+          where: { id: existingCompany.id },
+          data: { description, website }
+        });
+      } else {
+        // Create new
+        company = await prisma.company.create({
+          data: { name, description, website }
+        });
+      }
+      
       // Link to user
       await prisma.user.update({
         where: { id: session.user.id },

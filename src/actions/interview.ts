@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { generateInterviewResponse } from "@/services/watsonx";
 
-export async function submitInterviewMessage(chatHistory: { role: 'user' | 'assistant', content: string }[], context?: { type: "general" | "job", jobDescription?: string }) {
+export async function submitInterviewMessage(chatHistory: { role: 'user' | 'assistant', content: string }[], context?: { type: "general" | "job", jobDescription?: string, mode?: "general" | "job" | "arvi" }) {
   const session = await auth();
   if (!session?.user?.id) {
     return { error: "Unauthorized" };
@@ -29,7 +29,7 @@ export async function submitInterviewMessage(chatHistory: { role: 'user' | 'assi
   }
 }
 
-export async function endInterview(chatHistory: { role: 'user' | 'assistant', content: string }[]) {
+export async function endInterview(chatHistory: { role: 'user' | 'assistant', content: string }[], context?: { mode?: "general" | "job" | "arvi" }) {
   const session = await auth();
   if (!session?.user?.id) {
     return { error: "Unauthorized" };
@@ -45,13 +45,13 @@ export async function endInterview(chatHistory: { role: 'user' | 'assistant', co
     }
 
     const { generateInterviewFeedback } = await import("@/services/watsonx");
-    const aiFeedback = await generateInterviewFeedback(chatHistory, profile);
+    const aiFeedback = await generateInterviewFeedback(chatHistory, profile, context);
 
     // Save Mock Interview to DB
     await prisma.mockInterview.create({
       data: {
         studentProfileId: profile.id,
-        title: "Mock Interview Session",
+        title: context?.mode === "arvi" ? "ARVI Voice Interview Session" : "Mock Interview Session",
         transcript: chatHistory as any,
         evaluation: { summary: aiFeedback } as any
       }

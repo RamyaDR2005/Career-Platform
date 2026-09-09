@@ -70,27 +70,27 @@ export function CustomCoverLetterModal() {
     }}>
       <DialogTrigger 
         render={
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+          <Button className="bg-primary hover:bg-primary text-foreground">
             <Sparkles className="w-4 h-4 mr-2" />
             Create Custom Cover Letter
           </Button>
         }
       />
-      <DialogContent className="bg-zinc-950 border-zinc-800 text-zinc-100 sm:max-w-6xl w-[95vw] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="bg-background border-border text-foreground sm:max-w-6xl w-[95vw] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-blue-500" />
+            <Sparkles className="w-5 h-5 text-primary0" />
             Custom AI Cover Letter
           </DialogTitle>
-          <DialogDescription className="text-zinc-400">
+          <DialogDescription className="text-muted-foreground">
             Generate a tailored cover letter for any job outside of this platform.
           </DialogDescription>
         </DialogHeader>
 
         <div className="py-4">
           {isLoading ? (
-            <div className="flex flex-col items-center justify-center py-12 text-zinc-500">
-              <Loader2 className="w-8 h-8 animate-spin text-blue-500 mb-4" />
+            <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
+              <Loader2 className="w-8 h-8 animate-spin text-primary0 mb-4" />
               <p>Watsonx is writing your cover letter...</p>
               <p className="text-xs mt-2 text-zinc-600">Analyzing your skills against the job description</p>
             </div>
@@ -99,17 +99,17 @@ export function CustomCoverLetterModal() {
               <Textarea 
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                className="min-h-[400px] bg-zinc-900 border-zinc-800 text-zinc-300 text-sm leading-relaxed p-4"
+                className="min-h-[400px] bg-card border-border text-muted-foreground text-sm leading-relaxed p-4"
               />
               <div className="flex justify-between items-center">
-                <Button variant="ghost" size="sm" onClick={handleReset} className="text-zinc-400 hover:text-white">
+                <Button variant="ghost" size="sm" onClick={handleReset} className="text-muted-foreground hover:text-foreground">
                   &larr; Back to Editor
                 </Button>
                 <div className="space-x-2">
-                  <Button variant="outline" size="sm" onClick={handleGenerate} disabled={isLoading} className="bg-transparent border-zinc-700 hover:bg-zinc-800 text-zinc-300">
+                  <Button variant="outline" size="sm" onClick={handleGenerate} disabled={isLoading} className="bg-transparent border-border hover:bg-muted text-muted-foreground">
                     Regenerate
                   </Button>
-                  <Button size="sm" onClick={handleCopy} className="bg-blue-600 hover:bg-blue-700 text-white">
+                  <Button size="sm" onClick={handleCopy} className="bg-primary hover:bg-primary text-foreground">
                     {copied ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
                     {copied ? "Copied" : "Copy to Clipboard"}
                   </Button>
@@ -120,30 +120,30 @@ export function CustomCoverLetterModal() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="title" className="text-zinc-300">Job Title</Label>
+                  <Label htmlFor="title" className="text-muted-foreground">Job Title</Label>
                   <Input 
                     id="title" 
                     placeholder="e.g. Software Engineer" 
                     value={jobTitle} 
                     onChange={e => setJobTitle(e.target.value)} 
-                    className="bg-zinc-900 border-zinc-800 text-white" 
+                    className="bg-card border-border text-foreground" 
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="company" className="text-zinc-300">Company Name</Label>
+                  <Label htmlFor="company" className="text-muted-foreground">Company Name</Label>
                   <Input 
                     id="company" 
                     placeholder="e.g. Google" 
                     value={companyName} 
                     onChange={e => setCompanyName(e.target.value)} 
-                    className="bg-zinc-900 border-zinc-800 text-white" 
+                    className="bg-card border-border text-foreground" 
                   />
                 </div>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between items-end">
-                  <Label htmlFor="jd" className="text-zinc-300">Job Description</Label>
-                  <span className={`text-xs ${jobDescription.length >= 4000 ? 'text-red-400' : 'text-zinc-500'}`}>
+                  <Label htmlFor="jd" className="text-muted-foreground">Job Description</Label>
+                  <span className={`text-xs ${jobDescription.length >= 4000 ? 'text-red-400' : 'text-muted-foreground'}`}>
                     {jobDescription.length} / 4000 characters
                   </span>
                 </div>
@@ -153,12 +153,12 @@ export function CustomCoverLetterModal() {
                   value={jobDescription} 
                   maxLength={4000}
                   onChange={e => setJobDescription(e.target.value)} 
-                  className="min-h-[300px] bg-zinc-900 border-zinc-800 text-zinc-300 resize-y" 
+                  className="min-h-[300px] bg-card border-border text-muted-foreground resize-y" 
                 />
               </div>
               
               <div className="pt-4 flex justify-end">
-                <Button onClick={handleGenerate} className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto">
+                <Button onClick={handleGenerate} className="bg-primary hover:bg-primary text-foreground w-full sm:w-auto">
                   Generate Cover Letter
                 </Button>
               </div>
