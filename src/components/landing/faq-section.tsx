@@ -2,8 +2,24 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, HelpCircle, Sparkles, MessageSquare, ArrowRight, UserCheck, Briefcase, Cpu } from "lucide-react";
+import { 
+  ChevronDown, 
+  HelpCircle, 
+  Sparkles, 
+  UserCheck, 
+  Briefcase, 
+  Cpu, 
+  Brain, 
+  MessageSquare, 
+  ArrowRight,
+  Target,
+  Award,
+  FileCheck,
+  TrendingUp,
+  Zap
+} from "lucide-react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 interface FaqItem {
   id: string;
@@ -66,167 +82,324 @@ export default function FaqSection() {
   };
 
   return (
-    <section id="faq" className="py-28 relative overflow-hidden bg-[#030409]">
-      {/* Ambient background lighting */}
-      <div className="absolute top-1/3 right-1/4 w-[500px] h-[300px] bg-blue-600/10 rounded-full blur-[130px] pointer-events-none" />
-      <div className="absolute bottom-10 left-1/4 w-[450px] h-[280px] bg-indigo-600/10 rounded-full blur-[130px] pointer-events-none" />
-
-      <div className="container mx-auto px-6 relative z-10 max-w-5xl">
-        {/* Section Header */}
-        <div className="text-center mb-16 max-w-2xl mx-auto">
+    <section className="py-24 relative overflow-hidden bg-[#F7F1E7]">
+      <div className="container mx-auto px-6 relative z-10 max-w-7xl">
+        
+        {/* ========================================================================= */}
+        {/* 2-COLUMN SPLIT SECTION (AI CAREER AGENT & CAREER INSIGHTS) */}
+        {/* ========================================================================= */}
+        <div className="grid lg:grid-cols-2 gap-8 mb-24">
+          
+          {/* LEFT BOX: AI CAREER AGENT */}
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
+            initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-4"
+            className="bg-[#FFF9F2] border border-[#DED3C5] rounded-3xl p-8 shadow-sm flex flex-col justify-between"
           >
-            <HelpCircle className="w-3.5 h-3.5" />
-            <span>Got Questions?</span>
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F4D2C3]/60 border border-[#C95A2E]/20 text-[#C95A2E] text-xs font-bold uppercase tracking-wider mb-4">
+                <Sparkles className="w-3.5 h-3.5 fill-[#C95A2E]" />
+                <span>AI CAREER AGENT</span>
+              </div>
+              
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#1C211D] mb-6 tracking-tight">
+                Have a Career Question? <br />
+                <span className="text-[#C95A2E]">Just Ask.</span>
+              </h3>
+
+              {/* Mock Chat Conversation Container */}
+              <div className="bg-[#F7F1E7] border border-[#DED3C5] rounded-2xl p-4.5 mb-6 space-y-3.5 shadow-inner">
+                {/* User Prompt */}
+                <div className="flex justify-end">
+                  <div className="bg-[#FFF9F2] border border-[#DED3C5] text-[#1C211D] text-xs font-semibold px-4 py-2 rounded-2xl rounded-tr-none shadow-xs max-w-[85%]">
+                    What career is best for me?
+                  </div>
+                </div>
+
+                {/* AI Response Card */}
+                <div className="flex gap-3">
+                  <div className="w-8 h-8 rounded-full bg-[#C95A2E] text-white flex items-center justify-center shrink-0 text-xs font-bold shadow-sm">
+                    <Brain className="w-4 h-4 text-white" />
+                  </div>
+                  <div className="bg-[#FFF9F2] border border-[#DED3C5] rounded-2xl rounded-tl-none p-3.5 text-xs text-[#1C211D] space-y-2 max-w-[90%] shadow-xs">
+                    <p className="text-[11px] text-[#706B63] font-medium">
+                      Based on your skills, interests and goals, here are your strongest matches:
+                    </p>
+                    <div className="space-y-1.5 pt-1">
+                      <div className="flex justify-between items-center bg-[#F4D2C3]/40 px-2.5 py-1 rounded-lg">
+                        <span className="font-bold text-[#1C211D]">92% Full Stack Developer</span>
+                      </div>
+                      <div className="flex justify-between items-center bg-[#F4D2C3]/30 px-2.5 py-1 rounded-lg">
+                        <span className="font-semibold text-[#1C211D]">80% Backend Developer</span>
+                      </div>
+                      <div className="flex justify-between items-center bg-[#F4D2C3]/20 px-2.5 py-1 rounded-lg">
+                        <span className="font-semibold text-[#706B63]">75% AI Engineer</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Try Asking Prompts */}
+              <div className="space-y-2 mb-6">
+                <p className="text-xs font-bold text-[#1C211D] uppercase tracking-wider">Try asking:</p>
+                <ul className="text-xs text-[#706B63] space-y-1.5">
+                  <li className="flex items-center gap-2">
+                    <span className="text-[#C95A2E]">✦</span> What skills should I learn next?
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-[#C95A2E]">✦</span> Which career has the best fit for me?
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="text-[#C95A2E]">✦</span> How can I become an AI Engineer?
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <Button asChild size="lg" className="w-full h-12 rounded-full bg-[#C95A2E] hover:bg-[#A94724] text-white font-bold text-sm shadow-sm transition-all">
+              <Link href="/register" className="flex items-center justify-center gap-2">
+                <span>Talk to AI Agent</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </Button>
           </motion.div>
 
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
+
+          {/* RIGHT BOX: CAREER INSIGHTS */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-4"
+            className="bg-[#FFF9F2] border border-[#DED3C5] rounded-3xl p-8 shadow-sm flex flex-col justify-between"
           >
-            Frequently Asked <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">Questions</span>
-          </motion.h2>
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F4D2C3]/60 border border-[#C95A2E]/20 text-[#C95A2E] text-xs font-bold uppercase tracking-wider mb-4">
+                <Sparkles className="w-3.5 h-3.5 fill-[#C95A2E]" />
+                <span>CAREER INSIGHTS</span>
+              </div>
+              
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#1C211D] mb-3 tracking-tight">
+                Insights That Drive <br />
+                <span className="text-[#C95A2E]">Better Decisions.</span>
+              </h3>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
+              <p className="text-xs text-[#706B63] mb-6 leading-relaxed font-normal">
+                Real-time profile evaluation and ATS benchmark analytics powered by enterprise AI intelligence.
+              </p>
+
+              {/* Clean Metric Cards List (Replacing broken circles & radar chart) */}
+              <div className="space-y-3.5 mb-6">
+                {/* Metric 1 */}
+                <div className="bg-[#F7F1E7] border border-[#DED3C5] p-4 rounded-2xl">
+                  <div className="flex justify-between items-center mb-1.5">
+                    <span className="text-xs font-bold text-[#1C211D] flex items-center gap-2">
+                      <Target className="w-4 h-4 text-[#C95A2E]" />
+                      Career Match
+                    </span>
+                    <span className="text-xs font-extrabold text-[#C95A2E]">92%</span>
+                  </div>
+                  <div className="h-2 bg-[#F4D2C3]/50 rounded-full overflow-hidden mb-1">
+                    <div className="h-full bg-[#C95A2E] rounded-full w-[92%]" />
+                  </div>
+                  <span className="text-[10px] text-[#706B63] font-medium">Top 5% candidate fit for Full Stack roles</span>
+                </div>
+
+                {/* Metric 2 */}
+                <div className="bg-[#F7F1E7] border border-[#DED3C5] p-4 rounded-2xl">
+                  <div className="flex justify-between items-center mb-1.5">
+                    <span className="text-xs font-bold text-[#1C211D] flex items-center gap-2">
+                      <Award className="w-4 h-4 text-[#E5A84B]" />
+                      Skill Readiness
+                    </span>
+                    <span className="text-xs font-extrabold text-[#E5A84B]">78%</span>
+                  </div>
+                  <div className="h-2 bg-[#F4D2C3]/50 rounded-full overflow-hidden mb-1">
+                    <div className="h-full bg-[#E5A84B] rounded-full w-[78%]" />
+                  </div>
+                  <span className="text-[10px] text-[#706B63] font-medium">8 of 10 core competencies verified</span>
+                </div>
+
+                {/* Metric 3 */}
+                <div className="bg-[#F7F1E7] border border-[#DED3C5] p-4 rounded-2xl">
+                  <div className="flex justify-between items-center mb-1.5">
+                    <span className="text-xs font-bold text-[#1C211D] flex items-center gap-2">
+                      <FileCheck className="w-4 h-4 text-[#173D2A]" />
+                      Resume ATS Score
+                    </span>
+                    <span className="text-xs font-extrabold text-[#173D2A]">85%</span>
+                  </div>
+                  <div className="h-2 bg-[#F4D2C3]/50 rounded-full overflow-hidden mb-1">
+                    <div className="h-full bg-[#173D2A] rounded-full w-[85%]" />
+                  </div>
+                  <span className="text-[10px] text-[#706B63] font-medium">Format & keyword density optimized</span>
+                </div>
+
+                {/* Metric 4 */}
+                <div className="bg-[#F7F1E7] border border-[#DED3C5] p-4 rounded-2xl">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-xs font-bold text-[#1C211D] flex items-center gap-2">
+                      <TrendingUp className="w-4 h-4 text-[#C95A2E]" />
+                      Skills to Improve
+                    </span>
+                    <span className="text-xs font-bold px-2 py-0.5 rounded bg-[#F4D2C3] text-[#C95A2E]">
+                      6 Recommended
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5 pt-0.5">
+                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#FFF9F2] border border-[#DED3C5] text-[#1C211D]">Next.js</span>
+                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#FFF9F2] border border-[#DED3C5] text-[#1C211D]">Docker</span>
+                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#FFF9F2] border border-[#DED3C5] text-[#1C211D]">System Design</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <Button asChild size="lg" className="w-full h-12 rounded-full bg-[#173D2A] hover:bg-[#1C211D] text-white font-bold text-sm shadow-sm transition-all">
+              <Link href="/register" className="flex items-center justify-center gap-2">
+                <span>Explore Career Analytics</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </Button>
+          </motion.div>
+
+        </div>
+
+
+        {/* ========================================================================= */}
+        {/* FAQ ACCORDION SECTION */}
+        {/* ========================================================================= */}
+        <div id="faq" className="max-w-4xl mx-auto pt-8 scroll-mt-28">
+          
+          {/* Section Header */}
+          <div className="text-center mb-12">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#F4D2C3]/60 border border-[#C95A2E]/20 text-[#C95A2E] text-xs font-bold uppercase tracking-wider mb-4 shadow-sm"
+            >
+              <HelpCircle className="w-3.5 h-3.5" />
+              <span>Got Questions?</span>
+            </motion.div>
+
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1C211D] mb-4"
+            >
+              Frequently Asked <span className="text-[#C95A2E]">Questions</span>
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="text-[#706B63] text-base"
+            >
+              Everything you need to know about ATS scoring, skill roadmaps, and recruiter connections.
+            </motion.p>
+          </div>
+
+          {/* Category Filters */}
+          <motion.div 
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-zinc-400 text-base sm:text-lg"
+            className="flex flex-wrap items-center justify-center gap-2.5 mb-10"
           >
-            Everything you need to know about ATS scoring, skill roadmaps, and recruiter connections.
-          </motion.p>
-        </div>
-
-        {/* Category Filters */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="flex flex-wrap items-center justify-center gap-3 mb-12"
-        >
-          {categories.map((cat) => {
-            const isActive = selectedCategory === cat;
-            return (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`relative px-5 py-2 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 flex items-center gap-2 ${
-                  isActive
-                    ? "text-white bg-blue-600 shadow-[0_0_20px_rgba(37,99,235,0.4)]"
-                    : "text-zinc-400 bg-zinc-900/60 border border-white/5 hover:text-white hover:bg-zinc-800/80"
-                }`}
-              >
-                {cat === "Students" && <UserCheck className="w-3.5 h-3.5" />}
-                {cat === "Recruiters" && <Briefcase className="w-3.5 h-3.5" />}
-                {cat === "AI & Tech" && <Cpu className="w-3.5 h-3.5" />}
-                <span>{cat}</span>
-              </button>
-            );
-          })}
-        </motion.div>
-
-        {/* FAQ Accordion List */}
-        <div className="space-y-4 max-w-3xl mx-auto">
-          {filteredFaqs.map((faq, index) => {
-            const isOpen = openFaqId === faq.id;
-
-            return (
-              <motion.div
-                key={faq.id}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.08 }}
-                className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
-                  isOpen
-                    ? "bg-gradient-to-b from-zinc-900/90 to-zinc-950/90 border-blue-500/30 shadow-[0_10px_30px_rgba(0,0,0,0.5),0_0_20px_rgba(59,130,246,0.1)]"
-                    : "bg-zinc-900/40 border-white/5 hover:border-white/10 hover:bg-zinc-900/60"
-                }`}
-              >
-                {/* FAQ Header / Question */}
+            {categories.map((cat) => {
+              const isActive = selectedCategory === cat;
+              return (
                 <button
-                  onClick={() => toggleFaq(faq.id)}
-                  className="w-full text-left p-6 flex items-center justify-between gap-4 cursor-pointer focus:outline-none group"
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-4.5 py-1.5 rounded-full text-xs font-bold tracking-wide transition-all duration-200 flex items-center gap-1.5 ${
+                    isActive
+                      ? "text-white bg-[#C95A2E] shadow-sm"
+                      : "text-[#706B63] bg-[#FFF9F2] border border-[#DED3C5] hover:text-[#1C211D] hover:bg-[#F4D2C3]/30"
+                  }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <span className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-                      isOpen ? "bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.8)]" : "bg-zinc-600 group-hover:bg-zinc-400"
-                    }`} />
-                    <h3 className={`text-base sm:text-lg font-semibold transition-colors duration-200 ${
-                      isOpen ? "text-white" : "text-zinc-200 group-hover:text-white"
-                    }`}>
-                      {faq.question}
-                    </h3>
-                  </div>
-
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center border transition-all duration-300 shrink-0 ${
-                    isOpen
-                      ? "bg-blue-600/20 border-blue-500/40 text-blue-400 rotate-180"
-                      : "bg-zinc-800/50 border-white/5 text-zinc-400 group-hover:text-white group-hover:bg-zinc-800"
-                  }`}>
-                    <ChevronDown className="w-4 h-4" />
-                  </div>
+                  {cat === "Students" && <UserCheck className="w-3.5 h-3.5" />}
+                  {cat === "Recruiters" && <Briefcase className="w-3.5 h-3.5" />}
+                  {cat === "AI & Tech" && <Cpu className="w-3.5 h-3.5" />}
+                  <span>{cat}</span>
                 </button>
+              );
+            })}
+          </motion.div>
 
-                {/* Animated Collapsible Answer */}
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      <div className="px-6 pb-6 pt-1 text-zinc-400 text-sm sm:text-base leading-relaxed border-t border-white/5 font-light">
-                        {faq.answer}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            );
-          })}
+          {/* FAQ Accordion List */}
+          <div className="space-y-3.5">
+            {filteredFaqs.map((faq, index) => {
+              const isOpen = openFaqId === faq.id;
+
+              return (
+                <motion.div
+                  key={faq.id}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.06 }}
+                  className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
+                    isOpen
+                      ? "bg-[#FFF9F2] border-[#C95A2E]/50 shadow-md"
+                      : "bg-[#FFF9F2]/70 border-[#DED3C5] hover:border-[#C95A2E]/30"
+                  }`}
+                >
+                  {/* FAQ Question Button */}
+                  <button
+                    onClick={() => toggleFaq(faq.id)}
+                    className="w-full text-left p-5 flex items-center justify-between gap-4 cursor-pointer focus:outline-none group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className={`w-2 h-2 rounded-full transition-colors duration-200 ${
+                        isOpen ? "bg-[#C95A2E]" : "bg-[#706B63] group-hover:bg-[#1C211D]"
+                      }`} />
+                      <h3 className={`text-base font-bold transition-colors duration-200 ${
+                        isOpen ? "text-[#C95A2E]" : "text-[#1C211D]"
+                      }`}>
+                        {faq.question}
+                      </h3>
+                    </div>
+
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center border transition-all duration-300 shrink-0 ${
+                      isOpen
+                        ? "bg-[#F4D2C3] border-[#C95A2E]/30 text-[#C95A2E] rotate-180"
+                        : "bg-[#F7F1E7] border-[#DED3C5] text-[#706B63]"
+                    }`}>
+                      <ChevronDown className="w-4 h-4" />
+                    </div>
+                  </button>
+
+                  {/* Collapsible Answer */}
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25, ease: "easeOut" }}
+                      >
+                        <div className="px-5 pb-5 pt-1 text-[#706B63] text-sm leading-relaxed border-t border-[#DED3C5]/50 font-normal">
+                          {faq.answer}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              );
+            })}
+          </div>
+
         </div>
 
-        {/* CTA Bottom Banner */}
-        <motion.div 
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-          className="mt-16 bg-gradient-to-r from-blue-900/30 via-indigo-900/30 to-purple-900/30 border border-blue-500/20 rounded-3xl p-8 sm:p-10 text-center relative overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.6)]"
-        >
-          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] pointer-events-none" />
-          
-          <div className="relative z-10 max-w-xl mx-auto flex flex-col items-center">
-            <div className="w-12 h-12 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 mb-4 shadow-[0_0_20px_rgba(59,130,246,0.3)]">
-              <MessageSquare className="w-6 h-6" />
-            </div>
-            
-            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
-              Still have questions?
-            </h3>
-            <p className="text-zinc-400 text-sm sm:text-base mb-6">
-              Our AI Career Assistant is available 24/7 to analyze your resume and answer any career queries.
-            </p>
-
-            <Link
-              href="/register"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm shadow-[0_4px_20px_rgba(37,99,235,0.4)] hover:shadow-[0_4px_25px_rgba(37,99,235,0.6)] hover:-translate-y-0.5 transition-all duration-300 group"
-            >
-              <span>Get Started Free</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

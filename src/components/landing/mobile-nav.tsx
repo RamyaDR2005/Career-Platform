@@ -18,9 +18,9 @@ export default function MobileNav() {
       <button
         onClick={toggleMenu}
         aria-label="Toggle Navigation Menu"
-        className="w-9 h-9 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center text-zinc-300 hover:text-white focus:outline-none transition-colors"
+        className="w-9 h-9 rounded-full bg-[#FFF9F2] border border-[#DED3C5] flex items-center justify-center text-[#1C211D] hover:text-[#C95A2E] focus:outline-none transition-colors shadow-sm"
       >
-        {isOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
+        {isOpen ? <X className="w-5 h-5 text-[#1C211D]" /> : <Menu className="w-5 h-5 text-[#1C211D]" />}
       </button>
 
       {/* Overlay Dropdown */}
@@ -31,58 +31,58 @@ export default function MobileNav() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute top-16 left-4 right-4 bg-zinc-950/95 border border-white/10 rounded-2xl p-6 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] z-50 flex flex-col gap-5"
+            className="absolute top-16 left-4 right-4 bg-[#FFF9F2] border border-[#DED3C5] rounded-2xl p-6 backdrop-blur-2xl shadow-[0_20px_50px_rgba(28,33,29,0.15)] z-50 flex flex-col gap-5"
           >
-            <div className="flex items-center gap-2 pb-4 border-b border-white/10">
-              <div className="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center shadow-[0_0_10px_rgba(37,99,235,0.4)]">
+            <div className="flex items-center gap-2 pb-4 border-b border-[#DED3C5]">
+              <div className="w-7 h-7 bg-[#C95A2E] rounded-full flex items-center justify-center shadow-[0_4px_10px_rgba(201,90,46,0.3)]">
                 <Brain className="w-4 h-4 text-white" />
               </div>
-              <span className="font-bold text-base tracking-tight text-white">CareerAI Menu</span>
+              <span className="font-bold text-base tracking-tight text-[#1C211D]">Career<span className="text-[#C95A2E]">AI</span> Menu</span>
             </div>
 
-            <nav className="flex flex-col gap-3 text-sm font-medium text-zinc-300">
+            <nav className="flex flex-col gap-3 text-sm font-semibold text-[#706B63]">
               <Link
                 href="#features"
                 onClick={closeMenu}
-                className="py-2 px-3 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                className="py-2 px-3 rounded-lg hover:bg-[#F4D2C3]/30 hover:text-[#C95A2E] transition-colors"
               >
                 Features
               </Link>
               <Link
                 href="#how-it-works"
                 onClick={closeMenu}
-                className="py-2 px-3 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                className="py-2 px-3 rounded-lg hover:bg-[#F4D2C3]/30 hover:text-[#C95A2E] transition-colors"
               >
                 How it Works
               </Link>
               <Link
                 href="#testimonials"
                 onClick={closeMenu}
-                className="py-2 px-3 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                className="py-2 px-3 rounded-lg hover:bg-[#F4D2C3]/30 hover:text-[#C95A2E] transition-colors"
               >
                 Testimonials
               </Link>
               <Link
                 href="#faq"
                 onClick={closeMenu}
-                className="py-2 px-3 rounded-lg hover:bg-white/5 hover:text-white transition-colors"
+                className="py-2 px-3 rounded-lg hover:bg-[#F4D2C3]/30 hover:text-[#C95A2E] transition-colors"
               >
                 FAQ
               </Link>
               <Link
                 href="/login"
                 onClick={closeMenu}
-                className="py-2 px-3 rounded-lg hover:bg-white/5 text-blue-400 transition-colors"
+                className="py-2 px-3 rounded-lg hover:bg-[#F4D2C3]/30 text-[#C95A2E] transition-colors"
               >
                 For Recruiters
               </Link>
             </nav>
 
-            <div className="pt-3 border-t border-white/10 flex flex-col gap-3">
+            <div className="pt-3 border-t border-[#DED3C5] flex flex-col gap-3">
               <Button
                 asChild
                 variant="outline"
-                className="w-full justify-center bg-zinc-900 border-white/10 text-white hover:bg-zinc-800"
+                className="w-full justify-center bg-[#F7F1E7] border-[#DED3C5] text-[#1C211D] hover:bg-[#FFF9F2]"
               >
                 <Link href="/login" onClick={closeMenu}>
                   Log in
@@ -90,10 +90,10 @@ export default function MobileNav() {
               </Button>
               <Button
                 asChild
-                className="w-full justify-center bg-blue-600 hover:bg-blue-500 text-white font-semibold shadow-[0_4px_15px_rgba(37,99,235,0.3)]"
+                className="w-full justify-center bg-[#C95A2E] hover:bg-[#A94724] text-white font-semibold shadow-[0_4px_15px_rgba(201,90,46,0.3)]"
               >
                 <Link href="/register" onClick={closeMenu} className="flex items-center gap-2">
-                  <span>Get Started</span>
+                  <span>Get Started Free</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </Button>

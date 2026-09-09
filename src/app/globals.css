@@ -134,6 +134,7 @@
   }
   html {
     font-family: 'Canela', 'Cormorant Garamond', 'Fraunces', 'Lora', serif;
+    scroll-behavior: smooth;
   }
 }
 
